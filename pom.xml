@@ -3,14 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<groupId>com.thinkgem.jeesite</groupId>
-	<artifactId>jeesite</artifactId>
-	<version>1.2.7</version>
+	<groupId>com.order.www</groupId>
+	<artifactId>order</artifactId>
+	<version>1.0.0</version>
 	<packaging>war</packaging>
 	
-	<name>JeeSite</name>
-	<url>http://thinkgem.github.com/jeesite</url>
-	<inceptionYear>2012-2016</inceptionYear>
+	<name>order</name>
+
 	
 	<!-- 项目属性 -->
 	<properties>
@@ -192,19 +191,8 @@
 			<version>${mysql.driver.version}</version>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc14</artifactId>
-			<version>${oracle.driver.version}</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ojdbc14-10.2.0.4.0.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>net.sourceforge.jtds</groupId>
-			<artifactId>jtds</artifactId>
-			<version>${mssql.driver.version}</version>
-			<scope>runtime</scope>
-		</dependency>
+
+
 		<!-- PERSISTENCE end -->
 		
 		<!-- WEB begin -->
@@ -893,95 +881,7 @@
 			</plugin>
 		</plugins>
 	</build>
+
 	
-	<profiles>
-		<!-- 初始化数据库 -->			
-		<profile>
-			<id>init-db</id>
-			<dependencies>
-				<dependency>
-					<groupId>org.dbunit</groupId>
-					<artifactId>dbunit</artifactId>
-					<version>2.4.8</version>
-				</dependency>
-			  	<dependency>
-				    <groupId>org.apache.poi</groupId>
-				    <artifactId>poi</artifactId>
-				    <version>3.2-FINAL</version>
-				</dependency>
-			</dependencies>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.7</version>
-						<configuration>
-							<target>
-								
-								<!-- mysql -->
-								<property name="dbunit.datatype" value="org.dbunit.ext.mysql.MySqlDataTypeFactory" />
-								
-								<!-- mssql
-								<property name="dbunit.datatype" value="org.dbunit.ext.mssql.MsSqlDataTypeFactory" /> -->
-								
-								<!-- oracle
-								<property name="dbunit.datatype" value="org.dbunit.ext.oracle.Oracle10DataTypeFactory" /> -->
-								
-								<property file="src/main/resources/jeesite.properties" />
-								<sql driver="${jdbc.driver}" url="${jdbc.url}" userid="${jdbc.username}" password="${jdbc.password}" 
-									onerror="continue" encoding="${project.build.sourceEncoding}">
-									<classpath refid="maven.test.classpath" />
-									<transaction src="db/sys/jeesite_${jdbc.type}.sql"/>
-									<transaction src="db/cms/jeesite_${jdbc.type}.sql"/>
-									<transaction src="db/oa/jeesite_${jdbc.type}.sql"/>
-									<transaction src="db/gen/jeesite_${jdbc.type}.sql"/>
-									<transaction src="db/gen/example_${jdbc.type}.sql"/>
-									<transaction src="db/test/jeesite_${jdbc.type}.sql"/>
-									<transaction src="db/act/drop/activiti.${jdbc.type}.drop.engine.sql"/>
-									<transaction src="db/act/drop/activiti.${jdbc.type}.drop.history.sql"/>
-									<transaction src="db/act/drop/activiti.${jdbc.type}.drop.identity.sql"/>
-									<transaction src="db/act/create/activiti.${jdbc.type}.create.engine.sql"/>
-									<transaction src="db/act/create/activiti.${jdbc.type}.create.history.sql"/>
-									<transaction src="db/act/create/activiti.${jdbc.type}.create.identity.sql"/>
-								</sql>
-								
-								<taskdef name="dbunit" classname="org.dbunit.ant.DbUnitTask" classpathref="maven.test.classpath" />
-								
-								<!-- mysql、mssql -->
-								<dbunit driver="${jdbc.driver}" url="${jdbc.url}" userid="${jdbc.username}"
-									 password="${jdbc.password}">
-								
-								<!-- oracle
-								<dbunit driver="${jdbc.driver}" url="${jdbc.url}" userid="${jdbc.username}"
-									password="${jdbc.password}" schema="${jdbc.username}" > -->
-									
-									<dbconfig>
-										<property name="datatypeFactory" value="${dbunit.datatype}" />
-									</dbconfig>
-									<classpath refid="maven.test.classpath" />
-									<operation type="INSERT" src="db/sys/jeesite_data.xls" format="xls" transaction="true"/>
-									<operation type="INSERT" src="db/cms/jeesite_data.xls" format="xls" transaction="true"/>
-									
-								</dbunit>
-								
-							</target>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-	
-	<!-- 开发者信息 -->
-	<developers>  
-		<developer>
-			<id>thinkgem</id>
-			<name>WangZhen</name>
-			<email>thinkgem at 163.com</email>
-			<roles><role>Project lead</role></roles>
-			<timezone>+8</timezone>
-		</developer>
-	</developers>
-	
+
 </project>
