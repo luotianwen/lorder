@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.order.dao.order.OrderDetailDao">
+    
+	<sql id="orderDetailColumns">
+		a.id AS "id",
+		a.pool_task_id AS "poolTask.id",
+		a.pool_task_no AS "poolTaskNo",
+		a.task_no AS "taskNo",
+		a.product_name AS "productName",
+		a.product_no AS "productNo",
+		a.product_class AS "productClass",
+		a.amount AS "amount",
+		a.product_id AS "productId",
+		a.name AS "name",
+		a.is_present AS "isPresent",
+		a.present_notes AS "presentNotes",
+		a.gift_type AS "giftType",
+		a.times AS "times",
+		a.per_times AS "perTimes",
+		a.is_orig AS "isOrig",
+		a.currency AS "currency",
+		a.relieve_price AS "relievePrice",
+		a.lxb_amount AS "lxbAmount",
+		a.lxb_price AS "lxbPrice",
+		a.golden_amount AS "goldenAmount",
+		a.golden_price AS "goldenPrice",
+		a.went_amount AS "wentAmount",
+		a.went_price AS "wentPrice",
+		a.batch_num AS "batchNum",
+		a.line_memo AS "lineMemo",
+		a.profit_lsdtech_amount AS "profitLsdtechAmount",
+		a.profit_lsdtech_rates AS "profitLsdtechRates",
+		a.profit_lsdinfo_amount AS "profitLsdinfoAmount",
+		a.profit_lsdinfo_rates AS "profitLsdinfoRates",
+		a.profit_store_amount AS "profitStoreAmount",
+		a.profit_store_ratesv AS "profitStoreRatesv",
+		a.profit_supplier_amount AS "profitSupplierAmount",
+		a.profit_supplier_rates AS "profitSupplierRates",
+		b.task_no AS "poolTask.taskNo"
+	</sql>
+	
+	<sql id="orderDetailJoins">
+		LEFT JOIN pool_task b ON b.id = a.pool_task_id
+	</sql>
+    
+	<select id="get" resultType="OrderDetail">
+		SELECT 
+			<include refid="orderDetailColumns"/>
+		FROM pool_task_line a
+		<include refid="orderDetailJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OrderDetail">
+		SELECT 
+			<include refid="orderDetailColumns"/>
+		FROM pool_task_line a
+		<include refid="orderDetailJoins"/>
+		<where>
+			
+			<if test="poolTask != null and poolTask.id != null and poolTask.id != ''">
+				AND a.pool_task_id = #{poolTask.id}
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OrderDetail">
+		SELECT 
+			<include refid="orderDetailColumns"/>
+		FROM pool_task_line a
+		<include refid="orderDetailJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO pool_task_line(
+			id,
+			pool_task_id,
+			pool_task_no,
+			task_no,
+			product_name,
+			product_no,
+			product_class,
+			amount,
+			product_id,
+			name,
+			is_present,
+			present_notes,
+			gift_type,
+			times,
+			per_times,
+			is_orig,
+			currency,
+			relieve_price,
+			lxb_amount,
+			lxb_price,
+			golden_amount,
+			golden_price,
+			went_amount,
+			went_price,
+			batch_num,
+			line_memo,
+			profit_lsdtech_amount,
+			profit_lsdtech_rates,
+			profit_lsdinfo_amount,
+			profit_lsdinfo_rates,
+			profit_store_amount,
+			profit_store_ratesv,
+			profit_supplier_amount,
+			profit_supplier_rates
+		) VALUES (
+			#{id},
+			#{poolTask.id},
+			#{poolTaskNo},
+			#{taskNo},
+			#{productName},
+			#{productNo},
+			#{productClass},
+			#{amount},
+			#{productId},
+			#{name},
+			#{isPresent},
+			#{presentNotes},
+			#{giftType},
+			#{times},
+			#{perTimes},
+			#{isOrig},
+			#{currency},
+			#{relievePrice},
+			#{lxbAmount},
+			#{lxbPrice},
+			#{goldenAmount},
+			#{goldenPrice},
+			#{wentAmount},
+			#{wentPrice},
+			#{batchNum},
+			#{lineMemo},
+			#{profitLsdtechAmount},
+			#{profitLsdtechRates},
+			#{profitLsdinfoAmount},
+			#{profitLsdinfoRates},
+			#{profitStoreAmount},
+			#{profitStoreRatesv},
+			#{profitSupplierAmount},
+			#{profitSupplierRates}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE pool_task_line SET 	
+			pool_task_id = #{poolTask.id},
+			pool_task_no = #{poolTaskNo},
+			task_no = #{taskNo},
+			product_name = #{productName},
+			product_no = #{productNo},
+			product_class = #{productClass},
+			amount = #{amount},
+			product_id = #{productId},
+			name = #{name},
+			is_present = #{isPresent},
+			present_notes = #{presentNotes},
+			gift_type = #{giftType},
+			times = #{times},
+			per_times = #{perTimes},
+			is_orig = #{isOrig},
+			currency = #{currency},
+			relieve_price = #{relievePrice},
+			lxb_amount = #{lxbAmount},
+			lxb_price = #{lxbPrice},
+			golden_amount = #{goldenAmount},
+			golden_price = #{goldenPrice},
+			went_amount = #{wentAmount},
+			went_price = #{wentPrice},
+			batch_num = #{batchNum},
+			line_memo = #{lineMemo},
+			profit_lsdtech_amount = #{profitLsdtechAmount},
+			profit_lsdtech_rates = #{profitLsdtechRates},
+			profit_lsdinfo_amount = #{profitLsdinfoAmount},
+			profit_lsdinfo_rates = #{profitLsdinfoRates},
+			profit_store_amount = #{profitStoreAmount},
+			profit_store_ratesv = #{profitStoreRatesv},
+			profit_supplier_amount = #{profitSupplierAmount},
+			profit_supplier_rates = #{profitSupplierRates}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM pool_task_line
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE pool_task_id = #{poolTask.id}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>

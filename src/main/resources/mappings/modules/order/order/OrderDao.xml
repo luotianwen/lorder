@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.order.dao.order.OrderDao">
+    
+	<sql id="orderColumns">
+		a.id AS "id",
+		a.pool_task_no AS "poolTaskNo",
+		a.task_no AS "taskNo",
+		a.supplier_task_no AS "supplierTaskNo",
+		a.task_gen_datetime AS "taskGenDatetime",
+		a.pay_way AS "payWay",
+		a.task_status AS "taskStatus",
+		a.status_change_datetime AS "statusChangeDatetime",
+		a.task_amount AS "taskAmount",
+		a.sale_group AS "saleGroup",
+		a.task_type AS "taskType",
+		a.dm_no AS "dmNo",
+		a.dm_name AS "dmName",
+		a.source AS "source",
+		a.eb_task_no AS "ebTaskNo",
+		a.erp_no AS "erpNo",
+		a.emergent_id AS "emergentId",
+		a.failreason AS "failreason",
+		a.task_creator AS "taskCreator",
+		a.customer_no AS "customerNo",
+		a.customer_name AS "customerName",
+		a.sex AS "sex",
+		a.home_phone AS "homePhone",
+		a.company_phone AS "companyPhone",
+		a.hand_phone AS "handPhone",
+		a.email AS "email",
+		a.fax AS "fax",
+		a.id_card_name AS "idCardName",
+		a.id_card AS "idCard",
+		a.address_province AS "addressProvince",
+		a.address_city AS "addressCity",
+		a.address_county AS "addressCounty",
+		a.address_detail AS "addressDetail",
+		a.postcode AS "postcode",
+		a.consignee_name AS "consigneeName",
+		a.consignee_phone AS "consigneePhone",
+		a.pre_send_address AS "preSendAddress",
+		a.send_way AS "sendWay",
+		a.carriers AS "carriers",
+		a.invoice_title AS "invoiceTitle",
+		a.invoice_no AS "invoiceNo",
+		a.invoice_type AS "invoiceType",
+		a.invoice_send_id AS "invoiceSendId",
+		a.invoice_send_address AS "invoiceSendAddress",
+		a.send_store_datetime AS "sendStoreDatetime",
+		a.sign_standard AS "signStandard",
+		a.sign_result AS "signResult",
+		a.sign_name AS "signName",
+		a.sign_date AS "signDate",
+		a.recall_status AS "recallStatus"
+	</sql>
+	
+	<sql id="orderJoins">
+	</sql>
+    
+	<select id="get" resultType="Order">
+		SELECT 
+			<include refid="orderColumns"/>
+		FROM pool_task a
+		<include refid="orderJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Order">
+		SELECT 
+			<include refid="orderColumns"/>
+		FROM pool_task a
+		<include refid="orderJoins"/>
+		<where>
+			
+			<if test="poolTaskNo != null and poolTaskNo != ''">
+				AND a.pool_task_no = #{poolTaskNo}
+			</if>
+			<if test="taskNo != null and taskNo != ''">
+				AND a.task_no = #{taskNo}
+			</if>
+			<if test="supplierTaskNo != null and supplierTaskNo != ''">
+				AND a.supplier_task_no = #{supplierTaskNo}
+			</if>
+			<if test="beginTaskGenDatetime != null and endTaskGenDatetime != null and beginTaskGenDatetime != '' and endTaskGenDatetime != ''">
+				AND a.task_gen_datetime BETWEEN #{beginTaskGenDatetime} AND #{endTaskGenDatetime}
+			</if>
+			<if test="taskStatus != null and taskStatus != ''">
+				AND a.task_status = #{taskStatus}
+			</if>
+			<if test="taskType != null and taskType != ''">
+				AND a.task_type = #{taskType}
+			</if>
+			<if test="ebTaskNo != null and ebTaskNo != ''">
+				AND a.eb_task_no = #{ebTaskNo}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name = #{customerName}
+			</if>
+			<if test="handPhone != null and handPhone != ''">
+				AND a.hand_phone = #{handPhone}
+			</if>
+			<if test="consigneeName != null and consigneeName != ''">
+				AND a.consignee_name = #{consigneeName}
+			</if>
+			<if test="consigneePhone != null and consigneePhone != ''">
+				AND a.consignee_phone = #{consigneePhone}
+			</if>
+			<if test="beginSendStoreDatetime != null and endSendStoreDatetime != null and beginSendStoreDatetime != '' and endSendStoreDatetime != ''">
+				AND a.send_store_datetime BETWEEN #{beginSendStoreDatetime} AND #{endSendStoreDatetime}
+			</if>
+			<if test="beginSignDate != null and endSignDate != null and beginSignDate != '' and endSignDate != ''">
+				AND a.sign_date BETWEEN #{beginSignDate} AND #{endSignDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Order">
+		SELECT 
+			<include refid="orderColumns"/>
+		FROM pool_task a
+		<include refid="orderJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO pool_task(
+			id,
+			pool_task_no,
+			task_no,
+			supplier_task_no,
+			task_gen_datetime,
+			pay_way,
+			task_status,
+			status_change_datetime,
+			task_amount,
+			sale_group,
+			task_type,
+			dm_no,
+			dm_name,
+			source,
+			eb_task_no,
+			erp_no,
+			emergent_id,
+			failreason,
+			task_creator,
+			customer_no,
+			customer_name,
+			sex,
+			home_phone,
+			company_phone,
+			hand_phone,
+			email,
+			fax,
+			id_card_name,
+			id_card,
+			address_province,
+			address_city,
+			address_county,
+			address_detail,
+			postcode,
+			consignee_name,
+			consignee_phone,
+			pre_send_address,
+			send_way,
+			carriers,
+			invoice_title,
+			invoice_no,
+			invoice_type,
+			invoice_send_id,
+			invoice_send_address,
+			send_store_datetime,
+			sign_standard,
+			sign_result,
+			sign_name,
+			sign_date,
+			recall_status
+		) VALUES (
+			#{id},
+			#{poolTaskNo},
+			#{taskNo},
+			#{supplierTaskNo},
+			#{taskGenDatetime},
+			#{payWay},
+			#{taskStatus},
+			#{statusChangeDatetime},
+			#{taskAmount},
+			#{saleGroup},
+			#{taskType},
+			#{dmNo},
+			#{dmName},
+			#{source},
+			#{ebTaskNo},
+			#{erpNo},
+			#{emergentId},
+			#{failreason},
+			#{taskCreator},
+			#{customerNo},
+			#{customerName},
+			#{sex},
+			#{homePhone},
+			#{companyPhone},
+			#{handPhone},
+			#{email},
+			#{fax},
+			#{idCardName},
+			#{idCard},
+			#{addressProvince},
+			#{addressCity},
+			#{addressCounty},
+			#{addressDetail},
+			#{postcode},
+			#{consigneeName},
+			#{consigneePhone},
+			#{preSendAddress},
+			#{sendWay},
+			#{carriers},
+			#{invoiceTitle},
+			#{invoiceNo},
+			#{invoiceType},
+			#{invoiceSendId},
+			#{invoiceSendAddress},
+			#{sendStoreDatetime},
+			#{signStandard},
+			#{signResult},
+			#{signName},
+			#{signDate},
+			#{recallStatus}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE pool_task SET 	
+			pool_task_no = #{poolTaskNo},
+			task_no = #{taskNo},
+			supplier_task_no = #{supplierTaskNo},
+			task_gen_datetime = #{taskGenDatetime},
+			pay_way = #{payWay},
+			task_status = #{taskStatus},
+			status_change_datetime = #{statusChangeDatetime},
+			task_amount = #{taskAmount},
+			sale_group = #{saleGroup},
+			task_type = #{taskType},
+			dm_no = #{dmNo},
+			dm_name = #{dmName},
+			source = #{source},
+			eb_task_no = #{ebTaskNo},
+			erp_no = #{erpNo},
+			emergent_id = #{emergentId},
+			failreason = #{failreason},
+			task_creator = #{taskCreator},
+			customer_no = #{customerNo},
+			customer_name = #{customerName},
+			sex = #{sex},
+			home_phone = #{homePhone},
+			company_phone = #{companyPhone},
+			hand_phone = #{handPhone},
+			email = #{email},
+			fax = #{fax},
+			id_card_name = #{idCardName},
+			id_card = #{idCard},
+			address_province = #{addressProvince},
+			address_city = #{addressCity},
+			address_county = #{addressCounty},
+			address_detail = #{addressDetail},
+			postcode = #{postcode},
+			consignee_name = #{consigneeName},
+			consignee_phone = #{consigneePhone},
+			pre_send_address = #{preSendAddress},
+			send_way = #{sendWay},
+			carriers = #{carriers},
+			invoice_title = #{invoiceTitle},
+			invoice_no = #{invoiceNo},
+			invoice_type = #{invoiceType},
+			invoice_send_id = #{invoiceSendId},
+			invoice_send_address = #{invoiceSendAddress},
+			send_store_datetime = #{sendStoreDatetime},
+			sign_standard = #{signStandard},
+			sign_result = #{signResult},
+			sign_name = #{signName},
+			sign_date = #{signDate},
+			recall_status = #{recallStatus}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM pool_task
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
