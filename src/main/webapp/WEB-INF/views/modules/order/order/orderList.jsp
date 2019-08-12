@@ -31,7 +31,7 @@
 			<li><label>平台订单号：</label>
 				<form:input path="taskNo" htmlEscape="false" maxlength="10" class="input-medium"/>
 			</li>
-			<li><label>供应商订单号：</label>
+			<li><label>供应商单号：</label>
 				<form:input path="supplierTaskNo" htmlEscape="false" maxlength="40" class="input-medium"/>
 			</li>
 			<li><label>订单时间：</label>

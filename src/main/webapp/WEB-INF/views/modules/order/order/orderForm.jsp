@@ -63,7 +63,8 @@
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="order" action="${ctx}/order/order/order/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
-		<sys:message content="${message}"/>		
+		<sys:message content="${message}"/>
+
 		<div class="control-group">
 			<label class="control-label">集成单号：</label>
 			<div class="controls">
@@ -82,6 +83,7 @@
 				<form:input path="supplierTaskNo" htmlEscape="false" maxlength="40" class="input-xlarge "/>
 			</div>
 		</div>
+		<div class="control-group">	</div>
 		<div class="control-group">
 			<label class="control-label">订单时间：</label>
 			<div class="controls">
