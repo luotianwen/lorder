@@ -10,13 +10,13 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 订单管理Entity
  * @author 罗天文
- * @version 2019-08-10
+ * @version 2019-08-18
  */
 public class OrderDetail extends DataEntity<OrderDetail> {
 	
 	private static final long serialVersionUID = 1L;
 	private Order poolTask;		// 订单集成ID 父类
-	private String poolTaskNo;		// 订单集成单号订单集成单号
+	private String poolTaskNo;		// 集成单号
 	private String taskNo;		// 订单号
 	private String productName;		// 商品名称
 	private String productNo;		// 商品编号
@@ -61,7 +61,7 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 		this.poolTask = poolTask;
 	}
 
-	@Length(min=0, max=32, message="订单集成ID长度必须介于 0 和 32 之间")
+	@Length(min=1, max=32, message="订单集成ID长度必须介于 1 和 32 之间")
 	public Order getPoolTask() {
 		return poolTask;
 	}
@@ -70,7 +70,7 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 		this.poolTask = poolTask;
 	}
 	
-	@Length(min=0, max=10, message="订单集成单号订单集成单号长度必须介于 0 和 10 之间")
+	@Length(min=1, max=10, message="集成单号长度必须介于 1 和 10 之间")
 	public String getPoolTaskNo() {
 		return poolTaskNo;
 	}
@@ -79,7 +79,7 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 		this.poolTaskNo = poolTaskNo;
 	}
 	
-	@Length(min=0, max=10, message="订单号长度必须介于 0 和 10 之间")
+	@Length(min=1, max=10, message="订单号长度必须介于 1 和 10 之间")
 	public String getTaskNo() {
 		return taskNo;
 	}
@@ -88,7 +88,7 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 		this.taskNo = taskNo;
 	}
 	
-	@Length(min=0, max=512, message="商品名称长度必须介于 0 和 512 之间")
+	@Length(min=1, max=512, message="商品名称长度必须介于 1 和 512 之间")
 	public String getProductName() {
 		return productName;
 	}
@@ -97,7 +97,7 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 		this.productName = productName;
 	}
 	
-	@Length(min=0, max=40, message="商品编号长度必须介于 0 和 40 之间")
+	@Length(min=1, max=40, message="商品编号长度必须介于 1 和 40 之间")
 	public String getProductNo() {
 		return productNo;
 	}
@@ -115,7 +115,7 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 		this.productClass = productClass;
 	}
 	
-	@Length(min=0, max=5, message="数量长度必须介于 0 和 5 之间")
+	@Length(min=1, max=5, message="数量长度必须介于 1 和 5 之间")
 	public String getAmount() {
 		return amount;
 	}
@@ -124,7 +124,7 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 		this.amount = amount;
 	}
 	
-	@Length(min=0, max=80, message="ERP物料编码长度必须介于 0 和 80 之间")
+	@Length(min=1, max=80, message="ERP物料编码长度必须介于 1 和 80 之间")
 	public String getProductId() {
 		return productId;
 	}
@@ -133,7 +133,7 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 		this.productId = productId;
 	}
 	
-	@Length(min=0, max=512, message="物料名称长度必须介于 0 和 512 之间")
+	@Length(min=1, max=512, message="物料名称长度必须介于 1 和 512 之间")
 	public String getName() {
 		return name;
 	}

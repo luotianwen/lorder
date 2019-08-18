@@ -6,6 +6,8 @@ package com.thinkgem.jeesite.modules.order.entity.order;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import javax.validation.constraints.NotNull;
+import com.thinkgem.jeesite.modules.sys.entity.Area;
 import java.util.List;
 import com.google.common.collect.Lists;
 
@@ -14,25 +16,25 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 订单管理Entity
  * @author 罗天文
- * @version 2019-08-10
+ * @version 2019-08-18
  */
 public class Order extends DataEntity<Order> {
 	
 	private static final long serialVersionUID = 1L;
 	private String poolTaskNo;		// 集成单号
-	private String taskNo;		// 平台订单号
-	private String supplierTaskNo;		// 供应商订单号
+	private String taskNo;		// 平台单号
+	private String supplierTaskNo;		// 供应商单号
 	private Date taskGenDatetime;		// 订单时间
 	private String payWay;		// 付款渠道
 	private String taskStatus;		// 订单状态
-	private Date statusChangeDatetime;		// 状态最后改变时间
+	private Date statusChangeDatetime;		// 更新时间
 	private String taskAmount;		// 订单金额
 	private String saleGroup;		// 发货组织
 	private String taskType;		// 订单类型
 	private String dmNo;		// 档期编码
 	private String dmName;		// 档期名称
 	private String source;		// 订单来源
-	private String ebTaskNo;		// SAP订单号
+	private String ebTaskNo;		// SAP单号
 	private String erpNo;		// SAP交货单号
 	private String emergentId;		// 紧急程度
 	private String failreason;		// 失败原因
@@ -47,9 +49,9 @@ public class Order extends DataEntity<Order> {
 	private String fax;		// 会员编号
 	private String idCardName;		// 证件名称
 	private String idCard;		// 证件号码
-	private String addressProvince;		// 收货地址-省
-	private String addressCity;		// 收货地址-市
-	private String addressCounty;		// 收货地址-区县
+	private Area province;		// 收货地址-省
+	private Area city;		// 收货地址-市
+	private Area county;		// 收货地址-区县
 	private String addressDetail;		// 收货详细地址
 	private String postcode;		// 邮政编码
 	private String consigneeName;		// 收货人名称
@@ -84,7 +86,7 @@ public class Order extends DataEntity<Order> {
 		super(id);
 	}
 
-	@Length(min=0, max=10, message="集成单号长度必须介于 0 和 10 之间")
+	@Length(min=1, max=10, message="集成单号长度必须介于 1 和 10 之间")
 	public String getPoolTaskNo() {
 		return poolTaskNo;
 	}
@@ -93,7 +95,7 @@ public class Order extends DataEntity<Order> {
 		this.poolTaskNo = poolTaskNo;
 	}
 	
-	@Length(min=0, max=10, message="平台订单号长度必须介于 0 和 10 之间")
+	@Length(min=1, max=10, message="平台单号长度必须介于 1 和 10 之间")
 	public String getTaskNo() {
 		return taskNo;
 	}
@@ -102,7 +104,7 @@ public class Order extends DataEntity<Order> {
 		this.taskNo = taskNo;
 	}
 	
-	@Length(min=0, max=40, message="供应商订单号长度必须介于 0 和 40 之间")
+	@Length(min=0, max=40, message="供应商单号长度必须介于 0 和 40 之间")
 	public String getSupplierTaskNo() {
 		return supplierTaskNo;
 	}
@@ -112,6 +114,7 @@ public class Order extends DataEntity<Order> {
 	}
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@NotNull(message="订单时间不能为空")
 	public Date getTaskGenDatetime() {
 		return taskGenDatetime;
 	}
@@ -120,7 +123,7 @@ public class Order extends DataEntity<Order> {
 		this.taskGenDatetime = taskGenDatetime;
 	}
 	
-	@Length(min=0, max=11, message="付款渠道长度必须介于 0 和 11 之间")
+	@Length(min=1, max=11, message="付款渠道长度必须介于 1 和 11 之间")
 	public String getPayWay() {
 		return payWay;
 	}
@@ -129,7 +132,7 @@ public class Order extends DataEntity<Order> {
 		this.payWay = payWay;
 	}
 	
-	@Length(min=0, max=11, message="订单状态长度必须介于 0 和 11 之间")
+	@Length(min=1, max=11, message="订单状态长度必须介于 1 和 11 之间")
 	public String getTaskStatus() {
 		return taskStatus;
 	}
@@ -139,6 +142,7 @@ public class Order extends DataEntity<Order> {
 	}
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@NotNull(message="更新时间不能为空")
 	public Date getStatusChangeDatetime() {
 		return statusChangeDatetime;
 	}
@@ -155,7 +159,7 @@ public class Order extends DataEntity<Order> {
 		this.taskAmount = taskAmount;
 	}
 	
-	@Length(min=0, max=16, message="发货组织长度必须介于 0 和 16 之间")
+	@Length(min=1, max=16, message="发货组织长度必须介于 1 和 16 之间")
 	public String getSaleGroup() {
 		return saleGroup;
 	}
@@ -164,7 +168,7 @@ public class Order extends DataEntity<Order> {
 		this.saleGroup = saleGroup;
 	}
 	
-	@Length(min=0, max=16, message="订单类型长度必须介于 0 和 16 之间")
+	@Length(min=1, max=16, message="订单类型长度必须介于 1 和 16 之间")
 	public String getTaskType() {
 		return taskType;
 	}
@@ -199,7 +203,7 @@ public class Order extends DataEntity<Order> {
 		this.source = source;
 	}
 	
-	@Length(min=0, max=40, message="SAP订单号长度必须介于 0 和 40 之间")
+	@Length(min=0, max=40, message="SAP单号长度必须介于 0 和 40 之间")
 	public String getEbTaskNo() {
 		return ebTaskNo;
 	}
@@ -244,7 +248,7 @@ public class Order extends DataEntity<Order> {
 		this.taskCreator = taskCreator;
 	}
 	
-	@Length(min=0, max=40, message="客户编号长度必须介于 0 和 40 之间")
+	@Length(min=1, max=40, message="客户编号长度必须介于 1 和 40 之间")
 	public String getCustomerNo() {
 		return customerNo;
 	}
@@ -253,7 +257,7 @@ public class Order extends DataEntity<Order> {
 		this.customerNo = customerNo;
 	}
 	
-	@Length(min=0, max=512, message="客户名称长度必须介于 0 和 512 之间")
+	@Length(min=1, max=512, message="客户名称长度必须介于 1 和 512 之间")
 	public String getCustomerName() {
 		return customerName;
 	}
@@ -334,34 +338,34 @@ public class Order extends DataEntity<Order> {
 		this.idCard = idCard;
 	}
 	
-	@Length(min=0, max=512, message="收货地址-省长度必须介于 0 和 512 之间")
-	public String getAddressProvince() {
-		return addressProvince;
+	@NotNull(message="收货地址-省不能为空")
+	public Area getProvince() {
+		return province;
 	}
 
-	public void setAddressProvince(String addressProvince) {
-		this.addressProvince = addressProvince;
+	public void setProvince(Area province) {
+		this.province = province;
 	}
 	
-	@Length(min=0, max=512, message="收货地址-市长度必须介于 0 和 512 之间")
-	public String getAddressCity() {
-		return addressCity;
+	@NotNull(message="收货地址-市不能为空")
+	public Area getCity() {
+		return city;
 	}
 
-	public void setAddressCity(String addressCity) {
-		this.addressCity = addressCity;
+	public void setCity(Area city) {
+		this.city = city;
 	}
 	
-	@Length(min=0, max=512, message="收货地址-区县长度必须介于 0 和 512 之间")
-	public String getAddressCounty() {
-		return addressCounty;
+	@NotNull(message="收货地址-区县不能为空")
+	public Area getCounty() {
+		return county;
 	}
 
-	public void setAddressCounty(String addressCounty) {
-		this.addressCounty = addressCounty;
+	public void setCounty(Area county) {
+		this.county = county;
 	}
 	
-	@Length(min=0, max=512, message="收货详细地址长度必须介于 0 和 512 之间")
+	@Length(min=1, max=512, message="收货详细地址长度必须介于 1 和 512 之间")
 	public String getAddressDetail() {
 		return addressDetail;
 	}

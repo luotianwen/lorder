@@ -28,7 +28,7 @@
 			<li><label>集成单号：</label>
 				<form:input path="poolTaskNo" htmlEscape="false" maxlength="10" class="input-medium"/>
 			</li>
-			<li><label>平台订单号：</label>
+			<li><label>平台单号：</label>
 				<form:input path="taskNo" htmlEscape="false" maxlength="10" class="input-medium"/>
 			</li>
 			<li><label>供应商单号：</label>
@@ -43,13 +43,28 @@
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</li>
 			<li><label>订单状态：</label>
-				<form:input path="taskStatus" htmlEscape="false" maxlength="11" class="input-medium"/>
+				<form:select path="taskStatus" class="input-medium">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('P_TASK_STATUS')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</li>
 			<li><label>订单类型：</label>
-				<form:input path="taskType" htmlEscape="false" maxlength="16" class="input-medium"/>
+				<form:select path="taskType" class="input-medium">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('P_TASK_TYPE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</li>
-			<li><label>SAP订单号：</label>
+			<li><label>订单来源：</label>
+				<form:select path="source" class="input-medium">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('P_SOURCE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</li>
+			<li><label>SAP单号：</label>
 				<form:input path="ebTaskNo" htmlEscape="false" maxlength="40" class="input-medium"/>
+			</li>
+			<li><label>客户编号：</label>
+				<form:input path="customerNo" htmlEscape="false" maxlength="40" class="input-medium"/>
 			</li>
 			<li><label>客户名称：</label>
 				<form:input path="customerName" htmlEscape="false" maxlength="512" class="input-medium"/>
@@ -71,6 +86,12 @@
 					value="<fmt:formatDate value="${order.endSendStoreDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</li>
+			<li><label>是否签收：</label>
+				<form:select path="signResult" class="input-medium">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</li>
 			<li><label>签收时间：</label>
 				<input name="beginSignDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 					value="<fmt:formatDate value="${order.beginSignDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
@@ -88,18 +109,23 @@
 		<thead>
 			<tr>
 				<th>集成单号</th>
-				<th>平台订单号</th>
-				<th>供应商订单号</th>
+				<th>平台单号</th>
+				<th>供应商单号</th>
 				<th>订单时间</th>
 				<th>订单状态</th>
+				<th>订单金额</th>
+				<th>发货组织</th>
 				<th>订单类型</th>
-				<th>SAP订单号</th>
+				<th>订单来源</th>
+				<th>SAP单号</th>
 				<th>订单创建人</th>
+				<th>客户编号</th>
 				<th>客户名称</th>
 				<th>客户手机</th>
 				<th>收货人名称</th>
 				<th>收货人电话</th>
 				<th>发货日期</th>
+				<th>是否签收</th>
 				<th>签收时间</th>
 				<shiro:hasPermission name="order:order:order:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -120,16 +146,28 @@
 					<fmt:formatDate value="${order.taskGenDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
-					${order.taskStatus}
+					${fns:getDictLabel(order.taskStatus, 'P_TASK_STATUS', '')}
 				</td>
 				<td>
-					${order.taskType}
+					${order.taskAmount}
+				</td>
+				<td>
+					${order.saleGroup}
+				</td>
+				<td>
+					${fns:getDictLabel(order.taskType, 'P_TASK_TYPE', '')}
+				</td>
+				<td>
+					${fns:getDictLabel(order.source, 'P_SOURCE', '')}
 				</td>
 				<td>
 					${order.ebTaskNo}
 				</td>
 				<td>
 					${order.taskCreator}
+				</td>
+				<td>
+					${order.customerNo}
 				</td>
 				<td>
 					${order.customerName}
@@ -145,6 +183,9 @@
 				</td>
 				<td>
 					<fmt:formatDate value="${order.sendStoreDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+				</td>
+				<td>
+					${fns:getDictLabel(order.signResult, 'yes_no', '')}
 				</td>
 				<td>
 					<fmt:formatDate value="${order.signDate}" pattern="yyyy-MM-dd HH:mm:ss"/>

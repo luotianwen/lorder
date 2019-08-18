@@ -63,71 +63,87 @@
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="order" action="${ctx}/order/order/order/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
-		<sys:message content="${message}"/>
-
+		<sys:message content="${message}"/>		
 		<div class="control-group">
 			<label class="control-label">集成单号：</label>
 			<div class="controls">
-				<form:input path="poolTaskNo" htmlEscape="false" maxlength="10" class="input-xlarge "/>
+				<form:input path="poolTaskNo" htmlEscape="false" maxlength="10" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">平台订单号：</label>
+			<label class="control-label">平台单号：</label>
 			<div class="controls">
-				<form:input path="taskNo" htmlEscape="false" maxlength="10" class="input-xlarge "/>
+				<form:input path="taskNo" htmlEscape="false" maxlength="10" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">供应商订单号：</label>
+			<label class="control-label">供应商单号：</label>
 			<div class="controls">
 				<form:input path="supplierTaskNo" htmlEscape="false" maxlength="40" class="input-xlarge "/>
 			</div>
 		</div>
-		<div class="control-group">	</div>
 		<div class="control-group">
 			<label class="control-label">订单时间：</label>
 			<div class="controls">
-				<input name="taskGenDatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+				<input name="taskGenDatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 					value="<fmt:formatDate value="${order.taskGenDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">付款渠道：</label>
 			<div class="controls">
-				<form:input path="payWay" htmlEscape="false" maxlength="11" class="input-xlarge "/>
+				<form:select path="payWay" class="input-xlarge required">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('P_PAY_WAY')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">订单状态：</label>
 			<div class="controls">
-				<form:input path="taskStatus" htmlEscape="false" maxlength="11" class="input-xlarge "/>
+				<form:select path="taskStatus" class="input-xlarge required">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('P_TASK_STATUS')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">状态最后改变时间：</label>
+			<label class="control-label">更新时间：</label>
 			<div class="controls">
-				<input name="statusChangeDatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+				<input name="statusChangeDatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 					value="<fmt:formatDate value="${order.statusChangeDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">订单金额：</label>
 			<div class="controls">
-				<form:input path="taskAmount" htmlEscape="false" class="input-xlarge "/>
+				<form:input path="taskAmount" htmlEscape="false" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">发货组织：</label>
 			<div class="controls">
-				<form:input path="saleGroup" htmlEscape="false" maxlength="16" class="input-xlarge "/>
+				<form:input path="saleGroup" htmlEscape="false" maxlength="16" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">订单类型：</label>
 			<div class="controls">
-				<form:input path="taskType" htmlEscape="false" maxlength="16" class="input-xlarge "/>
+				<form:select path="taskType" class="input-xlarge required">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('P_TASK_TYPE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
@@ -145,11 +161,15 @@
 		<div class="control-group">
 			<label class="control-label">订单来源：</label>
 			<div class="controls">
-				<form:input path="source" htmlEscape="false" class="input-xlarge "/>
+				<form:select path="source" class="input-xlarge required">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('P_SOURCE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">SAP订单号：</label>
+			<label class="control-label">SAP单号：</label>
 			<div class="controls">
 				<form:input path="ebTaskNo" htmlEscape="false" maxlength="40" class="input-xlarge "/>
 			</div>
@@ -181,13 +201,15 @@
 		<div class="control-group">
 			<label class="control-label">客户编号：</label>
 			<div class="controls">
-				<form:input path="customerNo" htmlEscape="false" maxlength="40" class="input-xlarge "/>
+				<form:input path="customerNo" htmlEscape="false" maxlength="40" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">客户名称：</label>
 			<div class="controls">
-				<form:input path="customerName" htmlEscape="false" maxlength="512" class="input-xlarge "/>
+				<form:input path="customerName" htmlEscape="false" maxlength="512" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
@@ -241,25 +263,32 @@
 		<div class="control-group">
 			<label class="control-label">收货地址-省：</label>
 			<div class="controls">
-				<form:input path="addressProvince" htmlEscape="false" maxlength="512" class="input-xlarge "/>
+				<sys:treeselect id="province" name="province.id" value="${order.province.id}" labelName="province.name" labelValue="${order.province.name}"
+					title="区域" url="/sys/area/treeData" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">收货地址-市：</label>
 			<div class="controls">
-				<form:input path="addressCity" htmlEscape="false" maxlength="512" class="input-xlarge "/>
+				<sys:treeselect id="city" name="city.id" value="${order.city.id}" labelName="city.name" labelValue="${order.city.name}"
+					title="区域" url="/sys/area/treeData" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">收货地址-区县：</label>
 			<div class="controls">
-				<form:input path="addressCounty" htmlEscape="false" maxlength="512" class="input-xlarge "/>
+				<sys:treeselect id="county" name="county.id" value="${order.county.id}" labelName="county.name" labelValue="${order.county.name}"
+					title="区域" url="/sys/area/treeData" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">收货详细地址：</label>
 			<div class="controls">
-				<form:input path="addressDetail" htmlEscape="false" maxlength="512" class="input-xlarge "/>
+				<form:input path="addressDetail" htmlEscape="false" maxlength="512" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
@@ -289,7 +318,10 @@
 		<div class="control-group">
 			<label class="control-label">送货方式：</label>
 			<div class="controls">
-				<form:input path="sendWay" htmlEscape="false" maxlength="2" class="input-xlarge "/>
+				<form:select path="sendWay" class="input-xlarge ">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('P_SEND_WAY')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 		</div>
 		<div class="control-group">
@@ -345,7 +377,10 @@
 		<div class="control-group">
 			<label class="control-label">是否签收：</label>
 			<div class="controls">
-				<form:input path="signResult" htmlEscape="false" maxlength="1" class="input-xlarge "/>
+				<form:select path="signResult" class="input-xlarge ">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 		</div>
 		<div class="control-group">
@@ -365,7 +400,10 @@
 		<div class="control-group">
 			<label class="control-label">签收状态：</label>
 			<div class="controls">
-				<form:input path="recallStatus" htmlEscape="false" maxlength="1" class="input-xlarge "/>
+				<form:select path="recallStatus" class="input-xlarge ">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('P_RECALL_STATUS')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 		</div>
 			<div class="control-group">
@@ -375,7 +413,7 @@
 						<thead>
 							<tr>
 								<th class="hide"></th>
-								<th>订单集成单号订单集成单号</th>
+								<th>集成单号</th>
 								<th>订单号</th>
 								<th>商品名称</th>
 								<th>商品编号</th>
@@ -423,28 +461,28 @@
 								<input id="orderDetailList{{idx}}_delFlag" name="orderDetailList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_poolTaskNo" name="orderDetailList[{{idx}}].poolTaskNo" type="text" value="{{row.poolTaskNo}}" maxlength="10" class="input-small "/>
+								<input id="orderDetailList{{idx}}_poolTaskNo" name="orderDetailList[{{idx}}].poolTaskNo" type="text" value="{{row.poolTaskNo}}" maxlength="10" class="input-small required"/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_taskNo" name="orderDetailList[{{idx}}].taskNo" type="text" value="{{row.taskNo}}" maxlength="10" class="input-small "/>
+								<input id="orderDetailList{{idx}}_taskNo" name="orderDetailList[{{idx}}].taskNo" type="text" value="{{row.taskNo}}" maxlength="10" class="input-small required"/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_productName" name="orderDetailList[{{idx}}].productName" type="text" value="{{row.productName}}" maxlength="512" class="input-small "/>
+								<input id="orderDetailList{{idx}}_productName" name="orderDetailList[{{idx}}].productName" type="text" value="{{row.productName}}" maxlength="512" class="input-small required"/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_productNo" name="orderDetailList[{{idx}}].productNo" type="text" value="{{row.productNo}}" maxlength="40" class="input-small "/>
+								<input id="orderDetailList{{idx}}_productNo" name="orderDetailList[{{idx}}].productNo" type="text" value="{{row.productNo}}" maxlength="40" class="input-small required"/>
 							</td>
 							<td>
 								<input id="orderDetailList{{idx}}_productClass" name="orderDetailList[{{idx}}].productClass" type="text" value="{{row.productClass}}" maxlength="20" class="input-small "/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_amount" name="orderDetailList[{{idx}}].amount" type="text" value="{{row.amount}}" maxlength="5" class="input-small "/>
+								<input id="orderDetailList{{idx}}_amount" name="orderDetailList[{{idx}}].amount" type="text" value="{{row.amount}}" maxlength="5" class="input-small required"/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_productId" name="orderDetailList[{{idx}}].productId" type="text" value="{{row.productId}}" maxlength="80" class="input-small "/>
+								<input id="orderDetailList{{idx}}_productId" name="orderDetailList[{{idx}}].productId" type="text" value="{{row.productId}}" maxlength="80" class="input-small required"/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_name" name="orderDetailList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="512" class="input-small "/>
+								<input id="orderDetailList{{idx}}_name" name="orderDetailList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="512" class="input-small required"/>
 							</td>
 							<td>
 								<input id="orderDetailList{{idx}}_isPresent" name="orderDetailList[{{idx}}].isPresent" type="text" value="{{row.isPresent}}" maxlength="1" class="input-small "/>
@@ -453,7 +491,12 @@
 								<input id="orderDetailList{{idx}}_presentNotes" name="orderDetailList[{{idx}}].presentNotes" type="text" value="{{row.presentNotes}}" maxlength="2000" class="input-small "/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_giftType" name="orderDetailList[{{idx}}].giftType" type="text" value="{{row.giftType}}" maxlength="6" class="input-small "/>
+								<select id="orderDetailList{{idx}}_giftType" name="orderDetailList[{{idx}}].giftType" data-value="{{row.giftType}}" class="input-small ">
+									<option value=""></option>
+									<c:forEach items="${fns:getDictList('P_GIFT_TYPE')}" var="dict">
+										<option value="${dict.value}">${dict.label}</option>
+									</c:forEach>
+								</select>
 							</td>
 							<td>
 								<input id="orderDetailList{{idx}}_times" name="orderDetailList[{{idx}}].times" type="text" value="{{row.times}}" maxlength="11" class="input-small "/>
@@ -462,13 +505,18 @@
 								<input id="orderDetailList{{idx}}_perTimes" name="orderDetailList[{{idx}}].perTimes" type="text" value="{{row.perTimes}}" class="input-small "/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_isOrig" name="orderDetailList[{{idx}}].isOrig" type="text" value="{{row.isOrig}}" maxlength="1" class="input-small "/>
+								<select id="orderDetailList{{idx}}_isOrig" name="orderDetailList[{{idx}}].isOrig" data-value="{{row.isOrig}}" class="input-small ">
+									<option value=""></option>
+									<c:forEach items="${fns:getDictList('yes_no')}" var="dict">
+										<option value="${dict.value}">${dict.label}</option>
+									</c:forEach>
+								</select>
 							</td>
 							<td>
 								<input id="orderDetailList{{idx}}_currency" name="orderDetailList[{{idx}}].currency" type="text" value="{{row.currency}}" maxlength="6" class="input-small "/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_relievePrice" name="orderDetailList[{{idx}}].relievePrice" type="text" value="{{row.relievePrice}}" class="input-small "/>
+								<input id="orderDetailList{{idx}}_relievePrice" name="orderDetailList[{{idx}}].relievePrice" type="text" value="{{row.relievePrice}}" class="input-small required"/>
 							</td>
 							<td>
 								<input id="orderDetailList{{idx}}_lxbAmount" name="orderDetailList[{{idx}}].lxbAmount" type="text" value="{{row.lxbAmount}}" class="input-small "/>

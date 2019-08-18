@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.order.dao.batch.PoolBatchDao">
+    
+	<sql id="poolBatchColumns">
+		a.id AS "id",
+		a.pool_batch AS "poolBatch",
+		a.batch_gen_datetime AS "batchGenDatetime",
+		a.sum_amt AS "sumAmt",
+		a.batch_creator AS "batchCreator",
+		a.erp_no AS "erpNo"
+	</sql>
+	
+	<sql id="poolBatchJoins">
+	</sql>
+    
+	<select id="get" resultType="PoolBatch">
+		SELECT 
+			<include refid="poolBatchColumns"/>
+		FROM pool_batch a
+		<include refid="poolBatchJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PoolBatch">
+		SELECT 
+			<include refid="poolBatchColumns"/>
+		FROM pool_batch a
+		<include refid="poolBatchJoins"/>
+		<where>
+			
+			<if test="poolBatch != null and poolBatch != ''">
+				AND a.pool_batch = #{poolBatch}
+			</if>
+			<if test="beginBatchGenDatetime != null and endBatchGenDatetime != null and beginBatchGenDatetime != '' and endBatchGenDatetime != ''">
+				AND a.batch_gen_datetime BETWEEN #{beginBatchGenDatetime} AND #{endBatchGenDatetime}
+			</if>
+			<if test="erpNo != null and erpNo != ''">
+				AND a.erp_no = #{erpNo}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PoolBatch">
+		SELECT 
+			<include refid="poolBatchColumns"/>
+		FROM pool_batch a
+		<include refid="poolBatchJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO pool_batch(
+			id,
+			pool_batch,
+			batch_gen_datetime,
+			sum_amt,
+			batch_creator,
+			erp_no
+		) VALUES (
+			#{id},
+			#{poolBatch},
+			#{batchGenDatetime},
+			#{sumAmt},
+			#{batchCreator},
+			#{erpNo}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE pool_batch SET 	
+			pool_batch = #{poolBatch},
+			batch_gen_datetime = #{batchGenDatetime},
+			sum_amt = #{sumAmt},
+			batch_creator = #{batchCreator},
+			erp_no = #{erpNo}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM pool_batch
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

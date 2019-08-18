@@ -32,9 +32,9 @@
 		a.fax AS "fax",
 		a.id_card_name AS "idCardName",
 		a.id_card AS "idCard",
-		a.address_province AS "addressProvince",
-		a.address_city AS "addressCity",
-		a.address_county AS "addressCounty",
+		a.address_province AS "province.id",
+		a.address_city AS "city.id",
+		a.address_county AS "county.id",
 		a.address_detail AS "addressDetail",
 		a.postcode AS "postcode",
 		a.consignee_name AS "consigneeName",
@@ -52,10 +52,16 @@
 		a.sign_result AS "signResult",
 		a.sign_name AS "signName",
 		a.sign_date AS "signDate",
-		a.recall_status AS "recallStatus"
+		a.recall_status AS "recallStatus",
+		a30.name AS "province.name",
+		a31.name AS "city.name",
+		a32.name AS "county.name"
 	</sql>
 	
 	<sql id="orderJoins">
+		LEFT JOIN sys_area a30 ON a30.id = a.address_province
+		LEFT JOIN sys_area a31 ON a31.id = a.address_city
+		LEFT JOIN sys_area a32 ON a32.id = a.address_county
 	</sql>
     
 	<select id="get" resultType="Order">
@@ -91,8 +97,14 @@
 			<if test="taskType != null and taskType != ''">
 				AND a.task_type = #{taskType}
 			</if>
+			<if test="source != null and source != ''">
+				AND a.source = #{source}
+			</if>
 			<if test="ebTaskNo != null and ebTaskNo != ''">
 				AND a.eb_task_no = #{ebTaskNo}
+			</if>
+			<if test="customerNo != null and customerNo != ''">
+				AND a.customer_no = #{customerNo}
 			</if>
 			<if test="customerName != null and customerName != ''">
 				AND a.customer_name = #{customerName}
@@ -108,6 +120,9 @@
 			</if>
 			<if test="beginSendStoreDatetime != null and endSendStoreDatetime != null and beginSendStoreDatetime != '' and endSendStoreDatetime != ''">
 				AND a.send_store_datetime BETWEEN #{beginSendStoreDatetime} AND #{endSendStoreDatetime}
+			</if>
+			<if test="signResult != null and signResult != ''">
+				AND a.sign_result = #{signResult}
 			</if>
 			<if test="beginSignDate != null and endSignDate != null and beginSignDate != '' and endSignDate != ''">
 				AND a.sign_date BETWEEN #{beginSignDate} AND #{endSignDate}
@@ -175,8 +190,6 @@
 			address_county,
 			address_detail,
 			postcode,
-			consignee_name,
-			consignee_phone,
 			pre_send_address,
 			send_way,
 			carriers,
@@ -221,13 +234,11 @@
 			#{fax},
 			#{idCardName},
 			#{idCard},
-			#{addressProvince},
-			#{addressCity},
-			#{addressCounty},
+			#{province.id},
+			#{city.id},
+			#{county.id},
 			#{addressDetail},
 			#{postcode},
-			#{consigneeName},
-			#{consigneePhone},
 			#{preSendAddress},
 			#{sendWay},
 			#{carriers},
@@ -275,9 +286,9 @@
 			fax = #{fax},
 			id_card_name = #{idCardName},
 			id_card = #{idCard},
-			address_province = #{addressProvince},
-			address_city = #{addressCity},
-			address_county = #{addressCounty},
+			address_province = #{province.id},
+			address_city = #{city.id},
+			address_county = #{county.id},
 			address_detail = #{addressDetail},
 			postcode = #{postcode},
 			consignee_name = #{consigneeName},

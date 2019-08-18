@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.order.dao.batch.PoolBatchLineDao">
+    
+	<sql id="poolBatchLineColumns">
+		a.id AS "id",
+		a.pool_batch_id AS "poolBatch.id",
+		a.product_id AS "productId",
+		a.name AS "name",
+		a.amount AS "amount",
+		a.sum_price AS "sumPrice",
+		b.pool_batch AS "poolBatch.poolBatch"
+	</sql>
+	
+	<sql id="poolBatchLineJoins">
+		LEFT JOIN pool_batch b ON b.id = a.pool_batch_id
+	</sql>
+    
+	<select id="get" resultType="PoolBatchLine">
+		SELECT 
+			<include refid="poolBatchLineColumns"/>
+		FROM pool_batch_line a
+		<include refid="poolBatchLineJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PoolBatchLine">
+		SELECT 
+			<include refid="poolBatchLineColumns"/>
+		FROM pool_batch_line a
+		<include refid="poolBatchLineJoins"/>
+		<where>
+			
+			<if test="poolBatch != null and poolBatch.id != null and poolBatch.id != ''">
+				AND a.pool_batch_id = #{poolBatch.id}
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PoolBatchLine">
+		SELECT 
+			<include refid="poolBatchLineColumns"/>
+		FROM pool_batch_line a
+		<include refid="poolBatchLineJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO pool_batch_line(
+			id,
+			pool_batch_id,
+			product_id,
+			name,
+			amount,
+			sum_price
+		) VALUES (
+			#{id},
+			#{poolBatch.id},
+			#{productId},
+			#{name},
+			#{amount},
+			#{sumPrice}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE pool_batch_line SET 	
+			pool_batch_id = #{poolBatch.id},
+			product_id = #{productId},
+			name = #{name},
+			amount = #{amount},
+			sum_price = #{sumPrice}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM pool_batch_line
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE pool_batch_id = #{poolBatch.id}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>
