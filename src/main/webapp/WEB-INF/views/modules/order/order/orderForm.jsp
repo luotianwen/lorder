@@ -125,7 +125,7 @@
 		<div class="control-group">
 			<label class="control-label">订单金额：</label>
 			<div class="controls">
-				<form:input path="taskAmount" htmlEscape="false" class="input-xlarge required"/>
+				<form:input path="taskAmount" htmlEscape="false" class="input-xlarge required number"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
@@ -263,7 +263,7 @@
 		<div class="control-group">
 			<label class="control-label">收货地址-省：</label>
 			<div class="controls">
-				<sys:treeselect id="province" name="province.id" value="${order.province.id}" labelName="province.name" labelValue="${order.province.name}"
+				<sys:treeselect id="province" name="province.name" value="${order.province.name}" labelName="province.name" labelValue="${order.province.name}"
 					title="区域" url="/sys/area/treeData" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
@@ -271,7 +271,7 @@
 		<div class="control-group">
 			<label class="control-label">收货地址-市：</label>
 			<div class="controls">
-				<sys:treeselect id="city" name="city.id" value="${order.city.id}" labelName="city.name" labelValue="${order.city.name}"
+				<sys:treeselect id="city" name="city.name" value="${order.city.name}" labelName="city.name" labelValue="${order.city.name}"
 					title="区域" url="/sys/area/treeData" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
@@ -279,7 +279,7 @@
 		<div class="control-group">
 			<label class="control-label">收货地址-区县：</label>
 			<div class="controls">
-				<sys:treeselect id="county" name="county.id" value="${order.county.id}" labelName="county.name" labelValue="${order.county.name}"
+				<sys:treeselect id="county" name="county.name" value="${order.county.name}" labelName="county.name" labelValue="${order.county.name}"
 					title="区域" url="/sys/area/treeData" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
@@ -406,6 +406,18 @@
 				</form:select>
 			</div>
 		</div>
+		<div class="control-group">
+			<label class="control-label">备注：</label>
+			<div class="controls">
+				<form:input path="remark" htmlEscape="false" maxlength="200" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">备注信息：</label>
+			<div class="controls">
+				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
+			</div>
+		</div>
 			<div class="control-group">
 				<label class="control-label">订单行数据表：</label>
 				<div class="controls">
@@ -445,13 +457,14 @@
 								<th>门店分润税率</th>
 								<th>供应商分润金额</th>
 								<th>供应商分润税率</th>
+								<th>备注信息</th>
 								<shiro:hasPermission name="order:order:order:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
 							</tr>
 						</thead>
 						<tbody id="orderDetailList">
 						</tbody>
 						<shiro:hasPermission name="order:order:order:edit"><tfoot>
-							<tr><td colspan="34"><a href="javascript:" onclick="addRow('#orderDetailList', orderDetailRowIdx, orderDetailTpl);orderDetailRowIdx = orderDetailRowIdx + 1;" class="btn">新增</a></td></tr>
+							<tr><td colspan="35"><a href="javascript:" onclick="addRow('#orderDetailList', orderDetailRowIdx, orderDetailTpl);orderDetailRowIdx = orderDetailRowIdx + 1;" class="btn">新增</a></td></tr>
 						</tfoot></shiro:hasPermission>
 					</table>
 					<script type="text/template" id="orderDetailTpl">//<!--
@@ -565,6 +578,9 @@
 							</td>
 							<td>
 								<input id="orderDetailList{{idx}}_profitSupplierRates" name="orderDetailList[{{idx}}].profitSupplierRates" type="text" value="{{row.profitSupplierRates}}" class="input-small "/>
+							</td>
+							<td>
+								<textarea id="orderDetailList{{idx}}_remarks" name="orderDetailList[{{idx}}].remarks" rows="4" maxlength="255" class="input-small ">{{row.remarks}}</textarea>
 							</td>
 							<shiro:hasPermission name="order:order:order:edit"><td class="text-center" width="10">
 								{{#delBtn}}<span class="close" onclick="delRow(this, '#orderDetailList{{idx}}')" title="删除">&times;</span>{{/delBtn}}

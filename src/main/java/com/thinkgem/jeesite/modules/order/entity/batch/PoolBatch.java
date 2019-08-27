@@ -15,12 +15,12 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 订单集成Entity
  * @author 罗天文
- * @version 2019-08-18
+ * @version 2019-08-27
  */
 public class PoolBatch extends DataEntity<PoolBatch> {
 	
 	private static final long serialVersionUID = 1L;
-	private String poolBatch;		// 批次号
+	private String batchNum;		// 批次号
 	private Date batchGenDatetime;		// 生成时间
 	private Double sumAmt;		// 总金额
 	private String batchCreator;		// 批次创建人
@@ -38,12 +38,12 @@ public class PoolBatch extends DataEntity<PoolBatch> {
 	}
 
 	@Length(min=1, max=32, message="批次号长度必须介于 1 和 32 之间")
-	public String getPoolBatch() {
-		return poolBatch;
+	public String getBatchNum() {
+		return batchNum;
 	}
 
-	public void setPoolBatch(String poolBatch) {
-		this.poolBatch = poolBatch;
+	public void setBatchNum(String batchNum) {
+		this.batchNum = batchNum;
 	}
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

@@ -16,7 +16,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 订单管理Entity
  * @author 罗天文
- * @version 2019-08-18
+ * @version 2019-08-23
  */
 public class Order extends DataEntity<Order> {
 	
@@ -28,7 +28,7 @@ public class Order extends DataEntity<Order> {
 	private String payWay;		// 付款渠道
 	private String taskStatus;		// 订单状态
 	private Date statusChangeDatetime;		// 更新时间
-	private String taskAmount;		// 订单金额
+	private Double taskAmount;		// 订单金额
 	private String saleGroup;		// 发货组织
 	private String taskType;		// 订单类型
 	private String dmNo;		// 档期编码
@@ -70,12 +70,15 @@ public class Order extends DataEntity<Order> {
 	private String signName;		// 签收人
 	private Date signDate;		// 签收时间
 	private String recallStatus;		// 签收状态
+	private String remark;		// 备注
 	private Date beginTaskGenDatetime;		// 开始 订单时间
 	private Date endTaskGenDatetime;		// 结束 订单时间
 	private Date beginSendStoreDatetime;		// 开始 发货日期
 	private Date endSendStoreDatetime;		// 结束 发货日期
 	private Date beginSignDate;		// 开始 签收时间
 	private Date endSignDate;		// 结束 签收时间
+	private Date beginCreateDate;		// 开始 创建时间
+	private Date endCreateDate;		// 结束 创建时间
 	private List<OrderDetail> orderDetailList = Lists.newArrayList();		// 子表列表
 	
 	public Order() {
@@ -151,11 +154,12 @@ public class Order extends DataEntity<Order> {
 		this.statusChangeDatetime = statusChangeDatetime;
 	}
 	
-	public String getTaskAmount() {
+	@NotNull(message="订单金额不能为空")
+	public Double getTaskAmount() {
 		return taskAmount;
 	}
 
-	public void setTaskAmount(String taskAmount) {
+	public void setTaskAmount(Double taskAmount) {
 		this.taskAmount = taskAmount;
 	}
 	
@@ -526,6 +530,15 @@ public class Order extends DataEntity<Order> {
 		this.recallStatus = recallStatus;
 	}
 	
+	@Length(min=0, max=200, message="备注长度必须介于 0 和 200 之间")
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	
 	public Date getBeginTaskGenDatetime() {
 		return beginTaskGenDatetime;
 	}
@@ -572,6 +585,22 @@ public class Order extends DataEntity<Order> {
 
 	public void setEndSignDate(Date endSignDate) {
 		this.endSignDate = endSignDate;
+	}
+		
+	public Date getBeginCreateDate() {
+		return beginCreateDate;
+	}
+
+	public void setBeginCreateDate(Date beginCreateDate) {
+		this.beginCreateDate = beginCreateDate;
+	}
+	
+	public Date getEndCreateDate() {
+		return endCreateDate;
+	}
+
+	public void setEndCreateDate(Date endCreateDate) {
+		this.endCreateDate = endCreateDate;
 	}
 		
 	public List<OrderDetail> getOrderDetailList() {

@@ -25,7 +25,7 @@ import com.thinkgem.jeesite.modules.order.service.batch.PoolBatchService;
 /**
  * 订单集成Controller
  * @author 罗天文
- * @version 2019-08-18
+ * @version 2019-08-27
  */
 @Controller
 @RequestMapping(value = "${adminPath}/order/batch/poolBatch")

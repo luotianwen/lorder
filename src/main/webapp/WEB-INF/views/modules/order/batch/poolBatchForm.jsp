@@ -67,7 +67,7 @@
 		<div class="control-group">
 			<label class="control-label">批次号：</label>
 			<div class="controls">
-				<form:input path="poolBatch" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
+				<form:input path="batchNum" htmlEscape="false" maxlength="32" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>

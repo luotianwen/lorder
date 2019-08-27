@@ -26,7 +26,7 @@
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
 			<li><label>批次号：</label>
-				<form:input path="poolBatch" htmlEscape="false" maxlength="32" class="input-medium"/>
+				<form:input path="batchNum" htmlEscape="false" maxlength="32" class="input-medium"/>
 			</li>
 			<li><label>生成时间：</label>
 				<input name="beginBatchGenDatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
@@ -58,7 +58,7 @@
 		<c:forEach items="${page.list}" var="poolBatch">
 			<tr>
 				<td><a href="${ctx}/order/batch/poolBatch/form?id=${poolBatch.id}">
-					${poolBatch.poolBatch}
+					${poolBatch.batchNum}
 				</a></td>
 				<td>
 					<fmt:formatDate value="${poolBatch.batchGenDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>

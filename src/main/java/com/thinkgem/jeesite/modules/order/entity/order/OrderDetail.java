@@ -10,7 +10,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 订单管理Entity
  * @author 罗天文
- * @version 2019-08-18
+ * @version 2019-08-23
  */
 public class OrderDetail extends DataEntity<OrderDetail> {
 	

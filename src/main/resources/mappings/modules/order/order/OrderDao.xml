@@ -53,15 +53,20 @@
 		a.sign_name AS "signName",
 		a.sign_date AS "signDate",
 		a.recall_status AS "recallStatus",
-		a30.name AS "province.name",
-		a31.name AS "city.name",
-		a32.name AS "county.name"
+		a.remark AS "remark",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.address_province AS "province.name",
+		a.address_city AS "city.name",
+		a.address_county AS "county.name"
 	</sql>
 	
 	<sql id="orderJoins">
-		LEFT JOIN sys_area a30 ON a30.id = a.address_province
-		LEFT JOIN sys_area a31 ON a31.id = a.address_city
-		LEFT JOIN sys_area a32 ON a32.id = a.address_county
+
 	</sql>
     
 	<select id="get" resultType="Order">
@@ -78,7 +83,7 @@
 		FROM pool_task a
 		<include refid="orderJoins"/>
 		<where>
-			
+			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="poolTaskNo != null and poolTaskNo != ''">
 				AND a.pool_task_no = #{poolTaskNo}
 			</if>
@@ -127,12 +132,16 @@
 			<if test="beginSignDate != null and endSignDate != null and beginSignDate != '' and endSignDate != ''">
 				AND a.sign_date BETWEEN #{beginSignDate} AND #{endSignDate}
 			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
+				ORDER BY a.update_date DESC
 			</otherwise>
 		</choose>
 	</select>
@@ -143,13 +152,14 @@
 		FROM pool_task a
 		<include refid="orderJoins"/>
 		<where>
-			
+			a.del_flag = #{DEL_FLAG_NORMAL}
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
+				ORDER BY a.update_date DESC
 			</otherwise>
 		</choose>
 	</select>
@@ -203,7 +213,14 @@
 			sign_result,
 			sign_name,
 			sign_date,
-			recall_status
+			recall_status,
+			remark,
+			create_date,
+			create_by,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
 		) VALUES (
 			#{id},
 			#{poolTaskNo},
@@ -234,9 +251,9 @@
 			#{fax},
 			#{idCardName},
 			#{idCard},
-			#{province.id},
-			#{city.id},
-			#{county.id},
+			#{province.name},
+			#{city.name},
+			#{county.name},
 			#{addressDetail},
 			#{postcode},
 			#{preSendAddress},
@@ -252,7 +269,14 @@
 			#{signResult},
 			#{signName},
 			#{signDate},
-			#{recallStatus}
+			#{recallStatus},
+			#{remark},
+			#{createDate},
+			#{createBy.id},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
 		)
 	</insert>
 	
@@ -286,9 +310,9 @@
 			fax = #{fax},
 			id_card_name = #{idCardName},
 			id_card = #{idCard},
-			address_province = #{province.id},
-			address_city = #{city.id},
-			address_county = #{county.id},
+			address_province = #{province.name},
+			address_city = #{city.name},
+			address_county = #{county.name},
 			address_detail = #{addressDetail},
 			postcode = #{postcode},
 			consignee_name = #{consigneeName},
@@ -306,12 +330,17 @@
 			sign_result = #{signResult},
 			sign_name = #{signName},
 			sign_date = #{signDate},
-			recall_status = #{recallStatus}
+			recall_status = #{recallStatus},
+			remark = #{remark},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
-		DELETE FROM pool_task
+		UPDATE pool_task SET 
+			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
 	

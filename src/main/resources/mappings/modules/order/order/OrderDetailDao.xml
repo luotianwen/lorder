@@ -37,6 +37,12 @@
 		a.profit_store_ratesv AS "profitStoreRatesv",
 		a.profit_supplier_amount AS "profitSupplierAmount",
 		a.profit_supplier_rates AS "profitSupplierRates",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
 		b.task_no AS "poolTask.taskNo"
 	</sql>
 	
@@ -58,7 +64,7 @@
 		FROM pool_task_line a
 		<include refid="orderDetailJoins"/>
 		<where>
-			
+			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="poolTask != null and poolTask.id != null and poolTask.id != ''">
 				AND a.pool_task_id = #{poolTask.id}
 			</if>
@@ -74,6 +80,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
+				ORDER BY a.create_date ASC
 			</otherwise>
 		</choose>
 	</select>
@@ -84,13 +91,14 @@
 		FROM pool_task_line a
 		<include refid="orderDetailJoins"/>
 		<where>
-			
+			a.del_flag = #{DEL_FLAG_NORMAL}
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
+				ORDER BY a.create_date ASC
 			</otherwise>
 		</choose>
 	</select>
@@ -130,7 +138,13 @@
 			profit_store_amount,
 			profit_store_ratesv,
 			profit_supplier_amount,
-			profit_supplier_rates
+			profit_supplier_rates,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
 		) VALUES (
 			#{id},
 			#{poolTask.id},
@@ -165,7 +179,13 @@
 			#{profitStoreAmount},
 			#{profitStoreRatesv},
 			#{profitSupplierAmount},
-			#{profitSupplierRates}
+			#{profitSupplierRates},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
 		)
 	</insert>
 	
@@ -203,12 +223,16 @@
 			profit_store_amount = #{profitStoreAmount},
 			profit_store_ratesv = #{profitStoreRatesv},
 			profit_supplier_amount = #{profitSupplierAmount},
-			profit_supplier_rates = #{profitSupplierRates}
+			profit_supplier_rates = #{profitSupplierRates},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
-		DELETE FROM pool_task_line
+		UPDATE pool_task_line SET 
+			del_flag = #{DEL_FLAG_DELETE}
 		<choose>
 			<when test="id !=null and id != ''">
 				WHERE id = #{id}

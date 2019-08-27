@@ -4,7 +4,7 @@
     
 	<sql id="poolBatchColumns">
 		a.id AS "id",
-		a.pool_batch AS "poolBatch",
+		a.batch_num AS "batchNum",
 		a.batch_gen_datetime AS "batchGenDatetime",
 		a.sum_amt AS "sumAmt",
 		a.batch_creator AS "batchCreator",
@@ -29,8 +29,8 @@
 		<include refid="poolBatchJoins"/>
 		<where>
 			
-			<if test="poolBatch != null and poolBatch != ''">
-				AND a.pool_batch = #{poolBatch}
+			<if test="batchNum != null and batchNum != ''">
+				AND a.batch_num = #{batchNum}
 			</if>
 			<if test="beginBatchGenDatetime != null and endBatchGenDatetime != null and beginBatchGenDatetime != '' and endBatchGenDatetime != ''">
 				AND a.batch_gen_datetime BETWEEN #{beginBatchGenDatetime} AND #{endBatchGenDatetime}
@@ -68,14 +68,14 @@
 	<insert id="insert">
 		INSERT INTO pool_batch(
 			id,
-			pool_batch,
+			batch_num,
 			batch_gen_datetime,
 			sum_amt,
 			batch_creator,
 			erp_no
 		) VALUES (
 			#{id},
-			#{poolBatch},
+			#{batchNum},
 			#{batchGenDatetime},
 			#{sumAmt},
 			#{batchCreator},
@@ -85,7 +85,7 @@
 	
 	<update id="update">
 		UPDATE pool_batch SET 	
-			pool_batch = #{poolBatch},
+			batch_num = #{batchNum},
 			batch_gen_datetime = #{batchGenDatetime},
 			sum_amt = #{sumAmt},
 			batch_creator = #{batchCreator},

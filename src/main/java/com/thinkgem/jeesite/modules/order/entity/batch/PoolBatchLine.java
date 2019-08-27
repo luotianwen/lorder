@@ -11,7 +11,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 订单集成Entity
  * @author 罗天文
- * @version 2019-08-18
+ * @version 2019-08-27
  */
 public class PoolBatchLine extends DataEntity<PoolBatchLine> {
 	
