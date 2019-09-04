@@ -6,6 +6,9 @@ package com.thinkgem.jeesite.modules.order.web.order;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.modules.order.entity.express.PoolExpress;
+import com.thinkgem.jeesite.modules.order.entity.express.PrintData;
+import com.thinkgem.jeesite.modules.order.service.express.PoolExpressService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,8 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.order.entity.order.Order;
 import com.thinkgem.jeesite.modules.order.service.order.OrderService;
 
+import java.io.IOException;
+
 /**
  * 订单管理Controller
  * @author 罗天文
@@ -33,7 +38,9 @@ public class OrderController extends BaseController {
 
 	@Autowired
 	private OrderService orderService;
-	
+
+	@Autowired
+	private PoolExpressService poolExpressService;
 	@ModelAttribute
 	public Order get(@RequestParam(required=false) String id) {
 		Order entity = null;
@@ -60,6 +67,22 @@ public class OrderController extends BaseController {
 		model.addAttribute("order", order);
 		return "modules/order/order/orderForm";
 	}
+	@RequiresPermissions("order:order:order:view")
+	@RequestMapping(value = "express")
+	public String express(Order order, Model model) {
+		model.addAttribute("expresss",poolExpressService.findList(new PoolExpress()));
+		model.addAttribute("order", order);
+		return "modules/order/order/orderExpress";
+	}
+	@RequiresPermissions("order:order:order:view")
+	@RequestMapping(value = "print")
+	public String print(Order order, Model model,HttpServletRequest request) throws Exception {
+//String ip=getIpAddress(request);
+String ip="219.237.112.11";
+		PrintData pd=poolExpressService.print(order,ip);
+        model.addAttribute("printData",pd);
+		return "modules/order/order/orderPrint";
+	}
 
 	@RequiresPermissions("order:order:order:edit")
 	@RequestMapping(value = "save")
@@ -71,7 +94,17 @@ public class OrderController extends BaseController {
 		addMessage(redirectAttributes, "保存订单管理成功");
 		return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
 	}
-	
+	@RequiresPermissions("order:order:order:edit")
+	@RequestMapping(value = "saveExpress")
+	public String saveExpress(Order order, Model model, RedirectAttributes redirectAttributes) throws Exception {
+		if (!beanValidator(model, order)){
+			return form(order, model);
+		}
+		orderService.saveExpress(order);
+		addMessage(redirectAttributes, "订单发货成功");
+		return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
+	}
+
 	@RequiresPermissions("order:order:order:edit")
 	@RequestMapping(value = "delete")
 	public String delete(Order order, RedirectAttributes redirectAttributes) {

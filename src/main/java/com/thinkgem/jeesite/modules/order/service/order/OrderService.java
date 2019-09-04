@@ -3,8 +3,12 @@
  */
 package com.thinkgem.jeesite.modules.order.service.order;
 
+import java.util.Date;
 import java.util.List;
 
+import com.thinkgem.jeesite.modules.order.entity.express.OrderReturn;
+import com.thinkgem.jeesite.modules.order.entity.express.PoolExpress;
+import com.thinkgem.jeesite.modules.order.service.express.PoolExpressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,5 +74,15 @@ public class OrderService extends CrudService<OrderDao, Order> {
 		super.delete(order);
 		orderDetailDao.delete(new OrderDetail(order));
 	}
-	
+	@Autowired
+	private PoolExpressService poolExpressService;
+	@Transactional(readOnly = false)
+    public void saveExpress(Order order) throws Exception {
+		OrderReturn or=poolExpressService.express(order);
+		PoolExpress pe=poolExpressService.get(order.getCarriers());
+		order.setCarriers(pe.getName()+" "+or.getOrder().getLogisticCode());
+		order.setSendWay("2");
+		order.setSendStoreDatetime(new Date());
+		dao.saveExpress(order);
+    }
 }

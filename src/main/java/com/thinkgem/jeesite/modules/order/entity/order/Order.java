@@ -89,7 +89,6 @@ public class Order extends DataEntity<Order> {
 		super(id);
 	}
 
-	@Length(min=1, max=10, message="集成单号长度必须介于 1 和 10 之间")
 	public String getPoolTaskNo() {
 		return poolTaskNo;
 	}
@@ -98,7 +97,6 @@ public class Order extends DataEntity<Order> {
 		this.poolTaskNo = poolTaskNo;
 	}
 	
-	@Length(min=1, max=10, message="平台单号长度必须介于 1 和 10 之间")
 	public String getTaskNo() {
 		return taskNo;
 	}
@@ -107,7 +105,6 @@ public class Order extends DataEntity<Order> {
 		this.taskNo = taskNo;
 	}
 	
-	@Length(min=0, max=40, message="供应商单号长度必须介于 0 和 40 之间")
 	public String getSupplierTaskNo() {
 		return supplierTaskNo;
 	}
@@ -117,7 +114,6 @@ public class Order extends DataEntity<Order> {
 	}
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@NotNull(message="订单时间不能为空")
 	public Date getTaskGenDatetime() {
 		return taskGenDatetime;
 	}
@@ -126,7 +122,6 @@ public class Order extends DataEntity<Order> {
 		this.taskGenDatetime = taskGenDatetime;
 	}
 	
-	@Length(min=1, max=11, message="付款渠道长度必须介于 1 和 11 之间")
 	public String getPayWay() {
 		return payWay;
 	}
@@ -135,7 +130,6 @@ public class Order extends DataEntity<Order> {
 		this.payWay = payWay;
 	}
 	
-	@Length(min=1, max=11, message="订单状态长度必须介于 1 和 11 之间")
 	public String getTaskStatus() {
 		return taskStatus;
 	}
@@ -145,7 +139,6 @@ public class Order extends DataEntity<Order> {
 	}
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@NotNull(message="更新时间不能为空")
 	public Date getStatusChangeDatetime() {
 		return statusChangeDatetime;
 	}
@@ -154,7 +147,6 @@ public class Order extends DataEntity<Order> {
 		this.statusChangeDatetime = statusChangeDatetime;
 	}
 	
-	@NotNull(message="订单金额不能为空")
 	public Double getTaskAmount() {
 		return taskAmount;
 	}
@@ -163,7 +155,6 @@ public class Order extends DataEntity<Order> {
 		this.taskAmount = taskAmount;
 	}
 	
-	@Length(min=1, max=16, message="发货组织长度必须介于 1 和 16 之间")
 	public String getSaleGroup() {
 		return saleGroup;
 	}
@@ -172,7 +163,6 @@ public class Order extends DataEntity<Order> {
 		this.saleGroup = saleGroup;
 	}
 	
-	@Length(min=1, max=16, message="订单类型长度必须介于 1 和 16 之间")
 	public String getTaskType() {
 		return taskType;
 	}
@@ -181,7 +171,6 @@ public class Order extends DataEntity<Order> {
 		this.taskType = taskType;
 	}
 	
-	@Length(min=0, max=100, message="档期编码长度必须介于 0 和 100 之间")
 	public String getDmNo() {
 		return dmNo;
 	}
@@ -190,7 +179,6 @@ public class Order extends DataEntity<Order> {
 		this.dmNo = dmNo;
 	}
 	
-	@Length(min=0, max=100, message="档期名称长度必须介于 0 和 100 之间")
 	public String getDmName() {
 		return dmName;
 	}
@@ -207,7 +195,6 @@ public class Order extends DataEntity<Order> {
 		this.source = source;
 	}
 	
-	@Length(min=0, max=40, message="SAP单号长度必须介于 0 和 40 之间")
 	public String getEbTaskNo() {
 		return ebTaskNo;
 	}
@@ -216,7 +203,6 @@ public class Order extends DataEntity<Order> {
 		this.ebTaskNo = ebTaskNo;
 	}
 	
-	@Length(min=0, max=40, message="SAP交货单号长度必须介于 0 和 40 之间")
 	public String getErpNo() {
 		return erpNo;
 	}
@@ -225,7 +211,6 @@ public class Order extends DataEntity<Order> {
 		this.erpNo = erpNo;
 	}
 	
-	@Length(min=0, max=512, message="紧急程度长度必须介于 0 和 512 之间")
 	public String getEmergentId() {
 		return emergentId;
 	}
@@ -234,7 +219,6 @@ public class Order extends DataEntity<Order> {
 		this.emergentId = emergentId;
 	}
 	
-	@Length(min=0, max=512, message="失败原因长度必须介于 0 和 512 之间")
 	public String getFailreason() {
 		return failreason;
 	}
@@ -243,7 +227,6 @@ public class Order extends DataEntity<Order> {
 		this.failreason = failreason;
 	}
 	
-	@Length(min=0, max=40, message="订单创建人长度必须介于 0 和 40 之间")
 	public String getTaskCreator() {
 		return taskCreator;
 	}
@@ -252,7 +235,6 @@ public class Order extends DataEntity<Order> {
 		this.taskCreator = taskCreator;
 	}
 	
-	@Length(min=1, max=40, message="客户编号长度必须介于 1 和 40 之间")
 	public String getCustomerNo() {
 		return customerNo;
 	}
@@ -261,7 +243,6 @@ public class Order extends DataEntity<Order> {
 		this.customerNo = customerNo;
 	}
 	
-	@Length(min=1, max=512, message="客户名称长度必须介于 1 和 512 之间")
 	public String getCustomerName() {
 		return customerName;
 	}
@@ -270,7 +251,6 @@ public class Order extends DataEntity<Order> {
 		this.customerName = customerName;
 	}
 	
-	@Length(min=0, max=2, message="客户性别长度必须介于 0 和 2 之间")
 	public String getSex() {
 		return sex;
 	}
@@ -279,7 +259,6 @@ public class Order extends DataEntity<Order> {
 		this.sex = sex;
 	}
 	
-	@Length(min=0, max=40, message="家庭电话长度必须介于 0 和 40 之间")
 	public String getHomePhone() {
 		return homePhone;
 	}
@@ -288,7 +267,6 @@ public class Order extends DataEntity<Order> {
 		this.homePhone = homePhone;
 	}
 	
-	@Length(min=0, max=40, message="单位电话长度必须介于 0 和 40 之间")
 	public String getCompanyPhone() {
 		return companyPhone;
 	}
@@ -297,7 +275,6 @@ public class Order extends DataEntity<Order> {
 		this.companyPhone = companyPhone;
 	}
 	
-	@Length(min=0, max=40, message="客户手机长度必须介于 0 和 40 之间")
 	public String getHandPhone() {
 		return handPhone;
 	}
@@ -306,7 +283,6 @@ public class Order extends DataEntity<Order> {
 		this.handPhone = handPhone;
 	}
 	
-	@Length(min=0, max=40, message="电子邮件长度必须介于 0 和 40 之间")
 	public String getEmail() {
 		return email;
 	}
@@ -315,7 +291,6 @@ public class Order extends DataEntity<Order> {
 		this.email = email;
 	}
 	
-	@Length(min=0, max=40, message="会员编号长度必须介于 0 和 40 之间")
 	public String getFax() {
 		return fax;
 	}
@@ -324,7 +299,6 @@ public class Order extends DataEntity<Order> {
 		this.fax = fax;
 	}
 	
-	@Length(min=0, max=20, message="证件名称长度必须介于 0 和 20 之间")
 	public String getIdCardName() {
 		return idCardName;
 	}
@@ -333,7 +307,6 @@ public class Order extends DataEntity<Order> {
 		this.idCardName = idCardName;
 	}
 	
-	@Length(min=0, max=20, message="证件号码长度必须介于 0 和 20 之间")
 	public String getIdCard() {
 		return idCard;
 	}
@@ -378,7 +351,6 @@ public class Order extends DataEntity<Order> {
 		this.addressDetail = addressDetail;
 	}
 	
-	@Length(min=0, max=10, message="邮政编码长度必须介于 0 和 10 之间")
 	public String getPostcode() {
 		return postcode;
 	}
@@ -414,7 +386,6 @@ public class Order extends DataEntity<Order> {
 		this.preSendAddress = preSendAddress;
 	}
 	
-	@Length(min=0, max=2, message="送货方式长度必须介于 0 和 2 之间")
 	public String getSendWay() {
 		return sendWay;
 	}
@@ -423,7 +394,6 @@ public class Order extends DataEntity<Order> {
 		this.sendWay = sendWay;
 	}
 	
-	@Length(min=0, max=50, message="承运商长度必须介于 0 和 50 之间")
 	public String getCarriers() {
 		return carriers;
 	}
@@ -432,7 +402,6 @@ public class Order extends DataEntity<Order> {
 		this.carriers = carriers;
 	}
 	
-	@Length(min=0, max=512, message="发票抬头长度必须介于 0 和 512 之间")
 	public String getInvoiceTitle() {
 		return invoiceTitle;
 	}
@@ -441,7 +410,6 @@ public class Order extends DataEntity<Order> {
 		this.invoiceTitle = invoiceTitle;
 	}
 	
-	@Length(min=0, max=100, message="发票号长度必须介于 0 和 100 之间")
 	public String getInvoiceNo() {
 		return invoiceNo;
 	}
@@ -450,7 +418,6 @@ public class Order extends DataEntity<Order> {
 		this.invoiceNo = invoiceNo;
 	}
 	
-	@Length(min=0, max=16, message="发票类型长度必须介于 0 和 16 之间")
 	public String getInvoiceType() {
 		return invoiceType;
 	}
@@ -467,7 +434,6 @@ public class Order extends DataEntity<Order> {
 		this.invoiceSendId = invoiceSendId;
 	}
 	
-	@Length(min=0, max=512, message="发票发送地址长度必须介于 0 和 512 之间")
 	public String getInvoiceSendAddress() {
 		return invoiceSendAddress;
 	}
@@ -485,7 +451,6 @@ public class Order extends DataEntity<Order> {
 		this.sendStoreDatetime = sendStoreDatetime;
 	}
 	
-	@Length(min=0, max=200, message="签收标准长度必须介于 0 和 200 之间")
 	public String getSignStandard() {
 		return signStandard;
 	}
@@ -494,7 +459,6 @@ public class Order extends DataEntity<Order> {
 		this.signStandard = signStandard;
 	}
 	
-	@Length(min=0, max=1, message="是否签收长度必须介于 0 和 1 之间")
 	public String getSignResult() {
 		return signResult;
 	}
@@ -503,7 +467,6 @@ public class Order extends DataEntity<Order> {
 		this.signResult = signResult;
 	}
 	
-	@Length(min=0, max=200, message="签收人长度必须介于 0 和 200 之间")
 	public String getSignName() {
 		return signName;
 	}
@@ -521,7 +484,6 @@ public class Order extends DataEntity<Order> {
 		this.signDate = signDate;
 	}
 	
-	@Length(min=0, max=1, message="签收状态长度必须介于 0 和 1 之间")
 	public String getRecallStatus() {
 		return recallStatus;
 	}
@@ -530,7 +492,6 @@ public class Order extends DataEntity<Order> {
 		this.recallStatus = recallStatus;
 	}
 	
-	@Length(min=0, max=200, message="备注长度必须介于 0 和 200 之间")
 	public String getRemark() {
 		return remark;
 	}

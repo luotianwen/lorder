@@ -141,7 +141,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.update_date DESC
+				ORDER BY a.create_date DESC
 			</otherwise>
 		</choose>
 	</select>
@@ -279,7 +279,14 @@
 			#{delFlag}
 		)
 	</insert>
-	
+
+	<update id="saveExpress">
+			UPDATE pool_task SET
+			carriers = #{carriers},
+			 send_way = #{sendWay},
+			send_store_datetime = #{sendStoreDatetime}
+			where id=#{id}
+	</update>
 	<update id="update">
 		UPDATE pool_task SET 	
 			pool_task_no = #{poolTaskNo},

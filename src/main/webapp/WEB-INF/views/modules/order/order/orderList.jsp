@@ -204,6 +204,12 @@
 				</td>
 				<shiro:hasPermission name="order:order:order:edit"><td>
     				<a href="${ctx}/order/order/order/form?id=${order.id}">修改</a>
+					<c:if test="${empty  order.carriers}">
+					<a href="${ctx}/order/order/order/express?id=${order.id}">发货</a>
+					</c:if>
+					<c:if test="${not empty  order.carriers   }">
+						<a href="${ctx}/order/order/order/print?id=${order.id}" target="_blank">打印面单</a>
+					</c:if>
 					<a href="${ctx}/order/order/order/delete?id=${order.id}" onclick="return confirmx('确认要删除该订单管理吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
