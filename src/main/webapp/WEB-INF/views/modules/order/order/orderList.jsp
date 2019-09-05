@@ -118,23 +118,21 @@
 			<tr>
 				<th>集成单号</th>
 				<th>平台单号</th>
-				<th>供应商单号</th>
 				<th>订单时间</th>
 				<th>订单状态</th>
 				<th>订单金额</th>
-				<th>发货组织</th>
+				<%--<th>发货组织</th>--%>
 				<th>订单类型</th>
 				<th>订单来源</th>
 				<th>SAP单号</th>
 				<th>订单创建人</th>
-				<th>客户编号</th>
+				<%--<th>客户编号</th>
 				<th>客户名称</th>
-				<th>客户手机</th>
+				<th>客户手机</th>--%>
 				<th>收货人名称</th>
 				<th>收货人电话</th>
 				<th>发货日期</th>
-				<th>是否签收</th>
-				<th>签收时间</th>
+				<th>快递信息</th>
 				<th>创建时间</th>
 				<shiro:hasPermission name="order:order:order:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -148,9 +146,9 @@
 				<td>
 					${order.taskNo}
 				</td>
-				<td>
+				<%--<td>
 					${order.supplierTaskNo}
-				</td>
+				</td>--%>
 				<td>
 					<fmt:formatDate value="${order.taskGenDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
@@ -160,9 +158,9 @@
 				<td>
 					${order.taskAmount}
 				</td>
-				<td>
+				<%--<td>
 					${order.saleGroup}
-				</td>
+				</td>--%>
 				<td>
 					${fns:getDictLabel(order.taskType, 'P_TASK_TYPE', '')}
 				</td>
@@ -175,7 +173,7 @@
 				<td>
 					${order.taskCreator}
 				</td>
-				<td>
+				<%--<td>
 					${order.customerNo}
 				</td>
 				<td>
@@ -183,7 +181,7 @@
 				</td>
 				<td>
 					${order.handPhone}
-				</td>
+				</td>--%>
 				<td>
 					${order.consigneeName}
 				</td>
@@ -194,11 +192,14 @@
 					<fmt:formatDate value="${order.sendStoreDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
+						${order.carriers}
+				</td>
+			<%--	<td>
 					${fns:getDictLabel(order.signResult, 'yes_no', '')}
 				</td>
 				<td>
 					<fmt:formatDate value="${order.signDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-				</td>
+				</td>--%>
 				<td>
 					<fmt:formatDate value="${order.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>

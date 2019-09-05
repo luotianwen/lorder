@@ -201,7 +201,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		String MonthCode=pe.getMonthcode();
 		String SendSite=pe.getSendsite();
 		String TemplateSize=pe.getTemplatesize();
-		String code=order.getTaskNo();
+		String code=order.getTaskNo().replace("LD","");
 
 
 		String details="";
@@ -293,7 +293,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 	}
 	public PrintData print(Order order,String ip) throws Exception {
 		PrintData pd=new PrintData();
-		String data = "[{\"OrderCode\":"+order.getTaskNo()+",\"PortName\":\"电子面单打印机\"}]";
+		String data = "[{\"OrderCode\":"+order.getTaskNo().replace("LD","")+",\"PortName\":\"电子面单打印机\"}]";
 		String EBusinessID= Global.getConfig("express.EBusinessID");
 		String AppKey= Global.getConfig("express.AppKey");
 		pd.setEbusinessID(EBusinessID);

@@ -78,7 +78,7 @@ public class OrderController extends BaseController {
 	@RequestMapping(value = "print")
 	public String print(Order order, Model model,HttpServletRequest request) throws Exception {
 //String ip=getIpAddress(request);
-String ip="219.237.112.11";
+String ip="219.237.112.6";
 		PrintData pd=poolExpressService.print(order,ip);
         model.addAttribute("printData",pd);
 		return "modules/order/order/orderPrint";

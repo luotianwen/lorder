@@ -8,7 +8,7 @@
     <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script type="text/javascript">
         $(function(){
-               // form1.submit()
+                form1.submit()
         });
     </script>
 </head>
@@ -17,11 +17,11 @@
 <div id="head"></div>
 <form id="form1" action="http://www.kdniao.com/External/PrintOrder.aspx" method="post" target="_self">
     <div style="">
-        <div><input type="text" id="RequestData" name="RequestData" value="${printData.requestData}"/></div>
-        <div><input type="text" id="EBusinessID" name="EBusinessID" value="${printData.ebusinessID}"/></div>
-        <div><input type="text" id="DataSign" name="DataSign" value="${printData.dataSign}"/></div>
-        <div><input type="text" id="IsPreview" name="IsPreview" value="${printData.isPreview}"/></div>
-        <button type="submit"></button>
+        <div><input type="hidden" id="RequestData" name="RequestData" value="${printData.requestData}"/></div>
+        <div><input type="hidden" id="EBusinessID" name="EBusinessID" value="${printData.ebusinessID}"/></div>
+        <div><input type="hidden" id="DataSign" name="DataSign" value="${printData.dataSign}"/></div>
+        <div><input type="hidden" id="IsPreview" name="IsPreview" value="${printData.isPreview}"/></div>
+        <%--<button type="submit"></button>--%>
     </div>
 </form>
 </body>
