@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.thinkgem.jeesite.modules.order.entity.express.PoolExpress;
 import com.thinkgem.jeesite.modules.order.entity.express.PrintData;
+import com.thinkgem.jeesite.modules.order.entity.express.SearchData;
 import com.thinkgem.jeesite.modules.order.service.express.PoolExpressService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,7 +84,18 @@ String ip="219.237.112.6";
         model.addAttribute("printData",pd);
 		return "modules/order/order/orderPrint";
 	}
-
+	@RequiresPermissions("order:order:order:view")
+	@RequestMapping(value = "search")
+	public String search(Order order, Model model,HttpServletRequest request) throws Exception {
+		String[] cs=order.getCarriers().split("\\s+");
+		PoolExpress pe=new PoolExpress();
+		pe.setName(cs[0]);
+		PoolExpress sp= poolExpressService.findList(pe).get(0);
+		SearchData pd=poolExpressService.getOrderTracesByJson(sp.getAbbr(),cs[1]);
+		model.addAttribute("searchData",pd);
+		model.addAttribute("carriers",order.getCarriers());
+		return "modules/order/order/orderSearch";
+	}
 	@RequiresPermissions("order:order:order:edit")
 	@RequestMapping(value = "save")
 	public String save(Order order, Model model, RedirectAttributes redirectAttributes) {
@@ -94,6 +106,7 @@ String ip="219.237.112.6";
 		addMessage(redirectAttributes, "保存订单管理成功");
 		return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
 	}
+
 	@RequiresPermissions("order:order:order:edit")
 	@RequestMapping(value = "saveExpress")
 	public String saveExpress(Order order, Model model, RedirectAttributes redirectAttributes) throws Exception {

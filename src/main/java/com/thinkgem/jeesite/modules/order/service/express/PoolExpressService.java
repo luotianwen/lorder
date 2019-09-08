@@ -20,6 +20,7 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.modules.order.entity.express.OrderReturn;
 import com.thinkgem.jeesite.modules.order.entity.express.PrintData;
+import com.thinkgem.jeesite.modules.order.entity.express.SearchData;
 import com.thinkgem.jeesite.modules.order.entity.order.Order;
 import com.thinkgem.jeesite.modules.order.entity.order.OrderDetail;
 import com.thinkgem.jeesite.modules.order.service.order.OrderService;
@@ -298,5 +299,24 @@ String payType=pe.getPaytype();
 				+ IsPreview + "\"}";*/
 
 		return pd;
+	}
+	public SearchData getOrderTracesByJson(String expCode, String expNo) throws Exception{
+		String EBusinessID= Global.getConfig("express.EBusinessID");
+		String AppKey= Global.getConfig("express.AppKey");
+		String requestData= "{'OrderCode':'','ShipperCode':'" + expCode + "','LogisticCode':'" + expNo + "'}";
+
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("RequestData", urlEncoder(requestData, "UTF-8"));
+		params.put("EBusinessID", EBusinessID);
+		params.put("RequestType", "1002");
+		String dataSign=encrypt(requestData, AppKey, "UTF-8");
+		params.put("DataSign", urlEncoder(dataSign, "UTF-8"));
+		params.put("DataType", "2");
+		String ReqURL= Global.getConfig("express.ReqSearchURL");
+		String result=sendPost(ReqURL, params);
+
+		//根据公司业务处理返回的信息......
+		SearchData orderReturn= JSON.parseObject(result, SearchData.class);
+		return orderReturn;
 	}
 }

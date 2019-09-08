@@ -191,8 +191,12 @@
 				<td>
 					<fmt:formatDate value="${order.sendStoreDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
-				<td>
+				<td>	<c:if test="${not empty  order.carriers   }">
+				        <a target="_blank" href="${ctx}/order/order/order/search?id=${order.id}">${order.carriers}</a>
+				      </c:if>
+					<c:if test="${empty  order.carriers}">
 						${order.carriers}
+					</c:if>
 				</td>
 			<%--	<td>
 					${fns:getDictLabel(order.signResult, 'yes_no', '')}
