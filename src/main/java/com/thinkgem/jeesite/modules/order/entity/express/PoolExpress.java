@@ -10,7 +10,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 快递配置Entity
  * @author 罗天文
- * @version 2019-09-04
+ * @version 2019-09-08
  */
 public class PoolExpress extends DataEntity<PoolExpress> {
 	
@@ -22,6 +22,7 @@ public class PoolExpress extends DataEntity<PoolExpress> {
 	private String monthcode;		// 月结账号
 	private String sendsite;		// 公司
 	private String templatesize;		// 模板
+	private String paytype;		// 支付模式
 	
 	public PoolExpress() {
 		super();
@@ -92,6 +93,15 @@ public class PoolExpress extends DataEntity<PoolExpress> {
 
 	public void setTemplatesize(String templatesize) {
 		this.templatesize = templatesize;
+	}
+	
+	@Length(min=0, max=11, message="支付模式长度必须介于 0 和 11 之间")
+	public String getPaytype() {
+		return paytype;
+	}
+
+	public void setPaytype(String paytype) {
+		this.paytype = paytype;
 	}
 	
 }

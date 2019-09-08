@@ -150,7 +150,7 @@
 		<div class="control-group">
 			<label class="control-label">收货地址-省：</label>
 			<div class="controls">
-				<sys:treeselect id="province" name="province.name" value="${order.province.name}" labelName="province.name" labelValue="${order.province.name}"
+				<sys:treeselect id="province" name="province.id" value="${order.province.name}" labelName="province.name" labelValue="${order.province.name}"
 					title="区域" url="/sys/area/treeData" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
@@ -158,7 +158,7 @@
 		<div class="control-group">
 			<label class="control-label">收货地址-市：</label>
 			<div class="controls">
-				<sys:treeselect id="city" name="city.name" value="${order.city.name}" labelName="city.name" labelValue="${order.city.name}"
+				<sys:treeselect id="city" name="city.id" value="${order.city.name}" labelName="city.name" labelValue="${order.city.name}"
 					title="区域" url="/sys/area/treeData" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
@@ -166,7 +166,7 @@
 		<div class="control-group">
 			<label class="control-label">收货地址-区县：</label>
 			<div class="controls">
-				<sys:treeselect id="county" name="county.name" value="${order.county.name}" labelName="county.name" labelValue="${order.county.name}"
+				<sys:treeselect id="county" name="county.id" value="${order.county.name}" labelName="county.name" labelValue="${order.county.name}"
 					title="区域" url="/sys/area/treeData" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>

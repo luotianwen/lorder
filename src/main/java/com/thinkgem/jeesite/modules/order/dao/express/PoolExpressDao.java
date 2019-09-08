@@ -10,7 +10,7 @@ import com.thinkgem.jeesite.modules.order.entity.express.PoolExpress;
 /**
  * 快递配置DAO接口
  * @author 罗天文
- * @version 2019-09-04
+ * @version 2019-09-08
  */
 @MyBatisDao
 public interface PoolExpressDao extends CrudDao<PoolExpress> {

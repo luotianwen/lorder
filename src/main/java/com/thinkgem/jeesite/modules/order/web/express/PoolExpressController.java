@@ -25,7 +25,7 @@ import com.thinkgem.jeesite.modules.order.service.express.PoolExpressService;
 /**
  * 快递配置Controller
  * @author 罗天文
- * @version 2019-09-04
+ * @version 2019-09-08
  */
 @Controller
 @RequestMapping(value = "${adminPath}/order/express/poolExpress")

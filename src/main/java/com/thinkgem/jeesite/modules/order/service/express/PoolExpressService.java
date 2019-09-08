@@ -202,7 +202,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		String SendSite=pe.getSendsite();
 		String TemplateSize=pe.getTemplatesize();
 		String code=order.getTaskNo().replace("LD20","");
-
+String payType=pe.getPaytype();
 
 		String details="";
 
@@ -218,7 +218,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 				"'SendSite':'"+SendSite+"'," +
 				"'MonthCode':'"+MonthCode+"'," +
 
-				"'PayType':1," +
+				"'PayType':"+payType+"," +
 				"'ExpType':1," +
 				"'Cost':1.0," +
 				"'OtherCost':1.0," +
@@ -240,6 +240,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 
 				"'Remark':'小心轻放'," +
 				"'IsReturnPrintTemplate':1}";
+		System.out.println(requestData);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("RequestData", urlEncoder(requestData, "UTF-8"));
 		params.put("EBusinessID", EBusinessID);

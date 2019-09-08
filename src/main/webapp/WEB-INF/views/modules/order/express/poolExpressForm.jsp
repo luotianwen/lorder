@@ -76,6 +76,12 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">支付模式：</label>
+			<div class="controls">
+				<form:input path="paytype" htmlEscape="false" maxlength="11" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">备注信息：</label>
 			<div class="controls">
 				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
