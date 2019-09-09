@@ -8,10 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,11 +19,14 @@ import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.modules.order.entity.express.OrderReturn;
 import com.thinkgem.jeesite.modules.order.entity.express.PrintData;
 import com.thinkgem.jeesite.modules.order.entity.express.SearchData;
+import com.thinkgem.jeesite.modules.order.entity.logistic.Logistic;
 import com.thinkgem.jeesite.modules.order.entity.order.Order;
 import com.thinkgem.jeesite.modules.order.entity.order.OrderDetail;
+import com.thinkgem.jeesite.modules.order.service.logistic.LogisticService;
 import com.thinkgem.jeesite.modules.order.service.order.OrderService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -387,7 +387,19 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 
 		return pd;
 	}
+	@Autowired
+	private LogisticService logisticService;
+	@Transactional(readOnly = false)
 	public SearchData getOrderTracesByJson(String expCode, String expNo) throws Exception{
+		Logistic lg=new Logistic();
+		lg.setLogisticcode(expNo);
+		List<Logistic> lgs=logisticService.findList(lg);
+		if(null!=lgs&&lgs.size()>0){
+			String result=lgs.get(0).getContent();
+			//根据公司业务处理返回的信息......
+			SearchData orderReturn= JSON.parseObject(result, SearchData.class);
+			return orderReturn;
+		}
 		String EBusinessID= Global.getConfig("express.EBusinessID");
 		String AppKey= Global.getConfig("express.AppKey");
 		String requestData= "{'OrderCode':'','ShipperCode':'" + expCode + "','LogisticCode':'" + expNo + "'}";
@@ -401,7 +413,9 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		params.put("DataType", "2");
 		String ReqURL= Global.getConfig("express.ReqSearchURL");
 		String result=sendPost(ReqURL, params);
-
+		lg.setContent(result);
+		lg.setUpdateDate(new Date());
+		logisticService.save(lg);
 		//根据公司业务处理返回的信息......
 		SearchData orderReturn= JSON.parseObject(result, SearchData.class);
 		return orderReturn;

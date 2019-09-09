@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.order.dao.logistic.LogisticDao">
+    
+	<sql id="logisticColumns">
+		a.id AS "id",
+		a.logisticcode AS "logisticcode",
+		a.content AS "content",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="logisticJoins">
+	</sql>
+    
+	<select id="get" resultType="Logistic">
+		SELECT 
+			<include refid="logisticColumns"/>
+		FROM pool_logistic a
+		<include refid="logisticJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Logistic">
+		SELECT 
+			<include refid="logisticColumns"/>
+		FROM pool_logistic a
+		<include refid="logisticJoins"/>
+		<where>
+			
+			<if test="logisticcode != null and logisticcode != ''">
+				AND a.logisticcode LIKE 
+					<if test="dbName == 'oracle'">'%'||#{logisticcode}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{logisticcode}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{logisticcode},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Logistic">
+		SELECT 
+			<include refid="logisticColumns"/>
+		FROM pool_logistic a
+		<include refid="logisticJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO pool_logistic(
+			id,
+			logisticcode,
+			content,
+			update_date
+		) VALUES (
+			#{id},
+			#{logisticcode},
+			#{content},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE pool_logistic SET 	
+			logisticcode = #{logisticcode},
+			content = #{content},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM pool_logistic
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
