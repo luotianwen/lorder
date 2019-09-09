@@ -571,7 +571,7 @@
 								<input id="orderDetailList{{idx}}_profitStoreAmount" name="orderDetailList[{{idx}}].profitStoreAmount" type="text" value="{{row.profitStoreAmount}}" class="input-small "/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_profitStoreRatesv" name="orderDetailList[{{idx}}].profitStoreRatesv" type="text" value="{{row.profitStoreRatesv}}" class="input-small "/>
+								<input id="orderDetailList{{idx}}_profitStoreRates" name="orderDetailList[{{idx}}].profitStoreRates" type="text" value="{{row.profitStoreRates}}" class="input-small "/>
 							</td>
 							<td>
 								<input id="orderDetailList{{idx}}_profitSupplierAmount" name="orderDetailList[{{idx}}].profitSupplierAmount" type="text" value="{{row.profitSupplierAmount}}" class="input-small "/>

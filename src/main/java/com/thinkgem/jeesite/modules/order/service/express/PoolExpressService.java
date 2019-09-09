@@ -16,6 +16,7 @@ import java.util.Random;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import com.thinkgem.jeesite.common.OrderStatic;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.modules.order.entity.express.OrderReturn;
@@ -24,6 +25,8 @@ import com.thinkgem.jeesite.modules.order.entity.express.SearchData;
 import com.thinkgem.jeesite.modules.order.entity.order.Order;
 import com.thinkgem.jeesite.modules.order.entity.order.OrderDetail;
 import com.thinkgem.jeesite.modules.order.service.order.OrderService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +43,7 @@ import com.thinkgem.jeesite.modules.order.dao.express.PoolExpressDao;
 @Service
 @Transactional(readOnly = true)
 public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress> {
-
+	Log log= LogFactory.getLog(PoolExpressService.class);
 	public PoolExpress get(String id) {
 		return super.get(id);
 	}
@@ -203,7 +206,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		String SendSite=pe.getSendsite();
 		String TemplateSize=pe.getTemplatesize();
 		String code=order.getTaskNo().replace("LD20","");
-String payType=pe.getPaytype();
+        String payType=pe.getPaytype();
 
 		String details="";
 
@@ -251,8 +254,13 @@ String payType=pe.getPaytype();
 		params.put("DataType", "2");
 
 		String result=sendPost(ReqURL, params);
+		//订阅物流
+		  orderTracesSubByJson(order);
 		OrderReturn orderReturn=JSON.parseObject(result, OrderReturn.class);
+
 		if(orderReturn.isSuccess()){
+			//通知平台发货
+			sendPtFh(order.getTaskNo(),pe.getRemarks(),orderReturn.getOrder().getLogisticCode());
 			return orderReturn;
 		}
 	   else{
@@ -260,7 +268,86 @@ String payType=pe.getPaytype();
 		}
 
     }
+	/**
+	 *通知平台发货
+	 */
+	private void  sendPtFh(String taskNo,String code,String num){
+		Map map = new HashMap();
+		map.put("OrderID", taskNo);
+		map.put("LogisticsNum", num);
+		map.put("LogisticsCode", code);
+		String json = OrderStatic.lxdpost(OrderStatic.SendGoods, map);
+		log.error(map.toString()+"通知平台发货结果"+json);
+	}
+	/**
+	 * Json方式  物流信息订阅
+	 * @throws Exception
+	 */
+	public void orderTracesSubByJson(Order order) throws Exception{
+		String EBusinessID= Global.getConfig("express.EBusinessID");
+		String AppKey= Global.getConfig("express.AppKey");
+		String ReqURL= Global.getConfig("express.ReqSubscribeURL");
+		PoolExpress pe=get(order.getCarriers());
+		String ShipperCode=pe.getAbbr();
+		String CustomerName=pe.getAccount();
+		String CustomerPwd=pe.getPassword();
+		String MonthCode=pe.getMonthcode();
+		String SendSite=pe.getSendsite();
+		String TemplateSize=pe.getTemplatesize();
+		String code=order.getTaskNo().replace("LD20","");
+		String payType=pe.getPaytype();
 
+
+		String[] cs=order.getCarriers().split("\\s+");
+
+		String details="";
+
+		List<OrderDetail> ods=order.getOrderDetailList();
+		for (OrderDetail od:ods
+		) {
+			details+="{ 'GoodsName':'"+od.getName()+"','Goodsquantity':1,'GoodsWeight':1.0}";
+		}
+		String requestData="{'OrderCode': '"+code+"'," +
+				"'ShipperCode':'"+ShipperCode+"'," +
+				"'CustomerName':'"+CustomerName+"'," +
+				"'CustomerPwd':'"+CustomerPwd+"'," +
+				"'SendSite':'"+SendSite+"'," +
+				"'MonthCode':'"+MonthCode+"'," +
+				"'PayType':"+payType+"," +
+				"'LogisticCode':'"+cs[1]+"'," +
+				"'ExpType':1," +
+				"'IsNotice':0," +
+				"'Cost':1.0," +
+				"'OtherCost':1.0," +
+				"'Sender':" +
+				"{" +
+				"'Company':'LV','Name':'Taylor','Mobile':'15018442396','ProvinceName':'上海','CityName':'上海','ExpAreaName':'青浦区','Address':'明珠路73号'}," +
+				"'Receiver':" +
+				"{" +
+				"'Company':'','Name':'"+order.getConsigneeName()+"','Mobile':'"+order.getConsigneePhone()+"','ProvinceName':'"+order.getProvince().getName()+"'," +
+				"'CityName':'"+order.getCity().getName()+"','ExpAreaName':'"+order.getCounty().getName()+"','Address':'"+order.getAddressDetail()+"'}," +
+				"'Commodity':" +
+				"[" +
+				details +
+				"]," +
+
+				"'Weight':1.0," +
+				"'Quantity':1," +
+				"'Volume':0.0," +
+				"'Remark':'小心轻放'}";
+
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("RequestData", urlEncoder(requestData, "UTF-8"));
+		params.put("EBusinessID", EBusinessID);
+		params.put("RequestType", "1008");
+		String dataSign=encrypt(requestData, AppKey, "UTF-8");
+		params.put("DataSign", urlEncoder(dataSign, "UTF-8"));
+		params.put("DataType", "2");
+
+		String result=sendPost(ReqURL, params);
+
+
+	}
 
 	private   String encrpy(String content, String key) throws UnsupportedEncodingException, Exception {
 		String charset = "UTF-8";

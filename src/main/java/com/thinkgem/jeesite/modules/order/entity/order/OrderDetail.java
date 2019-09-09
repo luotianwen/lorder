@@ -45,7 +45,7 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 	private String profitLsdinfoAmount;		// 莲香岛信息技术分润金额
 	private String profitLsdinfoRates;		// 莲香岛信息技术分润税率
 	private String profitStoreAmount;		// 门店分润金额
-	private String profitStoreRatesv;		// 门店分润税率
+	private String profitStoreRates;		// 门店分润税率
 	private String profitSupplierAmount;		// 供应商分润金额
 	private String profitSupplierRates;		// 供应商分润税率
 	
@@ -318,12 +318,12 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 		this.profitStoreAmount = profitStoreAmount;
 	}
 	
-	public String getProfitStoreRatesv() {
-		return profitStoreRatesv;
+	public String getProfitStoreRates() {
+		return profitStoreRates;
 	}
 
-	public void setProfitStoreRatesv(String profitStoreRatesv) {
-		this.profitStoreRatesv = profitStoreRatesv;
+	public void setProfitStoreRates(String profitStoreRates) {
+		this.profitStoreRates = profitStoreRates;
 	}
 	
 	public String getProfitSupplierAmount() {
