@@ -6,9 +6,11 @@ package com.thinkgem.jeesite.modules.order.web.order;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.modules.order.entity.address.Address;
 import com.thinkgem.jeesite.modules.order.entity.express.PoolExpress;
 import com.thinkgem.jeesite.modules.order.entity.express.PrintData;
 import com.thinkgem.jeesite.modules.order.entity.express.SearchData;
+import com.thinkgem.jeesite.modules.order.service.address.AddressService;
 import com.thinkgem.jeesite.modules.order.service.express.PoolExpressService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,10 +70,13 @@ public class OrderController extends BaseController {
 		model.addAttribute("order", order);
 		return "modules/order/order/orderForm";
 	}
+	@Autowired
+	private AddressService addressService;
 	@RequiresPermissions("order:order:order:view")
 	@RequestMapping(value = "express")
 	public String express(Order order, Model model) {
 		model.addAttribute("expresss",poolExpressService.findList(new PoolExpress()));
+		model.addAttribute("addresss",addressService.findList(new Address()));
 		model.addAttribute("order", order);
 		return "modules/order/order/orderExpress";
 	}
@@ -113,7 +118,13 @@ String ip="219.237.112.6";
 		if (!beanValidator(model, order)){
 			return form(order, model);
 		}
+		Address ad=addressService.get(order.getPreSendAddress());
+		//张三 ，13888888888 ，0518-88888888，江苏省 连云港市 新浦区 朝阳中路77号二楼 ，222000
+		String sendAddress=ad.getName()+"，"+ad.getPhone()+"，"+ ad.getProvice().getName()+"，"+ad.getCity().getName()+"，"+ad.getCounty().getName()+"，"+ad.getAddressDetail();
+		order.setPreSendAddress(sendAddress);
 		orderService.saveExpress(order);
+		//订阅物流
+		poolExpressService.orderTracesSubByJson(order);
 		addMessage(redirectAttributes, "订单发货成功");
 		return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
 	}
@@ -125,5 +136,23 @@ String ip="219.237.112.6";
 		addMessage(redirectAttributes, "删除订单管理成功");
 		return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
 	}
-
+	@RequiresPermissions("order:order:order:view")
+	@RequestMapping(value = "wbexpress")
+	public String wbexpress(Order order, Model model) {
+		model.addAttribute("order", order);
+		return "modules/order/order/orderWBExpress";
+	}
+	@RequiresPermissions("order:order:order:edit")
+	@RequestMapping(value = "saveWBExpress")
+	public String saveWBExpress(Order order, Model model, RedirectAttributes redirectAttributes) throws Exception {
+		if (!beanValidator(model, order)){
+			return form(order, model);
+		}
+		//张三 ，13888888888 ，0518-88888888，江苏省 连云港市 新浦区 朝阳中路77号二楼 ，222000
+		//String sendAddress=ad.getName()+"，"+ad.getPhone()+"，"+ ad.getProvice().getName()+"，"+ad.getCity().getName()+"，"+ad.getCounty().getName()+"，"+ad.getAddressDetail();
+		//order.setPreSendAddress(sendAddress);
+		orderService.saveWBExpress(order);
+		addMessage(redirectAttributes, "订单发货成功");
+		return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
+	}
 }

@@ -191,13 +191,22 @@
 				<form:input path="consigneePhone" htmlEscape="false" maxlength="100" class="input-xlarge "/>
 			</div>
 		</div>
-		<div class="control-group">
+		<%--<div class="control-group">
 			<label class="control-label">发货地址：</label>
 			<div class="controls">
 				<form:input path="preSendAddress" htmlEscape="false" maxlength="512" class="input-xlarge "/>
 			</div>
-		</div>
+		</div>--%>
 		<div class="control-group">
+			<label class="control-label">发货地址：</label>
+			<div class="controls">
+				<form:select path="preSendAddress" class="input-medium ">
+					<form:option value="" label="无"/>
+					<form:options items="${addresss}" itemLabel="name" itemValue="id" htmlEscape="false"/>
+				</form:select>
+			</div>
+		</div>
+		<%--<div class="control-group">
 			<label class="control-label">送货方式：</label>
 			<div class="controls">
 				<form:select path="sendWay" class="input-xlarge ">
@@ -205,7 +214,7 @@
 					<form:options items="${fns:getDictList('P_SEND_WAY')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</div>
-		</div>
+		</div>--%>
 		<div class="control-group">
 			<label class="control-label">承运商：</label>
 			<div class="controls">
@@ -217,12 +226,12 @@
 		</div>
 
 
-		<div class="control-group">
-			<label class="control-label">备注：</label>
-			<div class="controls">
-				<form:input path="remark" htmlEscape="false" maxlength="200" class="input-xlarge "/>
-			</div>
-		</div>
+		<%--<div class="control-group">--%>
+			<%--<label class="control-label">备注：</label>--%>
+			<%--<div class="controls">--%>
+				<%--<form:input path="remark" htmlEscape="false" maxlength="200" class="input-xlarge "/>--%>
+			<%--</div>--%>
+		<%--</div>--%>
 		<div class="control-group">
 			<label class="control-label">备注信息：</label>
 			<div class="controls">

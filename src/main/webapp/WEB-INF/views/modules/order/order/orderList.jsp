@@ -212,6 +212,9 @@
 					<c:if test="${empty  order.carriers}">
 					<a href="${ctx}/order/order/order/express?id=${order.id}">发货</a>
 					</c:if>
+					<c:if test="${empty  order.carriers}">
+						<a href="${ctx}/order/order/order/wbexpress?id=${order.id}">外部发货</a>
+					</c:if>
 					<c:if test="${not empty  order.carriers   }">
 						<a href="${ctx}/order/order/order/print?id=${order.id}" target="_blank">打印面单</a>
 					</c:if>

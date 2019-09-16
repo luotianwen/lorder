@@ -209,6 +209,8 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
         String payType=pe.getPaytype();
 
 		String details="";
+		//张三 ，13888888888 ， 江苏省 连云港市 新浦区 朝阳中路77号二楼
+		String addrsss[]=order.getPreSendAddress().split("，");
 
 		List<OrderDetail> ods=order.getOrderDetailList();
 		for (OrderDetail od:ods
@@ -228,7 +230,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 				"'OtherCost':1.0," +
 				"'Sender':" +
 				"{" +
-				"'Company':'LV','Name':'Taylor','Mobile':'15018442396','ProvinceName':'上海','CityName':'上海','ExpAreaName':'青浦区','Address':'明珠路73号'}," +
+				"'Company':'','Name':'"+addrsss[0]+"','Mobile':'"+addrsss[1]+"','ProvinceName':'"+addrsss[2]+"','CityName':'"+addrsss[3]+"','ExpAreaName':'"+addrsss[4]+"','Address':'"+addrsss[5]+"'}," +
 				"'Receiver':" +
 				"{" +
 				"'Company':'','Name':'"+order.getConsigneeName()+"','Mobile':'"+order.getConsigneePhone()+"','ProvinceName':'"+order.getProvince().getName()+"'," +
@@ -254,8 +256,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		params.put("DataType", "2");
 
 		String result=sendPost(ReqURL, params);
-		//订阅物流
-		  orderTracesSubByJson(order);
+
 		OrderReturn orderReturn=JSON.parseObject(result, OrderReturn.class);
 
 		if(orderReturn.isSuccess()){
@@ -287,7 +288,8 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		String EBusinessID= Global.getConfig("express.EBusinessID");
 		String AppKey= Global.getConfig("express.AppKey");
 		String ReqURL= Global.getConfig("express.ReqSubscribeURL");
-		PoolExpress pe=get(order.getCarriers());
+		String[] cs=order.getCarriers().split("\\s+");
+		PoolExpress pe=get(order.getRemark());
 		String ShipperCode=pe.getAbbr();
 		String CustomerName=pe.getAccount();
 		String CustomerPwd=pe.getPassword();
@@ -298,10 +300,10 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		String payType=pe.getPaytype();
 
 
-		String[] cs=order.getCarriers().split("\\s+");
+
 
 		String details="";
-
+		String addrsss[]=order.getPreSendAddress().split("，");
 		List<OrderDetail> ods=order.getOrderDetailList();
 		for (OrderDetail od:ods
 		) {
@@ -321,7 +323,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 				"'OtherCost':1.0," +
 				"'Sender':" +
 				"{" +
-				"'Company':'LV','Name':'Taylor','Mobile':'15018442396','ProvinceName':'上海','CityName':'上海','ExpAreaName':'青浦区','Address':'明珠路73号'}," +
+				"'Company':'','Name':'"+addrsss[0]+"','Mobile':'"+addrsss[1]+"','ProvinceName':'"+addrsss[2]+"','CityName':'"+addrsss[3]+"','ExpAreaName':'"+addrsss[4]+"','Address':'"+addrsss[5]+"'}," +
 				"'Receiver':" +
 				"{" +
 				"'Company':'','Name':'"+order.getConsigneeName()+"','Mobile':'"+order.getConsigneePhone()+"','ProvinceName':'"+order.getProvince().getName()+"'," +

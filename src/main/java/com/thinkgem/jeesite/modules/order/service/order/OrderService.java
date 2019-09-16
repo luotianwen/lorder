@@ -80,9 +80,16 @@ public class OrderService extends CrudService<OrderDao, Order> {
     public void saveExpress(Order order) throws Exception {
 		OrderReturn or=poolExpressService.express(order);
 		PoolExpress pe=poolExpressService.get(order.getCarriers());
+		order.setRemark(order.getCarriers());
 		order.setCarriers(pe.getName()+" "+or.getOrder().getLogisticCode());
 		order.setSendWay("2");
 		order.setSendStoreDatetime(new Date());
 		dao.saveExpress(order);
     }
+	@Transactional(readOnly = false)
+	public void saveWBExpress(Order order) {
+		order.setSendWay("2");
+		order.setSendStoreDatetime(new Date());
+		dao.saveWBExpress(order);
+	}
 }

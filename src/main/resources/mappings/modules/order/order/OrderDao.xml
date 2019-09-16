@@ -280,10 +280,19 @@
 		)
 	</insert>
 
+	<update id="saveWBExpress">
+		UPDATE pool_task SET
+		carriers = #{carriers},
+		send_way = #{sendWay},
+		pre_send_address = #{preSendAddress},
+		send_store_datetime = #{sendStoreDatetime}
+		where id=#{id}
+	</update>
 	<update id="saveExpress">
 			UPDATE pool_task SET
 			carriers = #{carriers},
 			 send_way = #{sendWay},
+			 pre_send_address = #{preSendAddress},
 			send_store_datetime = #{sendStoreDatetime}
 			where id=#{id}
 	</update>
