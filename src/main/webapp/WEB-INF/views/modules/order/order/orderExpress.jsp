@@ -64,183 +64,140 @@
 	<form:form id="inputForm" modelAttribute="order" action="${ctx}/order/order/order/saveExpress" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
-		<div class="control-group">
-			<label class="control-label">集成单号：</label>
-			<div class="controls">
-				<form:input path="poolTaskNo" htmlEscape="false"  class="input-xlarge "/>
+		<div class="row control-group">
+			<label class="span1 control-label">集成单号：</label>
+			<div class="span2 ">
+				<form:input path="poolTaskNo" htmlEscape="false"  readonly="true" class="input-medium "/>
 				
 			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">平台单号：</label>
-			<div class="controls">
-				<form:input path="taskNo" htmlEscape="false"  class="input-xlarge "/>
+
+			<label class="span1 control-label">平台单号：</label>
+			<div class="span2 ">
+				<form:input path="taskNo" htmlEscape="false"   readonly="true" class="input-medium "/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
-		</div>
 
-		<div class="control-group">
-			<label class="control-label">订单时间：</label>
-			<div class="controls">
+			<label class="span1 control-label">订单时间：</label>
+			<div class="span2 ">
 				<input name="taskGenDatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 					value="<fmt:formatDate value="${order.taskGenDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">付款渠道：</label>
-			<div class="controls">
-				<form:select path="payWay" class="input-xlarge ">
+
+			<label class="span1 control-label">付款渠道：</label>
+			<div class="span2 ">
+				<form:select path="payWay" class="input-medium " disabled="true">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('P_PAY_WAY')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">订单状态：</label>
-			<div class="controls">
-				<form:select path="taskStatus" class="input-xlarge ">
-					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('P_TASK_STATUS')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
+
+
+		<div class="row control-group">
+			<label class="span1 control-label">订单金额：</label>
+			<div class="span2 ">
+				<form:input path="taskAmount" htmlEscape="false"  readonly="true" class="input-medium  number"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
-		</div>
 
-		<div class="control-group">
-			<label class="control-label">订单金额：</label>
-			<div class="controls">
-				<form:input path="taskAmount" htmlEscape="false" class="input-xlarge  number"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">订单类型：</label>
-			<div class="controls">
-				<form:select path="taskType" class="input-xlarge ">
+			<label class="span1 control-label">订单类型：</label>
+			<div class="span2 ">
+				<form:select path="taskType" class="input-medium " disabled="true">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('P_TASK_TYPE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
-		</div>
 
-		<div class="control-group">
-			<label class="control-label">订单来源：</label>
-			<div class="controls">
-				<form:select path="source" class="input-xlarge ">
+			<label class="span1 control-label">订单来源：</label>
+			<div class="span2 ">
+				<form:select path="source" class="input-medium " disabled="true"  >
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('P_SOURCE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</div>
-		</div>
 
-		<div class="control-group">
-			<label class="control-label">订单创建人：</label>
-			<div class="controls">
-				<form:input path="taskCreator" htmlEscape="false" maxlength="40" class="input-xlarge "/>
+			<label class="span1 control-label">订单创建人：</label>
+			<div class="span2 ">
+				<form:input path="taskCreator" htmlEscape="false" maxlength="40" readonly="true" class="input-medium "/>
 			</div>
 		</div>
 
 
 
-		<div class="control-group">
-			<label class="control-label">收货地址-省：</label>
-			<div class="controls">
+		<div class="row control-group">
+			<label class="span1 control-label">收货地址-省：</label>
+			<div class="span2 ">
 				<sys:treeselect id="province" name="province.id" value="${order.province.name}" labelName="province.name" labelValue="${order.province.name}"
-					title="区域" url="/sys/area/treeData" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+					title="区域" url="/sys/area/treeData" cssClass="input-medium" allowClear="true" notAllowSelectParent="true"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">收货地址-市：</label>
-			<div class="controls">
+
+			<label class="span1 control-label">收货地址-市：</label>
+			<div class="span2 ">
 				<sys:treeselect id="city" name="city.id" value="${order.city.name}" labelName="city.name" labelValue="${order.city.name}"
-					title="区域" url="/sys/area/treeData" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+					title="区域" url="/sys/area/treeData" cssClass="input-medium" allowClear="true" notAllowSelectParent="true"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">收货地址-区县：</label>
-			<div class="controls">
+
+			<label class="span1 control-label">收货地址-区县：</label>
+			<div class="span2 ">
 				<sys:treeselect id="county" name="county.id" value="${order.county.name}" labelName="county.name" labelValue="${order.county.name}"
-					title="区域" url="/sys/area/treeData" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+					title="区域" url="/sys/area/treeData" cssClass="input-medium" allowClear="true" notAllowSelectParent="true"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">收货详细地址：</label>
-			<div class="controls">
-				<form:input path="addressDetail" htmlEscape="false" maxlength="512" class="input-xlarge "/>
+
+			<label class="span1 control-label">收货详细地址：</label>
+			<div class="span2 ">
+				<form:input path="addressDetail" htmlEscape="false" maxlength="512" class="input-medium "/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 
-		<div class="control-group">
-			<label class="control-label">收货人名称：</label>
-			<div class="controls">
-				<form:input path="consigneeName" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+		<div class="row control-group">
+			<label class="span1 control-label">收货人名称：</label>
+			<div class="span2 ">
+				<form:input path="consigneeName" htmlEscape="false" maxlength="100" class="input-medium "/>
 			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">收货人电话：</label>
-			<div class="controls">
-				<form:input path="consigneePhone" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+
+			<label class="span1 control-label">收货人电话：</label>
+			<div class="span2 ">
+				<form:input path="consigneePhone" htmlEscape="false" maxlength="100" class="input-medium "/>
 			</div>
-		</div>
-		<%--<div class="control-group">
-			<label class="control-label">发货地址：</label>
-			<div class="controls">
-				<form:input path="preSendAddress" htmlEscape="false" maxlength="512" class="input-xlarge "/>
-			</div>
-		</div>--%>
-		<div class="control-group">
-			<label class="control-label">发货地址：</label>
-			<div class="controls">
-				<form:select path="preSendAddress" class="input-medium ">
+
+			<label class="span1 control-label">发货地址：</label>
+			<div class="span2 ">
+				<form:select path="preSendAddress" class="input-medium required">
 					<form:option value="" label="无"/>
 					<form:options items="${addresss}" itemLabel="name" itemValue="id" htmlEscape="false"/>
 				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
-		</div>
-		<%--<div class="control-group">
-			<label class="control-label">送货方式：</label>
-			<div class="controls">
-				<form:select path="sendWay" class="input-xlarge ">
-					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('P_SEND_WAY')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</div>
-		</div>--%>
-		<div class="control-group">
-			<label class="control-label">承运商：</label>
-			<div class="controls">
-				<form:select path="carriers" class="input-medium ">
+
+			<label class="span1 control-label">承运商：</label>
+			<div class="span2 ">
+				<form:select path="carriers" class="input-medium required">
 					<form:option value="" label="无"/>
 					<form:options items="${expresss}" itemLabel="name" itemValue="id" htmlEscape="false"/>
 				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 
 
-		<%--<div class="control-group">--%>
-			<%--<label class="control-label">备注：</label>--%>
-			<%--<div class="controls">--%>
-				<%--<form:input path="remark" htmlEscape="false" maxlength="200" class="input-xlarge "/>--%>
-			<%--</div>--%>
-		<%--</div>--%>
-		<div class="control-group">
-			<label class="control-label">备注信息：</label>
-			<div class="controls">
+
+		<div class="row control-group">
+			<label class="span1 control-label">备注信息：</label>
+			<div class="span5 ">
 				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
 			</div>
 		</div>
-			<div class="control-group">
-				<label class="control-label">订单行数据表：</label>
-				<div class="controls">
+			<div class="row control-group">
+				<label class="span1 control-label">订单行数据表：</label>
+				<div class="span2 ">
 					<table id="contentTable" class="table table-striped table-bordered table-condensed">
 						<thead>
 							<tr>
@@ -254,7 +211,7 @@
 								<th>ERP物料编码</th>
 								<th>物料名称</th>
 
-								<th>备注信息</th>
+
 								<shiro:hasPermission name="order:order:order:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
 							</tr>
 						</thead>
@@ -295,9 +252,7 @@
 								<input id="orderDetailList{{idx}}_name" name="orderDetailList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="512" class="input-small "/>
 							</td>
 
-							<td>
-								<textarea id="orderDetailList{{idx}}_remarks" name="orderDetailList[{{idx}}].remarks" rows="4" maxlength="255" class="input-small ">{{row.remarks}}</textarea>
-							</td>
+
 							<shiro:hasPermission name="order:order:order:edit"><td class="text-center" width="10">
 								{{#delBtn}}<span class="close" onclick="delRow(this, '#orderDetailList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
 							</td></shiro:hasPermission>
