@@ -369,12 +369,12 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		}
 		return sb.toString().toLowerCase();
 	}
-	public PrintData print(Order order,String ip1) throws Exception {
+	public PrintData print(Order order,String ip) throws Exception {
 		/*String ip=Global.getConfig("express.ip");
 		String name=Global.getConfig("express.name");
 		PrintData pd=new PrintData();
 		String data = "[{\"OrderCode\":"+order.getTaskNo().replace("LD","")+",\"PortName\":\"电子面单打印机\"}]";*/
-		String ip=Global.getConfig("express.ip");
+		//String ip=Global.getConfig("express.ip");
 		String name=Global.getConfig("express.name");
 		PrintData pd=new PrintData();
 		String data = "[{\"OrderCode\":"+order.getTaskNo().replace("LD20","")+",\"PortName\":\""+name+"\"}]";
