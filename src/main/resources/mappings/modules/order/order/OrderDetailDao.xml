@@ -12,6 +12,8 @@
 		a.product_class AS "productClass",
 		a.amount AS "amount",
 		a.product_id AS "productId",
+		a.supplierid AS "supplierid",
+		a.suppliername AS "suppliername",
 		a.name AS "name",
 		a.is_present AS "isPresent",
 		a.present_notes AS "presentNotes",
@@ -144,7 +146,10 @@
 			update_by,
 			update_date,
 			remarks,
-			del_flag
+			del_flag,
+			supplierID,
+			supplierName
+
 		) VALUES (
 			#{id},
 			#{poolTask.id},
@@ -185,7 +190,9 @@
 			#{updateBy.id},
 			#{updateDate},
 			#{remarks},
-			#{delFlag}
+			#{delFlag},
+			#{supplierid},
+			#{suppliername}
 		)
 	</insert>
 	
@@ -226,7 +233,9 @@
 			profit_supplier_rates = #{profitSupplierRates},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			remarks = #{remarks}
+			remarks = #{remarks},
+			supplierID= #{supplierid},
+			supplierName= #{suppliername}
 		WHERE id = #{id}
 	</update>
 	

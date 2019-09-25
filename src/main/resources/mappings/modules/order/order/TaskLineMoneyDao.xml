@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.order.dao.order.TaskLineMoneyDao">
+    
+	<sql id="taskLineMoneyColumns">
+		a.id AS "id",
+		a.line_id AS "lineId",
+		a.usertype AS "usertype",
+		a.typename AS "typename",
+		a.amount AS "amount",
+		a.proportion AS "proportion",
+		a.rate AS "rate",
+		a.shippertype AS "shippertype",
+		a.shipperid AS "shipperid",
+		a.shippername AS "shippername",
+		a.isok AS "isok"
+	</sql>
+	
+	<sql id="taskLineMoneyJoins">
+	</sql>
+    
+	<select id="get" resultType="TaskLineMoney">
+		SELECT 
+			<include refid="taskLineMoneyColumns"/>
+		FROM pool_task_line_money a
+		<include refid="taskLineMoneyJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="TaskLineMoney">
+		SELECT 
+			<include refid="taskLineMoneyColumns"/>
+		FROM pool_task_line_money a
+		<include refid="taskLineMoneyJoins"/>
+		<where>
+			
+			<if test="lineId != null and lineId != ''">
+				AND a.line_id = #{lineId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TaskLineMoney">
+		SELECT 
+			<include refid="taskLineMoneyColumns"/>
+		FROM pool_task_line_money a
+		<include refid="taskLineMoneyJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO pool_task_line_money(
+			id,
+			line_id,
+			usertype,
+			typename,
+			amount,
+			proportion,
+			rate,
+			shippertype,
+			shipperid,
+			shippername,
+			isok
+		) VALUES (
+			#{id},
+			#{lineId},
+			#{usertype},
+			#{typename},
+			#{amount},
+			#{proportion},
+			#{rate},
+			#{shippertype},
+			#{shipperid},
+			#{shippername},
+			#{isok}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE pool_task_line_money SET 	
+			line_id = #{lineId},
+			usertype = #{usertype},
+			typename = #{typename},
+			amount = #{amount},
+			proportion = #{proportion},
+			rate = #{rate},
+			shippertype = #{shippertype},
+			shipperid = #{shipperid},
+			shippername = #{shippername},
+			isok = #{isok}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM pool_task_line_money
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

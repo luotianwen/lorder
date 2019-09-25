@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.order.entity.order;
 
+import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -21,19 +22,25 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class Order extends DataEntity<Order> {
 	
 	private static final long serialVersionUID = 1L;
+	@ExcelField(title="集成单号", align=1, sort=0)
 	private String poolTaskNo;		// 集成单号
+	@ExcelField(title="平台单号", align=1, sort=5)
 	private String taskNo;		// 平台单号
+
 	private String supplierTaskNo;		// 供应商单号
+	@ExcelField(title="订单时间", align=1, sort=10)
 	private Date taskGenDatetime;		// 订单时间
 	private String payWay;		// 付款渠道
 	private String taskStatus;		// 订单状态
 	private Date statusChangeDatetime;		// 更新时间
 	private Double taskAmount;		// 订单金额
+	@ExcelField(title="发货组织", align=1, sort=15,dictType="SALE_GROUP")
 	private String saleGroup;		// 发货组织
 	private String taskType;		// 订单类型
 	private String dmNo;		// 档期编码
 	private String dmName;		// 档期名称
 	private String source;		// 订单来源
+	@ExcelField(title="SAP单号", align=1, sort=20)
 	private String ebTaskNo;		// SAP单号
 	private String erpNo;		// SAP交货单号
 	private String emergentId;		// 紧急程度
@@ -79,6 +86,25 @@ public class Order extends DataEntity<Order> {
 	private Date endSignDate;		// 结束 签收时间
 	private Date beginCreateDate;		// 开始 创建时间
 	private Date endCreateDate;		// 结束 创建时间
+	private String shipperid;//发货id
+	private String shippername;//发货名称
+
+	public String getShipperid() {
+		return shipperid;
+	}
+
+	public void setShipperid(String shipperid) {
+		this.shipperid = shipperid;
+	}
+
+	public String getShippername() {
+		return shippername;
+	}
+
+	public void setShippername(String shippername) {
+		this.shippername = shippername;
+	}
+
 	private List<OrderDetail> orderDetailList = Lists.newArrayList();		// 子表列表
 	
 	public Order() {

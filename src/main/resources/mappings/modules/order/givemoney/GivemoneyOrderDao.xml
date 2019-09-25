@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.order.dao.givemoney.GivemoneyOrderDao">
+    
+	<sql id="givemoneyOrderColumns">
+		a.id AS "id",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.orderid AS "orderid",
+		a.orderdate AS "orderdate",
+		a.amount AS "amount",
+		a.productname AS "productname",
+		a.productnumber AS "productnumber",
+		a.itemcode AS "itemcode",
+		a.money_id AS "money.id",
+		b.account_number AS "money.accountNumber"
+	</sql>
+	
+	<sql id="givemoneyOrderJoins">
+		LEFT JOIN pool_givemoney b ON b.id = a.money_id
+	</sql>
+    
+	<select id="get" resultType="GivemoneyOrder">
+		SELECT 
+			<include refid="givemoneyOrderColumns"/>
+		FROM pool_givemoney_order a
+		<include refid="givemoneyOrderJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="GivemoneyOrder">
+		SELECT 
+			<include refid="givemoneyOrderColumns"/>
+		FROM pool_givemoney_order a
+		<include refid="givemoneyOrderJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="money != null and money.id != null and money.id != ''">
+				AND a.money_id = #{money.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="GivemoneyOrder">
+		SELECT 
+			<include refid="givemoneyOrderColumns"/>
+		FROM pool_givemoney_order a
+		<include refid="givemoneyOrderJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO pool_givemoney_order(
+			id,
+			create_date,
+			create_by,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			orderid,
+			orderdate,
+			amount,
+			productname,
+			productnumber,
+			itemcode,
+			money_id
+		) VALUES (
+			#{id},
+			#{createDate},
+			#{createBy.id},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{orderid},
+			#{orderdate},
+			#{amount},
+			#{productname},
+			#{productnumber},
+			#{itemcode},
+			#{money.id}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE pool_givemoney_order SET 	
+			update_date = #{updateDate},
+			del_flag = #{delFlag},
+			orderid = #{orderid},
+			orderdate = #{orderdate},
+			amount = #{amount},
+			productname = #{productname},
+			productnumber = #{productnumber},
+			itemcode = #{itemcode},
+			money_id = #{money.id}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE pool_givemoney_order SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE money_id = #{money.id}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>

@@ -422,4 +422,27 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		SearchData orderReturn= JSON.parseObject(result, SearchData.class);
 		return orderReturn;
 	}
+
+	public PrintData allprint(List<Order> orders, String ip) throws Exception {
+		String data="[";
+
+		String name=Global.getConfig("express.name");
+		PrintData pd=new PrintData();
+		for (Order order:orders
+				) {
+			data += "{\"OrderCode\":"+order.getTaskNo().replace("LD20","")+",\"PortName\":\""+name+"\"},";
+		}
+		data=data.substring(0,data.length());
+		data+="]";
+		String EBusinessID= Global.getConfig("express.EBusinessID");
+		String AppKey= Global.getConfig("express.AppKey");
+		pd.setEbusinessID(EBusinessID);
+		pd.setRequestData(URLEncoder.encode(data, "UTF-8"));
+		pd.setDataSign(encrpy(ip + data, AppKey));
+		pd.setIsPreview("1");
+		/*String result = "{\"RequestData\": \"" + URLEncoder.encode(data, "UTF-8") + "\", \"EBusinessID\":\"" + EBussinessID + "\", \"DataSign\":\"" + encrpy(ip + data, AppKey) + "\", \"IsPreview\":\""
+				+ IsPreview + "\"}";*/
+
+		return pd;
+	}
 }

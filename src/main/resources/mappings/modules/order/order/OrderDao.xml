@@ -58,6 +58,8 @@
 		a.create_by AS "createBy.id",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
+		a.shipperID AS "shipperid",
+		a.shipperName AS "shippername",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
 		a.address_province AS "province.name",
@@ -114,6 +116,10 @@
 			<if test="customerName != null and customerName != ''">
 				AND a.customer_name = #{customerName}
 			</if>
+			<if test="shipperid != null and shipperid != ''">
+				AND a.shipperID =#{shipperid},
+			</if>
+
 			<if test="handPhone != null and handPhone != ''">
 				AND a.hand_phone = #{handPhone}
 			</if>
@@ -220,7 +226,9 @@
 			update_by,
 			update_date,
 			remarks,
-			del_flag
+			del_flag,
+			shipperID,
+			shipperName
 		) VALUES (
 			#{id},
 			#{poolTaskNo},
@@ -276,7 +284,9 @@
 			#{updateBy.id},
 			#{updateDate},
 			#{remarks},
-			#{delFlag}
+			#{delFlag},
+			#{shipperid},
+			#{shippername}
 		)
 	</insert>
 
@@ -352,7 +362,9 @@
 			remark = #{remark},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			remarks = #{remarks}
+			remarks = #{remarks},
+			shipperID= #{shipperid},
+			shipperName= #{shippername}
 		WHERE id = #{id}
 	</update>
 	

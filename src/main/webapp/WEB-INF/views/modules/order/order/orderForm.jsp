@@ -58,10 +58,9 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/order/order/order/">订单管理列表</a></li>
-		<li class="active"><a href="${ctx}/order/order/order/form?id=${order.id}">订单管理<shiro:hasPermission name="order:order:order:edit">${not empty order.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="order:order:order:edit">查看</shiro:lacksPermission></a></li>
+		<li class="active"> 订单管理查看</li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="order" action="${ctx}/order/order/order/save" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="order"   method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
 
@@ -393,9 +392,7 @@
 					<table id="contentTable" class="table table-striped table-bordered table-condensed">
 						<thead>
 							<tr>
-								<th class="hide"></th>
-								<th>集成单号</th>
-								<th>订单号</th>
+
 								<th>商品名称</th>
 								<th>商品编号</th>
 								<th>产品线/产品分类</th>
@@ -418,74 +415,35 @@
 								<th>积分分摊价格</th>
 								<th>批次号</th>
 								<th>备注</th>
-								<th>莲香岛科技分润金额</th>
-								<th>莲香岛科技分润税率</th>
-								<th>莲香岛信息技术分润金额</th>
-								<th>莲香岛信息技术分润税率</th>
-								<th>门店分润金额</th>
-								<th>门店分润税率</th>
-								<th>供应商分润金额</th>
-								<th>供应商分润税率</th>
 								<th>备注信息</th>
-								<shiro:hasPermission name="order:order:order:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
 							</tr>
 						</thead>
 						<tbody id="orderDetailList">
 						</tbody>
-						<shiro:hasPermission name="order:order:order:edit"><tfoot>
-							<tr><td colspan="35"><a href="javascript:" onclick="addRow('#orderDetailList', orderDetailRowIdx, orderDetailTpl);orderDetailRowIdx = orderDetailRowIdx + 1;" class="btn">新增</a></td></tr>
-						</tfoot></shiro:hasPermission>
+
 					</table>
 					<script type="text/template" id="orderDetailTpl">//<!--
 						<tr id="orderDetailList{{idx}}">
-							<td class="hide">
-								<input id="orderDetailList{{idx}}_id" name="orderDetailList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="orderDetailList{{idx}}_delFlag" name="orderDetailList[{{idx}}].delFlag" type="hidden" value="0"/>
-							</td>
+
 							<td>
-								<input id="orderDetailList{{idx}}_poolTaskNo" name="orderDetailList[{{idx}}].poolTaskNo" type="text" value="{{row.poolTaskNo}}" maxlength="10" class="input-small required"/>
-							</td>
+								{{row.productName}}</td>
 							<td>
-								<input id="orderDetailList{{idx}}_taskNo" name="orderDetailList[{{idx}}].taskNo" type="text" value="{{row.taskNo}}" maxlength="10" class="input-small required"/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_productName" name="orderDetailList[{{idx}}].productName" type="text" value="{{row.productName}}" maxlength="512" class="input-small required"/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_productNo" name="orderDetailList[{{idx}}].productNo" type="text" value="{{row.productNo}}" maxlength="40" class="input-small required"/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_productClass" name="orderDetailList[{{idx}}].productClass" type="text" value="{{row.productClass}}" maxlength="20" class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_amount" name="orderDetailList[{{idx}}].amount" type="text" value="{{row.amount}}" maxlength="5" class="input-small required"/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_productId" name="orderDetailList[{{idx}}].productId" type="text" value="{{row.productId}}" maxlength="80" class="input-small required"/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_name" name="orderDetailList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="512" class="input-small required"/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_isPresent" name="orderDetailList[{{idx}}].isPresent" type="text" value="{{row.isPresent}}" maxlength="1" class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_presentNotes" name="orderDetailList[{{idx}}].presentNotes" type="text" value="{{row.presentNotes}}" maxlength="2000" class="input-small "/>
-							</td>
+							{{row.productNo}}	<a onclick="windowOpen('${ctx}/order/order/taskLineMoney/?lineId={{row.id}}','查看信息')">查看分润信息</a></td>
+							<td>{{row.productClass}}</td>
+							<td>{{row.amount}}</td>
+							<td>{{row.productId}}	</td>
+							<td>{{row.name}}</td>
+							<td>{{row.isPresent}}</td>
+							<td>{{row.presentNotes}}</td>
 							<td>
 								<select id="orderDetailList{{idx}}_giftType" name="orderDetailList[{{idx}}].giftType" data-value="{{row.giftType}}" class="input-small ">
-									<option value=""></option>
 									<c:forEach items="${fns:getDictList('P_GIFT_TYPE')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
 									</c:forEach>
 								</select>
 							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_times" name="orderDetailList[{{idx}}].times" type="text" value="{{row.times}}" maxlength="11" class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_perTimes" name="orderDetailList[{{idx}}].perTimes" type="text" value="{{row.perTimes}}" class="input-small "/>
-							</td>
+							<td>{{row.times}}"</td>
+							<td>{{row.perTimes}}</td>
 							<td>
 								<select id="orderDetailList{{idx}}_isOrig" name="orderDetailList[{{idx}}].isOrig" data-value="{{row.isOrig}}" class="input-small ">
 									<option value=""></option>
@@ -494,66 +452,40 @@
 									</c:forEach>
 								</select>
 							</td>
+							<td>{{row.currency}}	</td>
 							<td>
-								<input id="orderDetailList{{idx}}_currency" name="orderDetailList[{{idx}}].currency" type="text" value="{{row.currency}}" maxlength="6" class="input-small "/>
+								 {{row.relievePrice}}
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_relievePrice" name="orderDetailList[{{idx}}].relievePrice" type="text" value="{{row.relievePrice}}" class="input-small required"/>
+								 {{row.lxbAmount}}
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_lxbAmount" name="orderDetailList[{{idx}}].lxbAmount" type="text" value="{{row.lxbAmount}}" class="input-small "/>
+								{{row.lxbPrice}}
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_lxbPrice" name="orderDetailList[{{idx}}].lxbPrice" type="text" value="{{row.lxbPrice}}" class="input-small "/>
+								{{row.goldenAmount}}
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_goldenAmount" name="orderDetailList[{{idx}}].goldenAmount" type="text" value="{{row.goldenAmount}}" class="input-small "/>
+								{{row.goldenPrice}}
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_goldenPrice" name="orderDetailList[{{idx}}].goldenPrice" type="text" value="{{row.goldenPrice}}" class="input-small "/>
+								{{row.wentAmount}}
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_wentAmount" name="orderDetailList[{{idx}}].wentAmount" type="text" value="{{row.wentAmount}}" class="input-small "/>
+								{{row.wentPrice}}
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_wentPrice" name="orderDetailList[{{idx}}].wentPrice" type="text" value="{{row.wentPrice}}" class="input-small "/>
+							{{row.batchNum}}
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_batchNum" name="orderDetailList[{{idx}}].batchNum" type="text" value="{{row.batchNum}}" maxlength="64" class="input-small "/>
+								{{row.lineMemo}}
 							</td>
+
+
 							<td>
-								<input id="orderDetailList{{idx}}_lineMemo" name="orderDetailList[{{idx}}].lineMemo" type="text" value="{{row.lineMemo}}" maxlength="512" class="input-small "/>
+								{{row.remarks}}
 							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_profitLsdtechAmount" name="orderDetailList[{{idx}}].profitLsdtechAmount" type="text" value="{{row.profitLsdtechAmount}}" class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_profitLsdtechRates" name="orderDetailList[{{idx}}].profitLsdtechRates" type="text" value="{{row.profitLsdtechRates}}" class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_profitLsdinfoAmount" name="orderDetailList[{{idx}}].profitLsdinfoAmount" type="text" value="{{row.profitLsdinfoAmount}}" class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_profitLsdinfoRates" name="orderDetailList[{{idx}}].profitLsdinfoRates" type="text" value="{{row.profitLsdinfoRates}}" class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_profitStoreAmount" name="orderDetailList[{{idx}}].profitStoreAmount" type="text" value="{{row.profitStoreAmount}}" class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_profitStoreRates" name="orderDetailList[{{idx}}].profitStoreRates" type="text" value="{{row.profitStoreRates}}" class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_profitSupplierAmount" name="orderDetailList[{{idx}}].profitSupplierAmount" type="text" value="{{row.profitSupplierAmount}}" class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_profitSupplierRates" name="orderDetailList[{{idx}}].profitSupplierRates" type="text" value="{{row.profitSupplierRates}}" class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_remarks" name="orderDetailList[{{idx}}].remarks"   type="text"   value="{{row.remarks}}" class="input-small "/>
-							</td>
-							<shiro:hasPermission name="order:order:order:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#orderDetailList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
-							</td></shiro:hasPermission>
+
 						</tr>//-->
 					</script>
 					<script type="text/javascript">
@@ -569,7 +501,6 @@
 				</div>
 			</div>
 		<div class="form-actions">
-			<shiro:hasPermission name="order:order:order:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>

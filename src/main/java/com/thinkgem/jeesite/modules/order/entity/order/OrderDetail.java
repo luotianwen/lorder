@@ -48,7 +48,25 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 	private String profitStoreRates;		// 门店分润税率
 	private String profitSupplierAmount;		// 供应商分润金额
 	private String profitSupplierRates;		// 供应商分润税率
-	
+	private String supplierid;		// 供应商id
+	private String suppliername;		// 供应商名称
+
+	public String getSupplierid() {
+		return supplierid;
+	}
+
+	public void setSupplierid(String supplierid) {
+		this.supplierid = supplierid;
+	}
+
+	public String getSuppliername() {
+		return suppliername;
+	}
+
+	public void setSuppliername(String suppliername) {
+		this.suppliername = suppliername;
+	}
+
 	public OrderDetail() {
 		super();
 	}

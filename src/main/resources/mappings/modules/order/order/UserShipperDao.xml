@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.order.dao.order.UserShipperDao">
+    
+	<sql id="userShipperColumns">
+		a.id AS "id",
+		a.userid AS "user.id",
+		a.shipperid AS "shipperid",
+		u2.name AS "user.name"
+	</sql>
+	
+	<sql id="userShipperJoins">
+		LEFT JOIN sys_user u2 ON u2.id = a.userid
+	</sql>
+    
+	<select id="get" resultType="UserShipper">
+		SELECT 
+			<include refid="userShipperColumns"/>
+		FROM pool_user_shipper a
+		<include refid="userShipperJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="UserShipper">
+		SELECT 
+			<include refid="userShipperColumns"/>
+		FROM pool_user_shipper a
+		<include refid="userShipperJoins"/>
+		<where>
+			
+			<if test="user != null and user.id != null and user.id != ''">
+				AND a.userid = #{user.id}
+			</if>
+			<if test="shipperid != null and shipperid != ''">
+				AND a.shipperid = #{shipperid}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="UserShipper">
+		SELECT 
+			<include refid="userShipperColumns"/>
+		FROM pool_user_shipper a
+		<include refid="userShipperJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO pool_user_shipper(
+			id,
+			userid,
+			shipperid
+		) VALUES (
+			#{id},
+			#{user.id},
+			#{shipperid}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE pool_user_shipper SET 	
+			userid = #{user.id},
+			shipperid = #{shipperid}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM pool_user_shipper
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

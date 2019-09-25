@@ -5,8 +5,30 @@
 	<title>订单管理管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
+        function checkAll(e, itemName){
+            var flag=e.checked;
+            $(":checkbox[name="+itemName+"]").attr('checked',flag);
+        }
 		$(document).ready(function() {
-			
+            $("#btnExport").click(function () {
+                top.$.jBox.confirm("确认要导出数据吗？", "系统提示", function (v, h, f) {
+                    if (v == "ok") {
+                        var oldAction = $("#searchForm").attr("action");
+                        $("#searchForm").attr("target","_blank");
+                        $("#searchForm").attr("action", "${ctx}/order/order/order/export");
+                        $("#searchForm").submit();
+                        $("#searchForm").attr("target","_self");
+                        $("#searchForm").attr("action", oldAction);
+                    }
+                }, {buttonsFocus: 1});
+                top.$('.jbox-body .jbox-icon').css('top', '55px');
+            });
+            $(":checkbox[name='orderIds']").click(function () {
+                $("#checkId").attr('checked', $(":checkbox[name='orderIds']").length == $(":checkbox[name='orderIds']:checked").length);
+            });
+            $(":checkbox[name='checkId']").click(function () {
+                checkAll(this, 'orderIds');
+            });
 		});
 		function page(n,s){
 			$("#pageNo").val(n);
@@ -14,6 +36,76 @@
 			$("#searchForm").submit();
         	return false;
         }
+
+
+        function checkprint() {
+            var num = $("input[type='checkbox']:checked").length;
+            if (num == 0) {
+                top.$.jBox.alert("请选择你要批量打印的数据");
+            } else {
+                confirmx('确定要批量打印已选中的数据吗？', allprint);
+            }
+
+        }
+        function checkReDeliver() {
+            var num = $("input[type='checkbox']:checked").length;
+            if (num == 0) {
+                top.$.jBox.alert("请选择你要批量重新发货的数据");
+            } else {
+                confirmx('确定要批量重新发货已选中的数据吗？', allReDeliver);
+            }
+
+        }
+        function allReDeliver() {
+            var ids = [];
+            $("input[name='orderIds']:checked").each(function () {
+                ids.push($(this).val());
+            });
+            var delIds = ids.join(",");
+            var oldAction = $("#searchForm").attr("action");
+            //$("#searchForm").attr("target","_blank");
+            $("#searchForm").attr("action", "${ctx}/order/order/order/allReDeliver?ids=" + delIds);
+            $("#searchForm").submit();
+            //$("#searchForm").attr("target","_self");
+           // $("#searchForm").attr("action", oldAction);
+        }
+        function checkDeliver() {
+            var num = $("input[type='checkbox']:checked").length;
+            if (num == 0) {
+                top.$.jBox.alert("请选择你要批量发货的数据");
+            } else {
+                confirmx('确定要批量发货已选中的数据吗？', allDeliver);
+            }
+
+        }
+
+        function allDeliver() {
+            var ids = [];
+            $("input[name='orderIds']:checked").each(function () {
+                ids.push($(this).val());
+            });
+            var delIds = ids.join(",");
+            var oldAction = $("#searchForm").attr("action");
+            //$("#searchForm").attr("target","_blank");
+            $("#searchForm").attr("action", "${ctx}/order/order/order/allDeliver?ids=" + delIds);
+            $("#searchForm").submit();
+            //$("#searchForm").attr("target","_self");
+           // $("#searchForm").attr("action", oldAction);
+        }
+        function allprint() {
+            var ids = [];
+            $("input[name='orderIds']:checked").each(function () {
+                ids.push($(this).val());
+            });
+            var delIds = ids.join(",");
+            var oldAction = $("#searchForm").attr("action");
+            $("#searchForm").attr("target","_blank");
+            $("#searchForm").attr("action", "${ctx}/order/order/order/allprint?ids=" + delIds);
+            $("#searchForm").submit();
+            $("#searchForm").attr("target","_self");
+            $("#searchForm").attr("action", oldAction);
+        }
+
 	</script>
 </head>
 <body>
@@ -21,7 +113,7 @@
 		<li class="active"><a href="${ctx}/order/order/order/">订单管理列表</a></li>
 		<shiro:hasPermission name="order:order:order:edit"><li><a href="${ctx}/order/order/order/form">订单管理添加</a></li></shiro:hasPermission>
 	</ul>
-	<form:form id="searchForm" modelAttribute="order" action="${ctx}/order/order/order/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="order" action="${ctx}/order/order/order/" method="post" class="breadcrumb form-search"  >
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
@@ -108,7 +200,12 @@
 					value="<fmt:formatDate value="${order.endCreateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</li>
-			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
+				<input id="btnExport" class="btn btn-primary" type="button" value="导出"/>
+				<a href="#" onclick="checkDeliver()" class="btn btn-primary">批量发货</a>
+				<a href="#" onclick="checkReDeliver()" class="btn btn-primary">批量重新发货</a>
+				<a href="#" onclick="checkprint()" class="btn btn-primary">批量打印</a>
+			</li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>
@@ -116,16 +213,17 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
+				<th><input type=checkbox name="checkId" id="checkId"></th>
 				<th>集成单号</th>
 				<th>平台单号</th>
 				<th>订单时间</th>
 				<th>订单状态</th>
 				<th>订单金额</th>
-				<%--<th>发货组织</th>--%>
-				<th>订单类型</th>
+				<th>发货组织</th>
+				<th>发货人名称</th>
 				<th>订单来源</th>
 				<th>SAP单号</th>
-				<th>订单创建人</th>
+				<%--<th>订单创建人</th>--%>
 				<%--<th>客户编号</th>
 				<th>客户名称</th>
 				<th>客户手机</th>--%>
@@ -140,6 +238,7 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="order">
 			<tr>
+				<td><input type="checkbox" name="orderIds" value="${order.id}"/></td>
 				<td><a href="${ctx}/order/order/order/form?id=${order.id}">
 					${order.poolTaskNo}
 				</a></td>
@@ -158,11 +257,12 @@
 				<td>
 					${order.taskAmount}
 				</td>
-				<%--<td>
-					${order.saleGroup}
-				</td>--%>
+			   <td>
+				${fns:getDictLabel(order.saleGroup, 'SALE_GROUP', '')}
+
+				</td>
 				<td>
-					${fns:getDictLabel(order.taskType, 'P_TASK_TYPE', '')}
+						${order.shippername}
 				</td>
 				<td>
 					${fns:getDictLabel(order.source, 'P_SOURCE', '')}
@@ -170,9 +270,9 @@
 				<td>
 					${order.ebTaskNo}
 				</td>
-				<td>
+				<%--<td>
 					${order.taskCreator}
-				</td>
+				</td>--%>
 				<%--<td>
 					${order.customerNo}
 				</td>
@@ -208,17 +308,20 @@
 					<fmt:formatDate value="${order.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<shiro:hasPermission name="order:order:order:edit"><td>
-    				<a href="${ctx}/order/order/order/form?id=${order.id}">修改</a>
-					<c:if test="${empty  order.carriers}">
+    				 <a href="${ctx}/order/order/order/form?id=${order.id}">查看</a>
+				<%--	<c:if test="${empty  order.carriers}">
 					<a href="${ctx}/order/order/order/express?id=${order.id}">发货</a>
 					</c:if>
-					<c:if test="${empty  order.carriers}">
+						<c:if test="${order.carriers}">
+							<a href="${ctx}/order/order/order/express?id=${order.id}">重新发货</a>
+						</c:if>
+					&lt;%&ndash;<c:if test="${empty  order.carriers}">
 						<a href="${ctx}/order/order/order/wbexpress?id=${order.id}">外部发货</a>
-					</c:if>
+					</c:if>&ndash;%&gt;
 					<c:if test="${not empty  order.carriers   }">
 						<a href="${ctx}/order/order/order/print?id=${order.id}"   target="_blank">打印面单</a>
-					</c:if>
-					<a href="${ctx}/order/order/order/delete?id=${order.id}" onclick="return confirmx('确认要删除该订单管理吗？', this.href)">删除</a>
+					</c:if>--%>
+					<%--<a href="${ctx}/order/order/order/delete?id=${order.id}" onclick="return confirmx('确认要删除该订单管理吗？', this.href)">删除</a>--%>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
