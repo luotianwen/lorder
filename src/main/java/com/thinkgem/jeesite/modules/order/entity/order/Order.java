@@ -39,6 +39,17 @@ public class Order extends DataEntity<Order> {
 	private String taskType;		// 订单类型
 	private String dmNo;		// 档期编码
 	private String dmName;		// 档期名称
+
+	private String haveAmount;		// 是否有库存
+
+	public String getHaveAmount() {
+		return haveAmount;
+	}
+
+	public void setHaveAmount(String haveAmount) {
+		this.haveAmount = haveAmount;
+	}
+
 	private String source;		// 订单来源
 	@ExcelField(title="SAP单号", align=1, sort=20)
 	private String ebTaskNo;		// SAP单号

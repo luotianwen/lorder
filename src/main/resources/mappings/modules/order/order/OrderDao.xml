@@ -64,6 +64,7 @@
 		a.del_flag AS "delFlag",
 		a.address_province AS "province.name",
 		a.address_city AS "city.name",
+		a.haveAmount AS "haveAmount",
 		a.address_county AS "county.name"
 	</sql>
 	
@@ -104,6 +105,10 @@
 			<if test="taskType != null and taskType != ''">
 				AND a.task_type = #{taskType}
 			</if>
+			<if test="haveAmount != null and haveAmount != ''">
+				AND a.haveAmount = #{haveAmount}
+			</if>
+
 			<if test="source != null and source != ''">
 				AND a.source = #{source}
 			</if>

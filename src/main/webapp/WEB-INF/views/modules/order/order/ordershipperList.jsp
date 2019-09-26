@@ -139,6 +139,12 @@
 					<form:options items="${fns:getDictList('P_TASK_STATUS')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
+			<li><label>是否有货：</label>
+				<form:select path="haveAmount" class="input-medium">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</li>
 			<li><label>订单类型：</label>
 				<form:select path="taskType" class="input-medium">
 					<form:option value="" label=""/>
@@ -308,7 +314,7 @@
 				</td>
 				<shiro:hasPermission name="order:order:order:edit"><td>
     				 <a href="${ctx}/order/order/order/form?id=${order.id}">查看</a>
-					<c:if test="${empty  order.carriers}">
+					<c:if test="${empty  order.carriers && order.haveAmount='1'}">
 					<a href="${ctx}/order/order/order/express?id=${order.id}">发货</a>
 					</c:if>
 						<c:if test="${order.carriers}">
