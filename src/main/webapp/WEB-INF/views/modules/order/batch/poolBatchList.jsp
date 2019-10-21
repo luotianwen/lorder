@@ -51,7 +51,7 @@
 				<th>生成时间</th>
 				<th>总金额</th>
 				<th>SAP交货单号</th>
-				<shiro:hasPermission name="order:batch:poolBatch:edit"><th>操作</th></shiro:hasPermission>
+				<%--<shiro:hasPermission name="order:batch:poolBatch:edit"><th>操作</th></shiro:hasPermission>--%>
 			</tr>
 		</thead>
 		<tbody>
@@ -69,10 +69,10 @@
 				<td>
 					${poolBatch.erpNo}
 				</td>
-				<shiro:hasPermission name="order:batch:poolBatch:edit"><td>
+			<%--	<shiro:hasPermission name="order:batch:poolBatch:edit"><td>
     				<a href="${ctx}/order/batch/poolBatch/form?id=${poolBatch.id}">修改</a>
 					<a href="${ctx}/order/batch/poolBatch/delete?id=${poolBatch.id}" onclick="return confirmx('确认要删除该订单集成吗？', this.href)">删除</a>
-				</td></shiro:hasPermission>
+				</td></shiro:hasPermission>--%>
 			</tr>
 		</c:forEach>
 		</tbody>

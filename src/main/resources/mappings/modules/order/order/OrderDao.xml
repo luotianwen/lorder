@@ -65,7 +65,14 @@
 		a.address_province AS "province.name",
 		a.address_city AS "city.name",
 		a.haveAmount AS "haveAmount",
-		a.address_county AS "county.name"
+		a.address_county AS "county.name",
+		a.payableAmount AS "payableAmount",
+		a.reductionAmount AS "reductionAmount",
+		a.score AS "score",
+		a.agentType AS "agentType",
+		a.sapSupplierID AS "sapSupplierID"
+
+
 	</sql>
 	
 	<sql id="orderJoins">

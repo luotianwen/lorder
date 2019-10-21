@@ -119,7 +119,7 @@
 			</div>
 		</div>
 		<div class="row control-group">
-			<label class="span1 control-label">订单金额：</label>
+			<label class="span1 control-label">实付总价：</label>
 			<div class="span2 ">
 				<form:input path="taskAmount" htmlEscape="false" class="input-medium required number"/>
 				<span class="help-inline"><font color="red">*</font> </span>
@@ -139,9 +139,9 @@
 				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
-		</div>
-		<div class="row control-group">
-			<label class="span1 control-label">档期编码：</label>
+		<%--</div>
+		<div class="row control-group">--%>
+			<%--<label class="span1 control-label">档期编码：</label>
 			<div class="span2 ">
 				<form:input path="dmNo" htmlEscape="false" maxlength="100" class="input-medium "/>
 			</div>
@@ -158,7 +158,7 @@
 					<form:options items="${fns:getDictList('P_SOURCE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
+			</div>--%>
 
 			<label class="span1 control-label">SAP单号：</label>
 			<div class="span2 ">
@@ -187,32 +187,31 @@
 			</div>
 		</div>
 		<div class="row control-group">
-			<label class="span1 control-label">客户编号：</label>
+			<label class="span1 control-label">应付现金：</label>
 			<div class="span2 ">
-				<form:input path="customerNo" htmlEscape="false" maxlength="40" class="input-medium required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<form:input path="payableAmount" htmlEscape="false" maxlength="40" class="input-medium  "/>
+
 			</div>
 
-			<label class="span1 control-label">客户名称：</label>
+			<label class="span1 control-label">减免金额：</label>
 			<div class="span2 ">
-				<form:input path="customerName" htmlEscape="false" maxlength="512" class="input-medium required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<form:input path="reductionAmount" htmlEscape="false" maxlength="512" class="input-medium  "/>
 			</div>
 
-			<label class="span1 control-label">客户性别：</label>
+			<label class="span1 control-label">莲香币：</label>
 			<div class="span2 ">
-				<form:input path="sex" htmlEscape="false" maxlength="2" class="input-medium "/>
+				<form:input path="socre" htmlEscape="false" maxlength="2" class="input-medium "/>
 			</div>
 
-			<label class="span1 control-label">家庭电话：</label>
+			<label class="span1 control-label">代理商：</label>
 			<div class="span2 ">
-				<form:input path="homePhone" htmlEscape="false" maxlength="40" class="input-medium "/>
+				<form:input path="agentType" htmlEscape="false" maxlength="40" class="input-medium "/>
 			</div>
 		</div>
 		<div class="row control-group">
-			<label class="span1 control-label">单位电话：</label>
+			<label class="span1 control-label">SAP供应商：</label>
 			<div class="span2 ">
-				<form:input path="companyPhone" htmlEscape="false" maxlength="40" class="input-medium "/>
+				<form:input path="sapSupplierID" htmlEscape="false" maxlength="40" class="input-medium "/>
 			</div>
 
 			<label class="span1 control-label">客户手机：</label>
@@ -393,29 +392,20 @@
 						<thead>
 							<tr>
 
-								<th>商品名称</th>
+
 								<th>商品编号</th>
-								<th>产品线/产品分类</th>
+								<th>商品类型</th>
 								<th>数量</th>
-								<th>ERP物料编码</th>
 								<th>物料名称</th>
-								<th>赠品标识</th>
-								<th>赠品备注</th>
-								<th>赠品类型</th>
-								<th>分期数</th>
-								<th>分期价格</th>
-								<th>是否原始订单</th>
-								<th>货币</th>
-								<th>分摊价格</th>
-								<th>莲香币额</th>
-								<th>莲香币分摊价格</th>
-								<th>金币额</th>
-								<th>金币分摊价格</th>
-								<th>积分额</th>
-								<th>积分分摊价格</th>
+								<th>莲香币</th>
+								<th>实付单价</th>
+								<th>实付总价</th>
+								<th>应付总价</th>
+								<th>减免金额</th>
+								<th>代理商标识</th>
+								<th>SAP供应商</th>
 								<th>批次号</th>
-								<th>备注</th>
-								<th>备注信息</th>
+
 							</tr>
 						</thead>
 						<tbody id="orderDetailList">
@@ -425,66 +415,42 @@
 					<script type="text/template" id="orderDetailTpl">//<!--
 						<tr id="orderDetailList{{idx}}">
 
-							<td>
-								{{row.productName}}</td>
-							<td>
+<td>
 							{{row.productNo}}	<a onclick="windowOpen('${ctx}/order/order/taskLineMoney/?lineId={{row.id}}','查看信息')">查看分润信息</a></td>
-							<td>{{row.productClass}}</td>
+							<td>
+							<select id="orderDetailList{{idx}}_productClass" name="orderDetailList[{{idx}}].productClass" data-value="{{row.productClass}}" class="input-small ">
+									<c:forEach items="${fns:getDictList('P_productClass')}" var="dict">
+										<option value="${dict.value}">${dict.label}</option>
+									</c:forEach>
+								</select>
+							</td>
 							<td>{{row.amount}}</td>
-							<td>{{row.productId}}	</td>
 							<td>{{row.name}}</td>
-							<td>{{row.isPresent}}</td>
-							<td>{{row.presentNotes}}</td>
 							<td>
-								<select id="orderDetailList{{idx}}_giftType" name="orderDetailList[{{idx}}].giftType" data-value="{{row.giftType}}" class="input-small ">
-									<c:forEach items="${fns:getDictList('P_GIFT_TYPE')}" var="dict">
-										<option value="${dict.value}">${dict.label}</option>
-									</c:forEach>
-								</select>
-							</td>
-							<td>{{row.times}}"</td>
-							<td>{{row.perTimes}}</td>
-							<td>
-								<select id="orderDetailList{{idx}}_isOrig" name="orderDetailList[{{idx}}].isOrig" data-value="{{row.isOrig}}" class="input-small ">
-									<option value=""></option>
-									<c:forEach items="${fns:getDictList('yes_no')}" var="dict">
-										<option value="${dict.value}">${dict.label}</option>
-									</c:forEach>
-								</select>
-							</td>
-							<td>{{row.currency}}	</td>
-							<td>
-								 {{row.relievePrice}}
+								 {{row.score}}
 							</td>
 							<td>
-								 {{row.lxbAmount}}
+								 {{row.payAmount}}
 							</td>
 							<td>
-								{{row.lxbPrice}}
+								{{row.payAmountSum}}
 							</td>
 							<td>
-								{{row.goldenAmount}}
+								{{row.priceSum}}
 							</td>
 							<td>
-								{{row.goldenPrice}}
+								{{row.reductionAmount}}
 							</td>
 							<td>
-								{{row.wentAmount}}
+								{{row.agentType}}
 							</td>
 							<td>
-								{{row.wentPrice}}
+								{{row.sapSupplierID}}
 							</td>
 							<td>
 							{{row.batchNum}}
 							</td>
-							<td>
-								{{row.lineMemo}}
-							</td>
 
-
-							<td>
-								{{row.remarks}}
-							</td>
 
 						</tr>//-->
 					</script>

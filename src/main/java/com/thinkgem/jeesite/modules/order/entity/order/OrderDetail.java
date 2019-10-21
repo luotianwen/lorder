@@ -51,6 +51,70 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 	private String supplierid;		// 供应商id
 	private String suppliername;		// 供应商名称
 
+
+	private double payAmount;//商品实付单价
+	private double reductionAmount;//减免金额
+	private double priceSum;//商品应付总价
+	private String agentType;//代理商标识
+	private String sapSupplierID;//SAP供应商ID
+	private double payAmountSum;//商品实付总价
+	private double socre;
+
+	public double getSocre() {
+		return socre;
+	}
+
+	public void setSocre(double socre) {
+		this.socre = socre;
+	}
+	public double getPayAmount() {
+		return payAmount;
+	}
+
+	public void setPayAmount(double payAmount) {
+		this.payAmount = payAmount;
+	}
+
+	public double getReductionAmount() {
+		return reductionAmount;
+	}
+
+	public void setReductionAmount(double reductionAmount) {
+		this.reductionAmount = reductionAmount;
+	}
+
+	public double getPriceSum() {
+		return priceSum;
+	}
+
+	public void setPriceSum(double priceSum) {
+		this.priceSum = priceSum;
+	}
+
+	public String getAgentType() {
+		return agentType;
+	}
+
+	public void setAgentType(String agentType) {
+		this.agentType = agentType;
+	}
+
+	public String getSapSupplierID() {
+		return sapSupplierID;
+	}
+
+	public void setSapSupplierID(String sapSupplierID) {
+		this.sapSupplierID = sapSupplierID;
+	}
+
+	public double getPayAmountSum() {
+		return payAmountSum;
+	}
+
+	public void setPayAmountSum(double payAmountSum) {
+		this.payAmountSum = payAmountSum;
+	}
+
 	public String getSupplierid() {
 		return supplierid;
 	}

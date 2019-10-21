@@ -45,7 +45,16 @@
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
-		b.task_no AS "poolTask.taskNo"
+		b.task_no AS "poolTask.taskNo",
+		a.payAmount as "payAmount",
+		a.priceSum AS "priceSum",
+		a.payAmountSum AS "payAmountSum",
+		a.reductionAmount AS "reductionAmount",
+		a.score AS "score",
+		a.agentType AS "agentType",
+		a.sapSupplierID AS "sapSupplierID"
+
+
 	</sql>
 	
 	<sql id="orderDetailJoins">

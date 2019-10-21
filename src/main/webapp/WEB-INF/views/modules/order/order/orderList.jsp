@@ -225,6 +225,7 @@
 				<th>订单时间</th>
 				<th>订单状态</th>
 				<th>订单金额</th>
+				<th>是否能发货</th>
 				<th>发货组织</th>
 				<th>发货人名称</th>
 				<th>订单来源</th>
@@ -262,6 +263,10 @@
 				</td>
 				<td>
 					${order.taskAmount}
+				</td>
+				<td>
+						${fns:getDictLabel(order.haveAmount, 'yes_no', '')}
+
 				</td>
 			   <td>
 				${fns:getDictLabel(order.saleGroup, 'SALE_GROUP', '')}
@@ -315,13 +320,13 @@
 				</td>
 				<shiro:hasPermission name="order:order:order:edit"><td>
     				 <a href="${ctx}/order/order/order/form?id=${order.id}">查看</a>
-				<%--	<c:if test="${empty  order.carriers}">
+				<c:if test="${empty  order.carriers}">
 					<a href="${ctx}/order/order/order/express?id=${order.id}">发货</a>
 					</c:if>
 						<c:if test="${order.carriers}">
 							<a href="${ctx}/order/order/order/express?id=${order.id}">重新发货</a>
 						</c:if>
-					&lt;%&ndash;<c:if test="${empty  order.carriers}">
+						<%--&lt;%&ndash;<c:if test="${empty  order.carriers}">
 						<a href="${ctx}/order/order/order/wbexpress?id=${order.id}">外部发货</a>
 					</c:if>&ndash;%&gt;
 					<c:if test="${not empty  order.carriers   }">

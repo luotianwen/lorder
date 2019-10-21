@@ -87,13 +87,13 @@
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-		<div class="control-group">
+	<%--	<div class="control-group">
 			<label class="control-label">批次创建人：</label>
 			<div class="controls">
 				<form:input path="batchCreator" htmlEscape="false" maxlength="40" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
-		</div>
+		</div>--%>
 		<div class="control-group">
 			<label class="control-label">SAP交货单号：</label>
 			<div class="controls">
@@ -157,8 +157,7 @@
 				</div>
 			</div>
 		<div class="form-actions">
-			<shiro:hasPermission name="order:batch:poolBatch:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+			 	<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
 </body>

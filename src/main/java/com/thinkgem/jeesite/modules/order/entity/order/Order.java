@@ -99,6 +99,71 @@ public class Order extends DataEntity<Order> {
 	private Date endCreateDate;		// 结束 创建时间
 	private String shipperid;//发货id
 	private String shippername;//发货名称
+	private double socre;
+
+	public double getSocre() {
+		return socre;
+	}
+
+	public void setSocre(double socre) {
+		this.socre = socre;
+	}
+
+	private double payAmount;
+
+	public double getPayAmount() {
+		return payAmount;
+	}
+
+	public void setPayAmount(double payAmount) {
+		this.payAmount = payAmount;
+	}
+
+	private double payableAmount;//应付现金
+	private double reductionAmount;//减免金额
+	private double score;//莲香币
+	private String agentType;//代理商标识
+	private String sapSupplierID;//SAP供应商ID
+
+	public double getPayableAmount() {
+		return payableAmount;
+	}
+
+	public void setPayableAmount(double payableAmount) {
+		this.payableAmount = payableAmount;
+	}
+
+	public double getReductionAmount() {
+		return reductionAmount;
+	}
+
+	public void setReductionAmount(double reductionAmount) {
+		this.reductionAmount = reductionAmount;
+	}
+
+	public double getScore() {
+		return score;
+	}
+
+	public void setScore(double score) {
+		this.score = score;
+	}
+
+	public String getAgentType() {
+		return agentType;
+	}
+
+	public void setAgentType(String agentType) {
+		this.agentType = agentType;
+	}
+
+	public String getSapSupplierID() {
+		return sapSupplierID;
+	}
+
+	public void setSapSupplierID(String sapSupplierID) {
+		this.sapSupplierID = sapSupplierID;
+	}
 
 	public String getShipperid() {
 		return shipperid;

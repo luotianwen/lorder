@@ -220,12 +220,14 @@ public class OrderController extends BaseController {
 	@RequiresPermissions("order:order:order:view")
 	@RequestMapping(value = "allDeliver")
 	public String allDeliver(String ids, String type,Model model,RedirectAttributes redirectAttributes) throws Exception {
-
 		List<Order> os=new ArrayList<Order>();
 		String ors[]=ids.split(",");
 		String taskno="";
 		for(String o:ors){
 			Order order=orderService.get(o);
+			if(!("1").equals(order.getHaveAmount())){
+				taskno+="订单号"+order.getTaskNo()+"订单号没有库存不能发货";
+			}
 			if(StringUtils.isEmpty(order.getCarriers())){
 				Address ad=addressService.findList(new Address()).get(0);
 				String sendAddress=ad.getName()+"，"+ad.getPhone()+"，"+ ad.getProvice().getName()+"，"+ad.getCity().getName()+"，"+ad.getCounty().getName()+"，"+ad.getAddressDetail();
