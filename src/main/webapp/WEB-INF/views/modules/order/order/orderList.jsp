@@ -70,12 +70,24 @@
            // $("#searchForm").attr("action", oldAction);
         }
         function checkDeliver() {
+            var preSendAddress = $("#preSendAddress").val();
+            if (preSendAddress=='') {
+                top.$.jBox.alert("请选择发货方");
+                return;
+            }
+            var carriers = $("#carriers").val();
+            if (carriers=='') {
+                top.$.jBox.alert("请选择承运商");
+                return;
+            }
+
             var num = $("input[type='checkbox']:checked").length;
             if (num == 0) {
                 top.$.jBox.alert("请选择你要批量发货的数据");
-            } else {
-                confirmx('确定要批量发货已选中的数据吗？', allDeliver);
+                return;
             }
+                confirmx('确定要批量发货已选中的数据吗？', allDeliver);
+
 
         }
 
@@ -86,8 +98,10 @@
             });
             var delIds = ids.join(",");
             var oldAction = $("#searchForm").attr("action");
+            var preSendAddress = $("#preSendAddress").val();
+            var carriers = $("#carriers").val();
             //$("#searchForm").attr("target","_blank");
-            $("#searchForm").attr("action", "${ctx}/order/order/order/allDeliver?ids=" + delIds);
+            $("#searchForm").attr("action", "${ctx}/order/order/order/allDeliver?ids=" + delIds+"&preSendAddress="+preSendAddress+"&carriers="+carriers);
             $("#searchForm").submit();
             //$("#searchForm").attr("target","_self");
            // $("#searchForm").attr("action", oldAction);
@@ -105,7 +119,28 @@
             $("#searchForm").attr("target","_self");
             $("#searchForm").attr("action", oldAction);
         }
+        var fid="";
+        function tfh(id){
+            fid=id;
+            $('#tmyModal').modal();
+		}
+		function tcheckDeliver() {
+            var remarks = $("#remarks").val();
+            if (remarks=='') {
+                top.$.jBox.alert("请填写单号");
+                return;
+            }
+            var carriers = $("#signName").val();
+            if (carriers=='') {
+                top.$.jBox.alert("请选择承运商");
+                return;
+            }
+               $("#searchForm").attr("action", "${ctx}/order/order/order/tDeliver?id=" + fid);
 
+            $("#searchForm").submit();
+
+
+        }
 	</script>
 </head>
 <body>
@@ -208,13 +243,107 @@
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
 				<input id="btnExport" class="btn btn-primary" type="button" value="导出"/>
-				<a href="#" onclick="checkDeliver()" class="btn btn-primary">批量发货</a>
-				<a href="#" onclick="checkReDeliver()" class="btn btn-primary">批量重新发货</a>
+
+				<a href="#"  data-toggle="modal" data-target="#myModal" class="btn btn-primary">批量发货</a>
+				<a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary">批量重新发货</a>
 				<a href="#" onclick="checkprint()" class="btn btn-primary">批量打印</a>
 			</li>
 			<li class="clearfix"></li>
 		</ul>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="myModalLabel">
+							批量发货
+						</h4>
+					</div>
+					<div class="modal-body">
+						<label class="span1 control-label">发货方：</label>
+						<div class="span2 ">
+								<form:select path="preSendAddress" class="input-mini ">
+
+								<form:options items="${addresss}" itemLabel="name" itemValue="id" htmlEscape="false"/>
+
+									</form:select>
+
+						</div>
+						<label class="span1 control-label">承运商：</label>
+						<div class="span2 ">
+							<form:select path="carriers" class="input-mini ">
+								<form:option value="" label="无"/>
+								<form:options items="${expresss}" itemLabel="name" itemValue="id" htmlEscape="false"/>
+							</form:select>
+
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+						<button type="button" class="btn btn-primary" onclick="checkDeliver()"  >
+							确认
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="modal fade" id="tmyModal" tabindex="-1" role="dialog" aria-labelledby="tmyModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="tmyModalLabel">
+							 三方发货
+						</h4>
+					</div>
+					<div class="modal-body">
+
+
+						<label class="span1 control-label">承运商：</label>
+						<div class="span2 ">
+							<form:select path="signName" class="input-mini ">
+								<form:option value="圆通" label="圆通"/>
+								<form:option value="申通" label="申通"/>
+								<form:option value="韵达" label="韵达"/>
+								<form:option value="顺丰" label="顺丰"/>
+								<form:option value="国通" label="国通"/>
+								<form:option value="中通" label="中通"/>
+								<form:option value="百世" label="百世"/>
+								<form:option value="快捷" label="快捷"/>
+								<form:option value="德邦" label="德邦"/>
+								<form:option value="ems" label="ems"/>
+								<form:option value="全峰" label="全峰"/>
+								<form:option value="天天" label="天天"/>
+								<form:option value="品骏" label="品骏"/>
+								<form:option value="优速" label="优速"/>
+								<form:option value="京东" label="京东"/>
+							</form:select>
+						</div>
+						<label class="span1 control-label">单号：</label>
+						<div class="span2 ">
+							<form:input path="remarks"   class="input-medium "/>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+						<button type="button" class="btn btn-primary" onclick="tcheckDeliver()" data-dismiss="modal">
+							确认
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</form:form>
+
 	<sys:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
@@ -321,11 +450,14 @@
 				<shiro:hasPermission name="order:order:order:edit"><td>
     				 <a href="${ctx}/order/order/order/form?id=${order.id}">查看</a>
 				<c:if test="${empty  order.carriers}">
-					<a href="${ctx}/order/order/order/express?id=${order.id}">发货</a>
+					<a href="${ctx}/order/order/order/express?id=${order.id}"    >发货</a>
+					<a  style="cursor: pointer;" onclick="tfh('${order.id}')"    >三方发货</a>
+				</c:if>
+					<c:if test="${not empty order.carriers}">
+						<a href="${ctx}/order/order/order/express?id=${order.id}">重新发货</a>
+						<a style="cursor: pointer;"  onclick="tfh('${order.id}')")>重新三方发货</a>
 					</c:if>
-						<c:if test="${order.carriers}">
-							<a href="${ctx}/order/order/order/express?id=${order.id}">重新发货</a>
-						</c:if>
+
 						<%--&lt;%&ndash;<c:if test="${empty  order.carriers}">
 						<a href="${ctx}/order/order/order/wbexpress?id=${order.id}">外部发货</a>
 					</c:if>&ndash;%&gt;

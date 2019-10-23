@@ -90,6 +90,8 @@ public class OrderController extends BaseController {
 	public String list(Order order, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<Order> page = orderService.findPage(new Page<Order>(request, response), order); 
 		model.addAttribute("page", page);
+		model.addAttribute("expresss",poolExpressService.findList(new PoolExpress()));
+		model.addAttribute("addresss",addressService.findList(new Address()));
 		return "modules/order/order/orderList";
 	}
 
@@ -187,49 +189,19 @@ public class OrderController extends BaseController {
 
 
 	@RequiresPermissions("order:order:order:view")
-	@RequestMapping(value = "allReDeliver")
-	public String allReDeliver(String ids,String type, Model model,RedirectAttributes redirectAttributes) throws Exception {
-
-		List<Order> os=new ArrayList<Order>();
-		String ors[]=ids.split(",");
-		String taskno="";
-		for(String o:ors){
-			Order order=orderService.get(o);
-			if(StringUtils.isNotEmpty(order.getCarriers())){
-				Address ad=addressService.findList(new Address()).get(0);
-				String sendAddress=ad.getName()+"，"+ad.getPhone()+"，"+ ad.getProvice().getName()+"，"+ad.getCity().getName()+"，"+ad.getCounty().getName()+"，"+ad.getAddressDetail();
-				order.setPreSendAddress(sendAddress);
-				os.add(order);
-			}
-			else{
-				taskno+="订单号"+order.getTaskNo()+"订单号没有单号不能重新发货,";
-			}
-
-		}
-		if(StringUtils.isEmpty(taskno)) {
-			orderService.allReDeliver(os);
-			addMessage(redirectAttributes, "订单重新发货成功");
-		}else{
-			addMessage(redirectAttributes, taskno);
-		}
-        if(("1").equals(type))
-		return "redirect:"+Global.getAdminPath()+"/order/order/order/shipper?repage";
-        return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
-	}
-
-	@RequiresPermissions("order:order:order:view")
 	@RequestMapping(value = "allDeliver")
-	public String allDeliver(String ids, String type,Model model,RedirectAttributes redirectAttributes) throws Exception {
+	public String allDeliver(String ids, String type,String preSendAddress ,String carriers, Model model,RedirectAttributes redirectAttributes) throws Exception {
 		List<Order> os=new ArrayList<Order>();
 		String ors[]=ids.split(",");
 		String taskno="";
 		for(String o:ors){
 			Order order=orderService.get(o);
+			order.setCarriers(carriers);
 			if(!("1").equals(order.getHaveAmount())){
 				taskno+="订单号"+order.getTaskNo()+"订单号没有库存不能发货";
 			}
 			if(StringUtils.isEmpty(order.getCarriers())){
-				Address ad=addressService.findList(new Address()).get(0);
+				Address ad=addressService.get(preSendAddress);
 				String sendAddress=ad.getName()+"，"+ad.getPhone()+"，"+ ad.getProvice().getName()+"，"+ad.getCity().getName()+"，"+ad.getCounty().getName()+"，"+ad.getAddressDetail();
 				order.setPreSendAddress(sendAddress);
 				os.add(order);
@@ -250,6 +222,19 @@ public class OrderController extends BaseController {
 
         return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
 	}
+
+
+	@RequiresPermissions("order:order:order:view")
+	@RequestMapping(value = "tDeliver")
+	public String tDeliver(String id, String remarks ,String signName ) throws Exception {
+
+		Order order=orderService.get(id);
+		order.setCarriers(signName+" "+remarks);
+		orderService.saveWBExpress(order);
+		return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
+	}
+
+
 
 	@RequiresPermissions("order:order:order:shipper")
 	@RequestMapping(value = "allprint")

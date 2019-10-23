@@ -307,7 +307,6 @@
 		carriers = #{carriers},
 		send_way = #{sendWay},
 		task_status='3',
-		pre_send_address = #{preSendAddress},
 		send_store_datetime = #{sendStoreDatetime}
 		where id=#{id}
 	</update>

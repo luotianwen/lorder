@@ -92,21 +92,7 @@ public class OrderService extends CrudService<OrderDao, Order> {
 		order.setSendStoreDatetime(new Date());
 		dao.saveWBExpress(order);
 	}
-	@Transactional(readOnly = false)
-	public void allReDeliver(List<Order> os) throws Exception{
-		for (Order order:os
-			 ) {
-			OrderReturn or=poolExpressService.express(order);
-			PoolExpress pe=poolExpressService.get(order.getCarriers());
-			order.setRemark(order.getCarriers());
-			order.setCarriers(pe.getName()+" "+or.getOrder().getLogisticCode());
-			order.setSendWay("2");
-			order.setSendStoreDatetime(new Date());
-			dao.saveExpress(order);
-		}
 
-
-	}
 	@Transactional(readOnly = false)
 	public void allDeliver(List<Order> os) throws Exception{
 		for (Order order:os
@@ -118,6 +104,8 @@ public class OrderService extends CrudService<OrderDao, Order> {
 			order.setSendWay("2");
 			order.setSendStoreDatetime(new Date());
 			dao.saveExpress(order);
+			//订阅物流
+			poolExpressService.orderTracesSubByJson(order);
 		}
 	}
 }

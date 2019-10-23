@@ -127,7 +127,10 @@
 
 			<label class="span1 control-label">发货组织：</label>
 			<div class="span2 ">
-				<form:input path="saleGroup" htmlEscape="false" maxlength="16" class="input-medium required"/>
+				<form:select path="saleGroup" class="input-medium required">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('SALE_GROUP')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 
