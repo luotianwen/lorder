@@ -8,7 +8,13 @@
 		a.batch_gen_datetime AS "batchGenDatetime",
 		a.sum_amt AS "sumAmt",
 		a.batch_creator AS "batchCreator",
-		a.erp_no AS "erpNo"
+		a.erp_no AS "erpNo",
+		a.cardcode AS "cardcode",
+		a.isok AS "isok",
+		a.orderclass AS "orderclass",
+		a.agenttype AS "agenttype",
+		a.sapsupplierid AS "sapsupplierid",
+		a.shipperid AS "shipperid"
 	</sql>
 	
 	<sql id="poolBatchJoins">
@@ -37,6 +43,21 @@
 			</if>
 			<if test="erpNo != null and erpNo != ''">
 				AND a.erp_no = #{erpNo}
+			</if>
+			<if test="isok != null and isok != ''">
+				AND a.isok = #{isok}
+			</if>
+			<if test="orderclass != null and orderclass != ''">
+				AND a.orderclass = #{orderclass}
+			</if>
+			<if test="agenttype != null and agenttype != ''">
+				AND a.agenttype = #{agenttype}
+			</if>
+			<if test="sapsupplierid != null and sapsupplierid != ''">
+				AND a.sapsupplierid = #{sapsupplierid}
+			</if>
+			<if test="shipperid != null and shipperid != ''">
+				AND a.shipperid = #{shipperid}
 			</if>
 		</where>
 		<choose>
@@ -72,14 +93,26 @@
 			batch_gen_datetime,
 			sum_amt,
 			batch_creator,
-			erp_no
+			erp_no,
+			cardcode,
+			isok,
+			orderclass,
+			agenttype,
+			sapsupplierid,
+			shipperid
 		) VALUES (
 			#{id},
 			#{batchNum},
 			#{batchGenDatetime},
 			#{sumAmt},
 			#{batchCreator},
-			#{erpNo}
+			#{erpNo},
+			#{cardcode},
+			#{isok},
+			#{orderclass},
+			#{agenttype},
+			#{sapsupplierid},
+			#{shipperid}
 		)
 	</insert>
 	
@@ -89,7 +122,13 @@
 			batch_gen_datetime = #{batchGenDatetime},
 			sum_amt = #{sumAmt},
 			batch_creator = #{batchCreator},
-			erp_no = #{erpNo}
+			erp_no = #{erpNo},
+			cardcode = #{cardcode},
+			isok = #{isok},
+			orderclass = #{orderclass},
+			agenttype = #{agenttype},
+			sapsupplierid = #{sapsupplierid},
+			shipperid = #{shipperid}
 		WHERE id = #{id}
 	</update>
 	

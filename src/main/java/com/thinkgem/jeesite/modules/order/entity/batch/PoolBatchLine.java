@@ -11,7 +11,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 订单集成Entity
  * @author 罗天文
- * @version 2019-08-27
+ * @version 2019-10-26
  */
 public class PoolBatchLine extends DataEntity<PoolBatchLine> {
 	
@@ -21,6 +21,12 @@ public class PoolBatchLine extends DataEntity<PoolBatchLine> {
 	private String name;		// 物料名称
 	private Integer amount;		// 数量
 	private Double sumPrice;		// 总价格
+	private String supplierid;		// 发货方ID
+	private String suppliername;		// 发货方名称
+	private String productClass;		// 类型
+	private String wharehouse;		// 仓库
+	private String agenttype;		// 代理类型
+	private String sapsupplierid;		// sap供应商
 	
 	public PoolBatchLine() {
 		super();
@@ -77,6 +83,60 @@ public class PoolBatchLine extends DataEntity<PoolBatchLine> {
 
 	public void setSumPrice(Double sumPrice) {
 		this.sumPrice = sumPrice;
+	}
+	
+	@Length(min=0, max=11, message="发货方ID长度必须介于 0 和 11 之间")
+	public String getSupplierid() {
+		return supplierid;
+	}
+
+	public void setSupplierid(String supplierid) {
+		this.supplierid = supplierid;
+	}
+	
+	@Length(min=0, max=200, message="发货方名称长度必须介于 0 和 200 之间")
+	public String getSuppliername() {
+		return suppliername;
+	}
+
+	public void setSuppliername(String suppliername) {
+		this.suppliername = suppliername;
+	}
+	
+	@Length(min=0, max=20, message="类型长度必须介于 0 和 20 之间")
+	public String getProductClass() {
+		return productClass;
+	}
+
+	public void setProductClass(String productClass) {
+		this.productClass = productClass;
+	}
+	
+	@Length(min=0, max=50, message="仓库长度必须介于 0 和 50 之间")
+	public String getWharehouse() {
+		return wharehouse;
+	}
+
+	public void setWharehouse(String wharehouse) {
+		this.wharehouse = wharehouse;
+	}
+	
+	@Length(min=0, max=100, message="代理类型长度必须介于 0 和 100 之间")
+	public String getAgenttype() {
+		return agenttype;
+	}
+
+	public void setAgenttype(String agenttype) {
+		this.agenttype = agenttype;
+	}
+	
+	@Length(min=0, max=50, message="sap供应商长度必须介于 0 和 50 之间")
+	public String getSapsupplierid() {
+		return sapsupplierid;
+	}
+
+	public void setSapsupplierid(String sapsupplierid) {
+		this.sapsupplierid = sapsupplierid;
 	}
 	
 }

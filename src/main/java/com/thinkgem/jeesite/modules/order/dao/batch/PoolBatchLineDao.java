@@ -10,7 +10,7 @@ import com.thinkgem.jeesite.modules.order.entity.batch.PoolBatchLine;
 /**
  * 订单集成DAO接口
  * @author 罗天文
- * @version 2019-08-27
+ * @version 2019-10-26
  */
 @MyBatisDao
 public interface PoolBatchLineDao extends CrudDao<PoolBatchLine> {

@@ -15,7 +15,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 订单集成Entity
  * @author 罗天文
- * @version 2019-08-27
+ * @version 2019-10-26
  */
 public class PoolBatch extends DataEntity<PoolBatch> {
 	
@@ -25,6 +25,12 @@ public class PoolBatch extends DataEntity<PoolBatch> {
 	private Double sumAmt;		// 总金额
 	private String batchCreator;		// 批次创建人
 	private String erpNo;		// SAP交货单号
+	private String cardcode;		// CardCode
+	private String isok;		// 是否交货
+	private String orderclass;		// 订单类型
+	private String agenttype;		// 代理类型
+	private String sapsupplierid;		// sap供应商
+	private String shipperid;		// 发货方
 	private Date beginBatchGenDatetime;		// 开始 生成时间
 	private Date endBatchGenDatetime;		// 结束 生成时间
 	private List<PoolBatchLine> poolBatchLineList = Lists.newArrayList();		// 子表列表
@@ -81,6 +87,60 @@ public class PoolBatch extends DataEntity<PoolBatch> {
 
 	public void setErpNo(String erpNo) {
 		this.erpNo = erpNo;
+	}
+	
+	@Length(min=0, max=255, message="CardCode长度必须介于 0 和 255 之间")
+	public String getCardcode() {
+		return cardcode;
+	}
+
+	public void setCardcode(String cardcode) {
+		this.cardcode = cardcode;
+	}
+	
+	@Length(min=0, max=255, message="是否交货长度必须介于 0 和 255 之间")
+	public String getIsok() {
+		return isok;
+	}
+
+	public void setIsok(String isok) {
+		this.isok = isok;
+	}
+	
+	@Length(min=0, max=50, message="订单类型长度必须介于 0 和 50 之间")
+	public String getOrderclass() {
+		return orderclass;
+	}
+
+	public void setOrderclass(String orderclass) {
+		this.orderclass = orderclass;
+	}
+	
+	@Length(min=0, max=100, message="代理类型长度必须介于 0 和 100 之间")
+	public String getAgenttype() {
+		return agenttype;
+	}
+
+	public void setAgenttype(String agenttype) {
+		this.agenttype = agenttype;
+	}
+	
+	@Length(min=0, max=50, message="sap供应商长度必须介于 0 和 50 之间")
+	public String getSapsupplierid() {
+		return sapsupplierid;
+	}
+
+	public void setSapsupplierid(String sapsupplierid) {
+		this.sapsupplierid = sapsupplierid;
+	}
+	
+	@Length(min=0, max=50, message="发货方长度必须介于 0 和 50 之间")
+	public String getShipperid() {
+		return shipperid;
+	}
+
+	public void setShipperid(String shipperid) {
+		this.shipperid = shipperid;
 	}
 	
 	public Date getBeginBatchGenDatetime() {

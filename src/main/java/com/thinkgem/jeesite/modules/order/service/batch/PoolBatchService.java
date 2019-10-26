@@ -20,7 +20,7 @@ import com.thinkgem.jeesite.modules.order.dao.batch.PoolBatchLineDao;
 /**
  * 订单集成Service
  * @author 罗天文
- * @version 2019-08-27
+ * @version 2019-10-26
  */
 @Service
 @Transactional(readOnly = true)

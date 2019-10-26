@@ -116,8 +116,8 @@
 				AND a.haveAmount = #{haveAmount}
 			</if>
 
-			<if test="source != null and source != ''">
-				AND a.source = #{source}
+			<if test="saleGroup != null and saleGroup != ''">
+				AND a.sale_group = #{saleGroup}
 			</if>
 			<if test="ebTaskNo != null and ebTaskNo != ''">
 				AND a.eb_task_no = #{ebTaskNo}

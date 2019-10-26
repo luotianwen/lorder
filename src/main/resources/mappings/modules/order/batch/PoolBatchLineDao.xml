@@ -9,6 +9,12 @@
 		a.name AS "name",
 		a.amount AS "amount",
 		a.sum_price AS "sumPrice",
+		a.supplierid AS "supplierid",
+		a.suppliername AS "suppliername",
+		a.product_class AS "productClass",
+		a.wharehouse AS "wharehouse",
+		a.agenttype AS "agenttype",
+		a.sapsupplierid AS "sapsupplierid",
 		b.batch_num AS "poolBatch.batchNum"
 	</sql>
 	
@@ -74,14 +80,26 @@
 			product_id,
 			name,
 			amount,
-			sum_price
+			sum_price,
+			supplierid,
+			suppliername,
+			product_class,
+			wharehouse,
+			agenttype,
+			sapsupplierid
 		) VALUES (
 			#{id},
 			#{poolBatch.id},
 			#{productId},
 			#{name},
 			#{amount},
-			#{sumPrice}
+			#{sumPrice},
+			#{supplierid},
+			#{suppliername},
+			#{productClass},
+			#{wharehouse},
+			#{agenttype},
+			#{sapsupplierid}
 		)
 	</insert>
 	
@@ -91,7 +109,13 @@
 			product_id = #{productId},
 			name = #{name},
 			amount = #{amount},
-			sum_price = #{sumPrice}
+			sum_price = #{sumPrice},
+			supplierid = #{supplierid},
+			suppliername = #{suppliername},
+			product_class = #{productClass},
+			wharehouse = #{wharehouse},
+			agenttype = #{agenttype},
+			sapsupplierid = #{sapsupplierid}
 		WHERE id = #{id}
 	</update>
 	

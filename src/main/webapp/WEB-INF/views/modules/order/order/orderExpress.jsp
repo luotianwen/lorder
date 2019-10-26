@@ -63,44 +63,84 @@
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="order" action="${ctx}/order/order/order/saveExpress" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
-		<sys:message content="${message}"/>		
+		<sys:message content="${message}"/>
+
+
 		<div class="row control-group">
 			<label class="span1 control-label">集成单号：</label>
-			<div class="span2 ">
-				<form:input path="poolTaskNo" htmlEscape="false"  readonly="true" class="input-medium "/>
-				
+			<div class="span3 ">
+				<form:input path="poolTaskNo" htmlEscape="false" maxlength="50" class="input-xlarge " readonly="true"/>
 			</div>
 
 			<label class="span1 control-label">平台单号：</label>
-			<div class="span2 ">
-				<form:input path="taskNo" htmlEscape="false"   readonly="true" class="input-medium "/>
-				<span class="help-inline"><font color="red">*</font> </span>
+			<div class="span3 ">
+				<form:input path="taskNo" htmlEscape="false" maxlength="50" class="input-xlarge " readonly="true"/>
 			</div>
+
+				<%--<label class="span1 control-label">供应商单号：</label>
+                <div class="span3 ">
+                    <form:input path="supplierTaskNo" htmlEscape="false" maxlength="40" class="input-xlarge "/>
+                </div>--%>
 
 			<label class="span1 control-label">订单时间：</label>
 			<div class="span2 ">
-				<input name="taskGenDatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-					value="<fmt:formatDate value="${order.taskGenDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
+				<input name="taskGenDatetime" type="text" readonly="true" maxlength="20" class="input-medium Wdate "
+					   value="<fmt:formatDate value="${order.taskGenDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>" />
 
-			<label class="span1 control-label">付款渠道：</label>
+			</div>
+				<%--
+
+                            <label class="span1 control-label">付款渠道：</label>
+                            <div class="span2 ">
+                                <form:select path="payWay" class="input-medium ">
+                                    <form:option value="" label=""/>
+                                    <form:options items="${fns:getDictList('P_PAY_WAY')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+                                </form:select>
+                                <span class="help-inline"><font color="red">*</font> </span>
+                            </div>
+                --%>
+
+			<label class="span1 control-label">订单状态：</label>
 			<div class="span2 ">
-				<form:select path="payWay" class="input-medium " disabled="true">
+				<form:select path="taskStatus" class="input-medium " disabled="true">
 					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('P_PAY_WAY')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getDictList('P_TASK_STATUS')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
-				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
+		<%--<div class="row control-group">
 
-
+        </div>--%>
 		<div class="row control-group">
-			<label class="span1 control-label">订单金额：</label>
+
+			<label class="span1 control-label">实付总价：</label>
 			<div class="span2 ">
-				<form:input path="taskAmount" htmlEscape="false"  readonly="true" class="input-medium  number"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<form:input path="taskAmount" htmlEscape="false" class="input-medium  number" readonly="true"/>
+			</div>
+			<label class="span1 control-label">应付现金：</label>
+			<div class="span2 ">
+				<form:input path="payableAmount" htmlEscape="false" maxlength="40" class="input-medium  " readonly="true"/>
+
+			</div>
+
+			<label class="span1 control-label">减免金额：</label>
+			<div class="span2 ">
+				<form:input path="reductionAmount" htmlEscape="false" maxlength="512" class="input-medium  " readonly="true"/>
+			</div>
+
+			<label class="span1 control-label">莲香币：</label>
+			<div class="span2 ">
+				<form:input path="socre" htmlEscape="false"   class="input-medium " readonly="true"/>
+			</div>
+		</div>
+		<div class="row control-group">
+			<label class="span1 control-label">发货组织：</label>
+			<div class="span2 ">
+
+				<form:select path="saleGroup" class="input-medium " disabled="true">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('SALE_GROUP')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 
 			<label class="span1 control-label">订单类型：</label>
@@ -109,110 +149,262 @@
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('P_TASK_TYPE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
-				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
-
-			<label class="span1 control-label">订单来源：</label>
+			<label class="span1 control-label">更新时间：</label>
 			<div class="span2 ">
-				<form:select path="source" class="input-medium " disabled="true"  >
-					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('P_SOURCE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
+				<input name="statusChangeDatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+					   value="<fmt:formatDate value="${order.statusChangeDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</div>
 
 			<label class="span1 control-label">订单创建人：</label>
 			<div class="span2 ">
-				<form:input path="taskCreator" htmlEscape="false" maxlength="40" readonly="true" class="input-medium "/>
+				<form:input path="taskCreator" htmlEscape="false" maxlength="40" class="input-medium " readonly="true"/>
+			</div>
+				<%--</div>
+                <div class="row control-group">--%>
+				<%--<label class="span1 control-label">档期编码：</label>
+                <div class="span2 ">
+                    <form:input path="dmNo" htmlEscape="false" maxlength="100" class="input-medium "/>
+                </div>
+
+                <label class="span1 control-label">档期名称：</label>
+                <div class="span2 ">
+                    <form:input path="dmName" htmlEscape="false" maxlength="100" class="input-medium "/>
+                </div>
+
+                <label class="span1 control-label">订单来源：</label>
+                <div class="span2 ">
+                    <form:select path="source" class="input-medium ">
+                        <form:option value="" label=""/>
+                        <form:options items="${fns:getDictList('P_SOURCE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+                    </form:select>
+                    <span class="help-inline"><font color="red">*</font> </span>
+                </div>--%>
+				<%--
+                            <label class="span1 control-label">SAP单号：</label>
+                            <div class="span2 ">
+                                <form:input path="ebTaskNo" htmlEscape="false" maxlength="40" class="input-medium "/>
+                            </div>--%>
+		</div>
+		<%--	<div class="row control-group">--%>
+		<%--<label class="span1 control-label">SAP交货单号：</label>
+        <div class="span2 ">
+            <form:input path="erpNo" htmlEscape="false" maxlength="40" class="input-medium "/>
+        </div>--%>
+
+		<%--	<label class="span1 control-label">紧急程度：</label>
+            <div class="span2 ">
+                <form:input path="emergentId" htmlEscape="false" maxlength="512" class="input-medium "/>
+            </div>
+
+            <label class="span1 control-label">失败原因：</label>
+            <div class="span2 ">
+                <form:input path="failreason" htmlEscape="false" maxlength="512" class="input-medium "/>
+            </div>--%>
+
+		<%--</div>--%>
+		<div class="row control-group">
+
+
+			<label class="span1 control-label">代理商：</label>
+			<div class="span2 ">
+				<form:input path="agentType" htmlEscape="false" maxlength="40" class="input-medium " readonly="true"/>
+			</div>
+
+			<label class="span1 control-label">SAP供应商：</label>
+			<div class="span2 ">
+				<form:input path="sapSupplierID" htmlEscape="false" maxlength="40" class="input-medium " readonly="true"/>
+			</div>
+
+			<label class="span1 control-label">客户手机：</label>
+			<div class="span2 ">
+				<form:input path="handPhone" htmlEscape="false" maxlength="40" class="input-medium " readonly="true"/>
+			</div>
+
+				<%--<label class="span1 control-label">电子邮件：</label>
+                <div class="span2 ">
+                    <form:input path="email" htmlEscape="false" maxlength="40" class="input-medium "/>
+                </div>--%>
+
+			<label class="span1 control-label">会员编号：</label>
+			<div class="span2 ">
+				<form:input path="customerNo" htmlEscape="false" maxlength="40" class="input-medium " readonly="true"/>
 			</div>
 		</div>
-
-
-
 		<div class="row control-group">
+				<%--	<label class="span1 control-label">证件名称：</label>
+                    <div class="span2 ">
+                        <form:input path="idCardName" htmlEscape="false" maxlength="20" class="input-medium "/>
+                    </div>
+
+                    <label class="span1 control-label">证件号码：</label>
+                    <div class="span2 ">
+                        <form:input path="idCard" htmlEscape="false" maxlength="20" class="input-medium "/>
+                    </div>--%>
+
 			<label class="span1 control-label">收货地址-省：</label>
 			<div class="span2 ">
-				<sys:treeselect id="province" name="province.id" value="${order.province.name}" labelName="province.name" labelValue="${order.province.name}"
-					title="区域" url="/sys/area/treeData" cssClass="input-medium" allowClear="true" notAllowSelectParent="true"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<sys:treeselect id="province" name="province.name" disabled="true"  value="${order.province.name}" labelName="province.name" labelValue="${order.province.name}"
+								title="区域" url="/sys/area/treeData" cssClass="input-medium " allowClear="true" notAllowSelectParent="true"/>
 			</div>
 
 			<label class="span1 control-label">收货地址-市：</label>
 			<div class="span2 ">
-				<sys:treeselect id="city" name="city.id" value="${order.city.name}" labelName="city.name" labelValue="${order.city.name}"
-					title="区域" url="/sys/area/treeData" cssClass="input-medium" allowClear="true" notAllowSelectParent="true"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<sys:treeselect id="city" name="city.name" disabled="true" value="${order.city.name}" labelName="city.name" labelValue="${order.city.name}"
+								title="区域" url="/sys/area/treeData" cssClass="input-medium " allowClear="true" notAllowSelectParent="true"/>
 			</div>
 
 			<label class="span1 control-label">收货地址-区县：</label>
 			<div class="span2 ">
-				<sys:treeselect id="county" name="county.id" value="${order.county.name}" labelName="county.name" labelValue="${order.county.name}"
-					title="区域" url="/sys/area/treeData" cssClass="input-medium" allowClear="true" notAllowSelectParent="true"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<sys:treeselect id="county" name="county.name" disabled="true" value="${order.county.name}" labelName="county.name" labelValue="${order.county.name}"
+								title="区域" url="/sys/area/treeData" cssClass="input-medium " allowClear="true" notAllowSelectParent="true"/>
 			</div>
 
 			<label class="span1 control-label">收货详细地址：</label>
 			<div class="span2 ">
-				<form:input path="addressDetail" htmlEscape="false" maxlength="512" class="input-medium "/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<form:input path="addressDetail" htmlEscape="false" maxlength="512" class="input-medium "  readonly="true"/>
 			</div>
-		</div>
+				<%--	</div>--%>
+				<%--<div class="row control-group">
+                    <label class="span1 control-label">邮政编码：</label>
+                    <div class="span2 ">
+                        <form:input path="postcode" htmlEscape="false" maxlength="10" class="input-medium "/>
+                    </div>
+                </div>--%>
+				<%--<div class="row control-group">--%>
 
-		<div class="row control-group">
-			<label class="span1 control-label">收货人名称：</label>
+		</div>
+		<div class="row control-group"><label class="span1 control-label">收货人名称：</label>
 			<div class="span2 ">
-				<form:input path="consigneeName" htmlEscape="false" maxlength="100" class="input-medium "/>
+				<form:input path="consigneeName" htmlEscape="false" maxlength="100" class="input-medium " readonly="true"/>
 			</div>
 
 			<label class="span1 control-label">收货人电话：</label>
 			<div class="span2 ">
-				<form:input path="consigneePhone" htmlEscape="false" maxlength="100" class="input-medium "/>
+				<form:input path="consigneePhone" htmlEscape="false" maxlength="100" class="input-medium " readonly="true"/>
 			</div>
 
-			<label class="span1 control-label">发货地址：</label>
-			<div class="span2 ">
-				<form:select path="preSendAddress" class="input-medium required">
-					<form:option value="" label="无"/>
-					<form:options items="${addresss}" itemLabel="name" itemValue="id" htmlEscape="false"/>
-				</form:select>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
 
-			<label class="span1 control-label">承运商：</label>
+
+
+			<label class="span1 control-label">发货日期：</label>
 			<div class="span2 ">
-				<form:select path="carriers" class="input-medium required">
-					<form:option value="" label="无"/>
-					<form:options items="${expresss}" itemLabel="name" itemValue="id" htmlEscape="false"/>
-				</form:select>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<input name="sendStoreDatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+					   value="<fmt:formatDate value="${order.sendStoreDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</div>
 		</div>
+		<%--<div class="row control-group">
+                <label class="span1 control-label">发票发送地址：</label>
+                <div class="span2 ">
+                    <form:input path="invoiceSendAddress" htmlEscape="false" maxlength="512" class="input-medium " readonly="true"/>
+                </div>
 
 
+            <label class="span1 control-label">发票抬头：</label>
+            <div class="span2 ">
+                <form:input path="invoiceTitle" htmlEscape="false" maxlength="512" class="input-medium " readonly="true"/>
+            </div>
+
+            <label class="span1 control-label">发票号：</label>
+            <div class="span2 ">
+                <form:input path="invoiceNo" htmlEscape="false" maxlength="100" class="input-medium "/>
+            </div>
+
+            <label class="span1 control-label">发票类型：</label>
+            <div class="span2 ">
+                <form:input path="invoiceType" htmlEscape="false" maxlength="16" class="input-medium "/>
+            </div>
+
+            <label class="span1 control-label">发票发送方式：</label>
+            <div class="span2 ">
+                <form:input path="invoiceSendId" htmlEscape="false" class="input-medium "/>
+            </div>
+        </div>--%>
 
 		<div class="row control-group">
-			<label class="span1 control-label">备注信息：</label>
-			<div class="span5 ">
-				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
+
+
+				<%--<label class="span1 control-label">签收标准：</label>
+                <div class="span2 ">
+                    <form:input path="signStandard" htmlEscape="false" maxlength="200" class="input-medium "/>
+                </div>--%>
+
+			<label class="span1 control-label">是否签收：</label>
+			<div class="span2 ">
+				<form:select path="signResult" class="input-medium " disabled="true">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</div>
+
+			<label class="span1 control-label">签收人：</label>
+			<div class="span2 ">
+				<form:input path="signName" htmlEscape="false" maxlength="200" readonly="true" class="input-medium "/>
+			</div>
+
+			<label class="span1 control-label">签收时间：</label>
+			<div class="span2 ">
+				<input name="signDate" type="text" readonly="readonly" maxlength="20"   class="input-medium Wdate "
+					   value="<fmt:formatDate value="${order.signDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+				/>
+			</div>
+
+			<label class="span1 control-label">签收状态：</label>
+			<div class="span2 ">
+				<form:select path="recallStatus" class="input-medium " disabled="true">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('P_RECALL_STATUS')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 		</div>
-			<div class="row control-group">
-				<label class="span1 control-label">订单行数据表：</label>
-				<div class="span2 ">
+	<div class="row control-group">
+		<label class="span1 control-label">发货地址：</label>
+		<div class="span2 ">
+			<form:select path="preSendAddress" class="input-medium required">
+				<form:option value="" label="无"/>
+				<form:options items="${addresss}" itemLabel="name" itemValue="id" htmlEscape="false"/>
+			</form:select>
+			<span class="help-inline"><font color="red">*</font> </span>
+		</div>
+
+		<label class="span1 control-label">承运商：</label>
+		<div class="span2 ">
+			<form:select path="carriers" class="input-medium required">
+				<form:option value="" label="无"/>
+				<form:options items="${expresss}" itemLabel="name" itemValue="id" htmlEscape="false"/>
+			</form:select>
+			<span class="help-inline"><font color="red">*</font> </span>
+		</div>
+	</div>
+		<div class="row control-group">
+			<label class="span1 control-label">备注信息：</label>
+			<div class="span2 ">
+				<form:textarea path="remarks" htmlEscape="false" rows="4" readonly="true"  maxlength="255" class="input-xxlarge "/>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">订单行数据表：</label>
+			<div class="controls">
 					<table id="contentTable" class="table table-striped table-bordered table-condensed">
 						<thead>
 							<tr>
-								<th class="hide"></th>
-								<th>集成单号</th>
-								<th>订单号</th>
-								<th>商品名称</th>
-								<th>商品编号</th>
-								<th>产品线/产品分类</th>
-								<th>数量</th>
-								<th>ERP物料编码</th>
-								<th>物料名称</th>
 
+								<th style="width: 12%"> 商品编号</th>
+								<th style="width: 8%"> 商品类型</th>
+								<th style="width: 8%"> 数量</th>
+								<th style="width: 8%"> 物料名称</th>
+								<th style="width: 8%"> 莲香币</th>
+								<th style="width: 8%"> 实付单价</th>
+								<th style="width: 8%"> 实付总价</th>
+								<th style="width: 5%"> 应付总价</th>
+								<th style="width: 5%"> 减免金额</th>
+								<th style="width: 5%"> 代理商标识</th>
+								<th style="width: 5%"> SAP供应商</th>
+								<th style="width: 5%"> 批次号</th>
 
-								<shiro:hasPermission name="order:order:order:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
 							</tr>
 						</thead>
 						<tbody id="orderDetailList">
@@ -223,39 +415,42 @@
 					</table>
 					<script type="text/template" id="orderDetailTpl">//<!--
 						<tr id="orderDetailList{{idx}}">
-							<td class="hide">
-								<input id="orderDetailList{{idx}}_id" name="orderDetailList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="orderDetailList{{idx}}_delFlag" name="orderDetailList[{{idx}}].delFlag" type="hidden" value="0"/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_poolTaskNo" name="orderDetailList[{{idx}}].poolTaskNo" type="text" value="{{row.poolTaskNo}}"  class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_taskNo" name="orderDetailList[{{idx}}].taskNo" type="text" value="{{row.taskNo}}"  class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_productName" name="orderDetailList[{{idx}}].productName" type="text" value="{{row.productName}}" maxlength="512" class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_productNo" name="orderDetailList[{{idx}}].productNo" type="text" value="{{row.productNo}}" maxlength="40" class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_productClass" name="orderDetailList[{{idx}}].productClass" type="text" value="{{row.productClass}}" maxlength="20" class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_amount" name="orderDetailList[{{idx}}].amount" type="text" value="{{row.amount}}" maxlength="5" class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_productId" name="orderDetailList[{{idx}}].productId" type="text" value="{{row.productId}}" maxlength="80" class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_name" name="orderDetailList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="512" class="input-small "/>
-							</td>
 
-
-							<shiro:hasPermission name="order:order:order:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#orderDetailList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
-							</td></shiro:hasPermission>
+							<td>
+								{{row.productNo}}	<a onclick="windowOpen('${ctx}/order/order/taskLineMoney/?lineId={{row.id}}','查看信息')">查看分润信息</a></td>
+							<td>
+							<select id="orderDetailList{{idx}}_productClass" disabled="true" name="orderDetailList[{{idx}}].productClass" data-value="{{row.productClass}}" class="input-small ">
+									<c:forEach items="${fns:getDictList('P_productClass')}" var="dict">
+										<option value="${dict.value}">${dict.label}</option>
+									</c:forEach>
+								</select>
+							</td>
+							<td>{{row.amount}}</td>
+							<td>{{row.name}}</td>
+							<td>
+								 {{row.score}}
+							</td>
+							<td>
+								 {{row.payAmount}}
+							</td>
+							<td>
+								{{row.payAmountSum}}
+							</td>
+							<td>
+								{{row.priceSum}}
+							</td>
+							<td>
+								{{row.reductionAmount}}
+							</td>
+							<td>
+								{{row.agentType}}
+							</td>
+							<td>
+								{{row.sapSupplierID}}
+							</td>
+							<td>
+							{{row.batchNum}}
+							</td>
 						</tr>//-->
 					</script>
 					<script type="text/javascript">
