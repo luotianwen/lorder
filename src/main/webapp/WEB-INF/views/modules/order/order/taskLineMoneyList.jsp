@@ -40,11 +40,11 @@
 				<th>类型名称</th>
 				<th>分账金额</th>
 				<th>分账比例</th>
-				<th>税率</th>
+				<%--<th>税率</th>
 				<th>发货类型</th>
 				<th>发货方id</th>
 				<th>发货方名称</th>
-				<th>sap接口结果</th>
+				<th>sap接口结果</th>--%>
 			<%--	<shiro:hasPermission name="order:order:taskLineMoney:edit"><th>操作</th></shiro:hasPermission>--%>
 			</tr>
 		</thead>
@@ -63,7 +63,7 @@
 				<td>
 					${taskLineMoney.proportion}
 				</td>
-				<td>
+				<%--<td>
 					${taskLineMoney.rate}
 				</td>
 				<td>
@@ -77,7 +77,7 @@
 				</td>
 				<td>
 					${taskLineMoney.isok}
-				</td>
+				</td>--%>
 				<%--<shiro:hasPermission name="order:order:taskLineMoney:edit"><td>
     				<a href="${ctx}/order/order/taskLineMoney/form?id=${taskLineMoney.id}">修改</a>
 					<a href="${ctx}/order/order/taskLineMoney/delete?id=${taskLineMoney.id}" onclick="return confirmx('确认要删除该分润吗？', this.href)">删除</a>

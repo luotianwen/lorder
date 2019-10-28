@@ -199,15 +199,17 @@ public class OrderController extends BaseController {
 			order.setCarriers(carriers);
 			if(!("1").equals(order.getHaveAmount())){
 				taskno+="订单号"+order.getTaskNo()+"订单号没有库存不能发货";
+				break;
 			}
-			if(StringUtils.isEmpty(order.getCarriers())){
-				Address ad=addressService.get(preSendAddress);
-				String sendAddress=ad.getName()+"，"+ad.getPhone()+"，"+ ad.getProvice().getName()+"，"+ad.getCity().getName()+"，"+ad.getCounty().getName()+"，"+ad.getAddressDetail();
+
+			if (StringUtils.isEmpty(order.getCarriers())) {
+				Address ad = addressService.get(preSendAddress);
+				String sendAddress = ad.getName() + "，" + ad.getPhone() + "，" + ad.getProvice().getName() + "，" + ad.getCity().getName() + "，" + ad.getCounty().getName() + "，" + ad.getAddressDetail();
 				order.setPreSendAddress(sendAddress);
 				os.add(order);
-			}
-			else{
-				taskno+="订单号"+order.getTaskNo()+"订单号有单号不能重新发货";
+			} else {
+				taskno += "订单号" + order.getTaskNo() + "订单号有单号不能重新发货";
+				break;
 			}
 
 		}
