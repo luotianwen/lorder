@@ -426,7 +426,7 @@
 							<td>{{row.amount}}</td>
 							<td>{{row.name}}</td>
 							<td>
-								 {{row.score}}
+								 {{row.socre}}
 							</td>
 							<td>
 								 {{row.payAmount}}

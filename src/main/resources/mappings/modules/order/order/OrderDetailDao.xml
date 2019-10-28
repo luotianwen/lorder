@@ -50,7 +50,7 @@
 		a.priceSum AS "priceSum",
 		a.payAmountSum AS "payAmountSum",
 		a.reductionAmount AS "reductionAmount",
-		a.score AS "score",
+		a.score AS "socre",
 		a.agentType AS "agentType",
 		a.sapSupplierID AS "sapSupplierID"
 
