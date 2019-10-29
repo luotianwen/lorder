@@ -165,13 +165,13 @@
     <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
     <ul class="ul-form">
         <li><label>集成单号：</label>
-            <form:input path="poolTaskNo" htmlEscape="false" maxlength="10" class="input-medium"/>
+            <form:input path="poolTaskNo" htmlEscape="false"   class="input-medium"/>
         </li>
         <li><label>平台单号：</label>
-            <form:input path="taskNo" htmlEscape="false" maxlength="10" class="input-medium"/>
+            <form:input path="taskNo" htmlEscape="false"   class="input-medium"/>
         </li>
         <li><label>供应商单号：</label>
-            <form:input path="supplierTaskNo" htmlEscape="false" maxlength="40" class="input-medium"/>
+            <form:input path="supplierTaskNo" htmlEscape="false"   class="input-medium"/>
         </li>
         <li><label>订单时间：</label>
             <input name="beginTaskGenDatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
@@ -217,10 +217,10 @@
                 </form:select>
             </li>--%>
         <li><label>SAP单号：</label>
-            <form:input path="ebTaskNo" htmlEscape="false" maxlength="40" class="input-medium"/>
+            <form:input path="ebTaskNo" htmlEscape="false"   class="input-medium"/>
         </li>
         <li><label>客户编号：</label>
-            <form:input path="customerNo" htmlEscape="false" maxlength="40" class="input-medium"/>
+            <form:input path="customerNo" htmlEscape="false"  class="input-medium"/>
         </li>
             <%--<li><label>客户名称：</label>
                 <form:input path="customerName" htmlEscape="false" maxlength="512" class="input-medium"/>
@@ -229,10 +229,10 @@
                 <form:input path="handPhone" htmlEscape="false" maxlength="40" class="input-medium"/>
             </li>--%>
         <li><label>收货人名称：</label>
-            <form:input path="consigneeName" htmlEscape="false" maxlength="100" class="input-medium"/>
+            <form:input path="consigneeName" htmlEscape="false"   class="input-medium"/>
         </li>
         <li><label>收货人电话：</label>
-            <form:input path="consigneePhone" htmlEscape="false" maxlength="100" class="input-medium"/>
+            <form:input path="consigneePhone" htmlEscape="false"   class="input-medium"/>
         </li>
         <li><label>发货日期：</label>
             <input name="beginSendStoreDatetime" type="text" readonly="readonly" maxlength="20"

@@ -26,7 +26,7 @@
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
 			<li><label>批次号：</label>
-				<form:input path="batchNum" htmlEscape="false" maxlength="32" class="input-medium"/>
+				<form:input path="batchNum" htmlEscape="false"   class="input-medium"/>
 			</li>
 			<li><label>生成时间：</label>
 				<input name="beginBatchGenDatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
@@ -37,7 +37,7 @@
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</li>
 			<li><label>交货单号：</label>
-				<form:input path="erpNo" htmlEscape="false" maxlength="40" class="input-medium"/>
+				<form:input path="erpNo" htmlEscape="false"   class="input-medium"/>
 			</li>
 			<li><label>是否交货：</label>
 				<form:select path="isok" class="input-medium">
@@ -52,13 +52,13 @@
 				</form:select>
 			</li>
 			<li><label>代理类型：</label>
-				<form:input path="agenttype" htmlEscape="false" maxlength="100" class="input-medium"/>
+				<form:input path="agenttype" htmlEscape="false"   class="input-medium"/>
 			</li>
 			<li><label>sap供应商：</label>
-				<form:input path="sapsupplierid" htmlEscape="false" maxlength="50" class="input-medium"/>
+				<form:input path="sapsupplierid" htmlEscape="false"   class="input-medium"/>
 			</li>
 			<li><label>发货方：</label>
-				<form:input path="shipperid" htmlEscape="false" maxlength="50" class="input-medium"/>
+				<form:input path="shipperid" htmlEscape="false"   class="input-medium"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
