@@ -31,11 +31,16 @@ public class Order extends DataEntity<Order> {
 	@ExcelField(title="订单时间", align=1, sort=10)
 	private Date taskGenDatetime;		// 订单时间
 	private String payWay;		// 付款渠道
+
+	@ExcelField(title="订单状态", align=1, sort=25,dictType="P_TASK_STATUS")
 	private String taskStatus;		// 订单状态
 	private Date statusChangeDatetime;		// 更新时间
+	@ExcelField(title="订单金额", align=1, sort=30 )
 	private Double taskAmount;		// 订单金额
 	@ExcelField(title="发货组织", align=1, sort=15,dictType="SALE_GROUP")
 	private String saleGroup;		// 发货组织
+
+	@ExcelField(title="订单类型", align=1, sort=20,dictType="P_TASK_TYPE")
 	private String taskType;		// 订单类型
 	private String dmNo;		// 档期编码
 	private String dmName;		// 档期名称
@@ -57,6 +62,7 @@ public class Order extends DataEntity<Order> {
 	private String emergentId;		// 紧急程度
 	private String failreason;		// 失败原因
 	private String taskCreator;		// 订单创建人
+	@ExcelField(title="客户编号", align=1, sort=21 )
 	private String customerNo;		// 客户编号
 	private String customerName;		// 客户名称
 	private String sex;		// 客户性别
@@ -67,21 +73,29 @@ public class Order extends DataEntity<Order> {
 	private String fax;		// 会员编号
 	private String idCardName;		// 证件名称
 	private String idCard;		// 证件号码
+	@ExcelField(title="省", align=1, sort=56 )
 	private Area province;		// 收货地址-省
+	@ExcelField(title="市", align=1, sort=57)
 	private Area city;		// 收货地址-市
+	@ExcelField(title="区县", align=1, sort=58 )
 	private Area county;		// 收货地址-区县
+	@ExcelField(title="收货详细地址", align=1, sort=65 )
 	private String addressDetail;		// 收货详细地址
 	private String postcode;		// 邮政编码
+	@ExcelField(title="收货人名称", align=1, sort=50 )
 	private String consigneeName;		// 收货人名称
+	@ExcelField(title="收货人电话", align=1, sort=55 )
 	private String consigneePhone;		// 收货人电话
 	private String preSendAddress;		// 发货地址
 	private String sendWay;		// 送货方式
+	@ExcelField(title="快递信息", align=1, sort=170 )
 	private String carriers;		// 承运商
 	private String invoiceTitle;		// 发票抬头
 	private String invoiceNo;		// 发票号
 	private String invoiceType;		// 发票类型
 	private String invoiceSendId;		// 发票发送方式
 	private String invoiceSendAddress;		// 发票发送地址
+	@ExcelField(title="发货日期", align=1, sort=70 )
 	private Date sendStoreDatetime;		// 发货日期
 	private String signStandard;		// 签收标准
 	private String signResult;		// 是否签收
