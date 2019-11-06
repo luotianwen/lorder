@@ -13,6 +13,7 @@ import com.thinkgem.jeesite.modules.order.entity.address.Address;
 import com.thinkgem.jeesite.modules.order.entity.express.PoolExpress;
 import com.thinkgem.jeesite.modules.order.entity.express.PrintData;
 import com.thinkgem.jeesite.modules.order.entity.express.SearchData;
+import com.thinkgem.jeesite.modules.order.entity.order.OrderDetail;
 import com.thinkgem.jeesite.modules.order.entity.order.UserShipper;
 import com.thinkgem.jeesite.modules.order.service.address.AddressService;
 import com.thinkgem.jeesite.modules.order.service.express.PoolExpressService;
@@ -156,9 +157,16 @@ public class OrderController extends BaseController {
 		//订阅物流
 		poolExpressService.orderTracesSubByJson(order);
 		addMessage(redirectAttributes, "订单发货成功");
-		return "redirect:"+Global.getAdminPath()+"/order/order/order/shipper?repage";
+		return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
 	}
 
+	@RequiresPermissions("order:order:order:view")
+	@RequestMapping(value = "orderListByBatchNum")
+	public String orderListByBatchNum(OrderDetail order, Model model) {
+		List<OrderDetail> os=orderService.getOrderDetailList(order);
+		 model.addAttribute("os", os);
+		return "modules/order/order/orderListByBatchNum";
+	}
 	@RequiresPermissions("order:order:order:edit")
 	@RequestMapping(value = "delete")
 	public String delete(Order order, RedirectAttributes redirectAttributes) {

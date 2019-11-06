@@ -379,6 +379,11 @@
         </div>
     </div>--%>
 	<div class="row control-group">
+		<label class="span1 control-label">cardCode：</label>
+		<div class="span2 ">
+			<form:input path="cardCode" htmlEscape="false" maxlength="200" readonly="true" class="input-medium "/>
+
+		</div>
 		<label class="span1 control-label">备注信息：</label>
 		<div class="span2 ">
 			<form:textarea path="remarks" htmlEscape="false" rows="4" readonly="true"  maxlength="255" class="input-xxlarge "/>
@@ -415,7 +420,7 @@
 						<tr id="orderDetailList{{idx}}">
 
 <td>
-							{{row.productNo}}	<a onclick="windowOpen('${ctx}/order/order/taskLineMoney/?lineId={{row.id}}','查看信息')">查看分润信息</a></td>
+							{{row.productNo}}	<a style="cursor:pointer" onclick="windowOpen('${ctx}/order/order/taskLineMoney/?lineId={{row.id}}','查看信息')">查看分润信息</a></td>
 							<td>
 							<select id="orderDetailList{{idx}}_productClass" disabled="true" name="orderDetailList[{{idx}}].productClass" data-value="{{row.productClass}}" class="input-small ">
 									<c:forEach items="${fns:getDictList('P_productClass')}" var="dict">

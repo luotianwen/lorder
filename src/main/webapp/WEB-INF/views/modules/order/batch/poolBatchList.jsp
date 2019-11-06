@@ -72,12 +72,14 @@
 				<th class="sort-column batchNum">批次号</th>
 				<th class="sort-column batchGenDatetime">生成时间</th>
 				<th>总金额</th>
-				<th class="sort-column erpNo">SAP交货单号</th>
+
 				<th>是否交货</th>
 				<th>订单类型</th>
 				<th>代理类型</th>
 				<th>sap供应商</th>
 				<th>发货方</th>
+
+				<th class="sort-column erpNo">SAP交货单号</th>
 				<shiro:hasPermission name="order:batch:poolBatch:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -93,9 +95,7 @@
 				<td>
 					${poolBatch.sumAmt}
 				</td>
-				<td >
-					${poolBatch.erpNo}
-				</td>
+
 				<td>
 					${fns:getDictLabel(poolBatch.isok, 'yes_no', '')}
 				</td>
@@ -111,8 +111,12 @@
 				<td>
 					${poolBatch.shipperid}
 				</td>
+				<td >
+						${poolBatch.erpNo}
+				</td>
 				<shiro:hasPermission name="order:batch:poolBatch:edit"><td>
     				<a href="${ctx}/order/batch/poolBatch/form?id=${poolBatch.id}">查看</a>
+					<a href="${ctx}/order/order/order/orderListByBatchNum?batchNum=${poolBatch.batchNum}" target="_blank">查看订单</a>
 				<%--	<a href="${ctx}/order/batch/poolBatch/delete?id=${poolBatch.id}" onclick="return confirmx('确认要删除该订单集成吗？', this.href)">删除</a>
 			--%>	</td></shiro:hasPermission>
 			</tr>

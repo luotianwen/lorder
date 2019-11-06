@@ -26,6 +26,7 @@ public class Order extends DataEntity<Order> {
 	private String poolTaskNo;		// 集成单号
 	@ExcelField(title="平台单号", align=1, sort=5)
 	private String taskNo;		// 平台单号
+	private String cardCode;
 
 	private String supplierTaskNo;		// 供应商单号
 	@ExcelField(title="订单时间", align=1, sort=10)
@@ -53,6 +54,23 @@ public class Order extends DataEntity<Order> {
 
 	public void setHaveAmount(String haveAmount) {
 		this.haveAmount = haveAmount;
+	}
+
+	public String getCardCode() {
+		return cardCode;
+	}
+
+	public void setCardCode(String cardCode) {
+		this.cardCode = cardCode;
+	}
+	private String batchNum;		// 批次号
+
+	public String getBatchNum() {
+		return batchNum;
+	}
+
+	public void setBatchNum(String batchNum) {
+		this.batchNum = batchNum;
 	}
 
 	private String source;		// 订单来源

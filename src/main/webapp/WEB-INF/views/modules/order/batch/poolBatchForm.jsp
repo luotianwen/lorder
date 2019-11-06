@@ -68,6 +68,7 @@
 			<label class="control-label">批次号：</label>
 			<div class="controls">
 				<form:input path="batchNum" htmlEscape="false" maxlength="32" class="input-xlarge required" readonly="true"/>
+				<a href="${ctx}/order/order/order/orderListByBatchNum?batchNum=${poolBatch.batchNum}" target="_blank">查看订单</a>
 			</div>
 		</div>
 		<div class="control-group">

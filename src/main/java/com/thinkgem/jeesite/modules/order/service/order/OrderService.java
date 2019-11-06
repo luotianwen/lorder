@@ -38,7 +38,9 @@ public class OrderService extends CrudService<OrderDao, Order> {
 		order.setOrderDetailList(orderDetailDao.findList(new OrderDetail(order)));
 		return order;
 	}
-	
+	public List<OrderDetail> getOrderDetailList(OrderDetail order) {
+		return orderDetailDao.findAllList(order);
+	}
 	public List<Order> findList(Order order) {
 		return super.findList(order);
 	}

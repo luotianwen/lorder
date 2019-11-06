@@ -103,6 +103,10 @@
 		<include refid="orderDetailJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+
+			<if test="batchNum != null and batchNum != ''">
+				AND a.batch_num = #{batchNum}
+			</if>
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

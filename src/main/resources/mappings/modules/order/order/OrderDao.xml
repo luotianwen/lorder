@@ -70,8 +70,8 @@
 		a.reductionAmount AS "reductionAmount",
 		a.score AS "socre",
 		a.agentType AS "agentType",
-		a.sapSupplierID AS "sapSupplierID"
-
+		a.sapSupplierID AS "sapSupplierID",
+		a.cardCode AS "cardCode"
 
 	</sql>
 	
