@@ -65,6 +65,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
+				ORDER BY a.batch_gen_datetime DESC
 			</otherwise>
 		</choose>
 	</select>
