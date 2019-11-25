@@ -138,6 +138,10 @@
 			<if test="consigneeName != null and consigneeName != ''">
 				AND a.consignee_name = #{consigneeName}
 			</if>
+			<if test="shippername != null and shippername != ''">
+				AND a.shipperName = #{shippername}
+			</if>
+
 			<if test="consigneePhone != null and consigneePhone != ''">
 				AND a.consignee_phone = #{consigneePhone}
 			</if>

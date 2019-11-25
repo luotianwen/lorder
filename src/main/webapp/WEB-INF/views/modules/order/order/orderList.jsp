@@ -106,7 +106,7 @@
             var preSendAddress = $("#preSendAddress").val();
             var carriers = $("#carriers").val();
             //$("#searchForm").attr("target","_blank");
-            $("#searchForm").attr("action", "${ctx}/order/order/order/allDeliver?ids=" + delIds + "&preSendAddress=" + preSendAddress + "&carriers=" + carriers);
+            $("#searchForm").attr("action", "${ctx}/order/order/order/allDeliver?ids=" + delIds);
             $("#searchForm").submit();
             //$("#searchForm").attr("target","_self");
             // $("#searchForm").attr("action", oldAction);
@@ -209,7 +209,9 @@
                               htmlEscape="false"/>
             </form:select>
         </li>
-
+        <li><label>发货人：</label>
+            <form:input path="shippername" htmlEscape="false" maxlength="512" class="input-medium"/>
+        </li>
             <%--<li><label>订单来源：</label>
                 <form:select path="source" class="input-medium">
                     <form:option value="" label=""/>
@@ -222,10 +224,8 @@
         <li><label>客户编号：</label>
             <form:input path="customerNo" htmlEscape="false"  class="input-medium"/>
         </li>
-            <%--<li><label>客户名称：</label>
-                <form:input path="customerName" htmlEscape="false" maxlength="512" class="input-medium"/>
-            </li>
-            <li><label>客户手机：</label>
+
+            <%-- <li><label>客户手机：</label>
                 <form:input path="handPhone" htmlEscape="false" maxlength="40" class="input-medium"/>
             </li>--%>
         <li><label>收货人名称：</label>

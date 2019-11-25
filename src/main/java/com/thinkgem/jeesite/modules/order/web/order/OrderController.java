@@ -196,19 +196,20 @@ public class OrderController extends BaseController {
 		String taskno="";
 		for(String o:ors){
 			Order order=orderService.get(o);
-			order.setCarriers(carriers);
+
 			if(!("1").equals(order.getHaveAmount())){
 				taskno+="订单号"+order.getTaskNo()+"订单号没有库存不能发货";
 				break;
 			}
 
 			if (StringUtils.isEmpty(order.getCarriers())) {
+				order.setCarriers(carriers);
 				Address ad = addressService.get(preSendAddress);
 				String sendAddress = ad.getName() + "，" + ad.getPhone() + "，" + ad.getProvice().getName() + "，" + ad.getCity().getName() + "，" + ad.getCounty().getName() + "，" + ad.getAddressDetail();
 				order.setPreSendAddress(sendAddress);
 				os.add(order);
 			} else {
-				taskno += "订单号" + order.getTaskNo() + "订单号有单号不能重新发货";
+				taskno += "失败 订单号" + order.getTaskNo() + "订单号有单号不能重新发货";
 				break;
 			}
 
@@ -216,13 +217,12 @@ public class OrderController extends BaseController {
 		if(StringUtils.isEmpty(taskno)) {
 			orderService.allDeliver(os);
 			addMessage(redirectAttributes, "订单重新发货成功");
+			return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
 		}else{
 			addMessage(redirectAttributes, taskno);
+			return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
 		}
-		if(("1").equals(type))
-		return "redirect:"+Global.getAdminPath()+"/order/order/order/shipper?repage";
 
-        return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
 	}
 
 
