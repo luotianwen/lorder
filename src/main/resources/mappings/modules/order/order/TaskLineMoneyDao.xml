@@ -3,6 +3,8 @@
 <mapper namespace="com.thinkgem.jeesite.modules.order.dao.order.TaskLineMoneyDao">
     
 	<sql id="taskLineMoneyColumns">
+		a.userid AS "userid",
+		a.name AS "name",
 		a.id AS "id",
 		a.line_id AS "lineId",
 		a.usertype AS "usertype",
@@ -13,10 +15,18 @@
 		a.shippertype AS "shippertype",
 		a.shipperid AS "shipperid",
 		a.shippername AS "shippername",
-		a.isok AS "isok"
+		a.isok AS "isok",
+		b.task_no AS "od.taskNo",
+		b.pool_task_no AS "od.poolTaskNo",
+		b.name AS "od.name",
+		b.product_no AS "od.productNo",
+		b.priceSum AS "od.priceSum",
+		b.payAmountSum AS "od.payAmountSum",
+		b.batch_num AS "od.batchNum"
 	</sql>
-	
+
 	<sql id="taskLineMoneyJoins">
+		LEFT JOIN pool_task_line b ON b.id = a.line_id
 	</sql>
     
 	<select id="get" resultType="TaskLineMoney">
@@ -33,9 +43,28 @@
 		FROM pool_task_line_money a
 		<include refid="taskLineMoneyJoins"/>
 		<where>
-			
+
+			<if test="od != null and od.taskNo != null and od.taskNo != ''">
+				AND b.task_no = #{od.taskNo}
+			</if>
+			<if test="od != null and od.batchNum != null and od.batchNum != ''">
+				AND b.batch_num = #{od.batchNum}
+			</if>
+
+			<if test="userid != null and userid != ''">
+				AND a.userid = #{userid}
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name LIKE  concat('%',#{name},'%')
+			</if>
 			<if test="lineId != null and lineId != ''">
 				AND a.line_id = #{lineId}
+			</if>
+			<if test="usertype != null and usertype != ''">
+				AND a.usertype = #{usertype}
+			</if>
+			<if test="typename != null and typename != ''">
+				AND a.typename = #{typename}
 			</if>
 		</where>
 		<choose>
@@ -66,6 +95,8 @@
 	
 	<insert id="insert">
 		INSERT INTO pool_task_line_money(
+			userid,
+			name,
 			id,
 			line_id,
 			usertype,
@@ -78,6 +109,8 @@
 			shippername,
 			isok
 		) VALUES (
+			#{userid},
+			#{name},
 			#{id},
 			#{lineId},
 			#{usertype},
@@ -94,6 +127,8 @@
 	
 	<update id="update">
 		UPDATE pool_task_line_money SET 	
+			userid = #{userid},
+			name = #{name},
 			line_id = #{lineId},
 			usertype = #{usertype},
 			typename = #{typename},

@@ -164,7 +164,7 @@
     <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
     <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
     <ul class="ul-form">
-        <li><label>集成单号：</label>
+        <li><label>oms订单号：</label>
             <form:input path="poolTaskNo" htmlEscape="false"   class="input-medium"/>
         </li>
         <li><label>平台单号：</label>
@@ -377,7 +377,7 @@
     <thead>
     <tr>
         <th><input type=checkbox name="checkId" id="checkId"></th>
-        <th class="sort-column poolTaskNo">集成单号</th>
+        <th class="sort-column poolTaskNo">oms订单号</th>
         <th class="sort-column taskNo">平台单号</th>
         <th class="sort-column taskGenDatetime">订单时间</th>
         <th>订单类型</th>

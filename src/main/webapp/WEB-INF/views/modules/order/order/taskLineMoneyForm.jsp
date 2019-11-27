@@ -34,6 +34,18 @@
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
+			<label class="control-label">分账方ID：</label>
+			<div class="controls">
+				<form:input path="userid" htmlEscape="false" maxlength="11" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">分账方名称：</label>
+			<div class="controls">
+				<form:input path="name" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">订单行数据：</label>
 			<div class="controls">
 				<form:input path="lineId" htmlEscape="false" maxlength="32" class="input-xlarge "/>
@@ -88,14 +100,17 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">sap接口结果：</label>
+			<label class="control-label">是否同步sap：</label>
 			<div class="controls">
-				<form:input path="isok" htmlEscape="false" maxlength="2" class="input-xlarge "/>
+				<form:select path="isok" class="input-xlarge ">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 		</div>
 		<div class="form-actions">
-			<shiro:hasPermission name="order:order:taskLineMoney:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+		<%--	<shiro:hasPermission name="order:order:taskLineMoney:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+		--%>	<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
 </body>

@@ -10,7 +10,7 @@ import com.thinkgem.jeesite.modules.order.entity.order.TaskLineMoney;
 /**
  * 分润DAO接口
  * @author 罗天文
- * @version 2019-09-21
+ * @version 2019-11-27
  */
 @MyBatisDao
 public interface TaskLineMoneyDao extends CrudDao<TaskLineMoney> {

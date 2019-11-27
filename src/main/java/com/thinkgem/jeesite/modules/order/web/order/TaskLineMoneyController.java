@@ -6,12 +6,16 @@ package com.thinkgem.jeesite.modules.order.web.order;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.common.utils.DateUtils;
+import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
+import com.thinkgem.jeesite.modules.order.entity.order.Order;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -22,10 +26,12 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.order.entity.order.TaskLineMoney;
 import com.thinkgem.jeesite.modules.order.service.order.TaskLineMoneyService;
 
+import java.util.List;
+
 /**
  * 分润Controller
  * @author 罗天文
- * @version 2019-09-21
+ * @version 2019-11-27
  */
 @Controller
 @RequestMapping(value = "${adminPath}/order/order/taskLineMoney")
@@ -79,5 +85,21 @@ public class TaskLineMoneyController extends BaseController {
 		addMessage(redirectAttributes, "删除分润成功");
 		return "redirect:"+Global.getAdminPath()+"/order/order/taskLineMoney/?repage";
 	}
+	@RequiresPermissions("order:order:taskLineMoney:edit")
+	@RequestMapping(value = "export", method= RequestMethod.POST)
+	public String exportFile(TaskLineMoney taskLineMoney,HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+		try {
+			String fileName = "订单分润数据"+ DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
 
+			if(null==taskLineMoney){
+				taskLineMoney=new TaskLineMoney();
+			}
+			List<TaskLineMoney> list=taskLineMoneyService.findList(taskLineMoney);
+			new ExportExcel("订单分润数据"+ DateUtils.getDate("yyyyMMddHHmmss"), TaskLineMoney.class).setDataList(list).write(response, fileName).dispose();
+			return null;
+		} catch (Exception e) {
+			addMessage(redirectAttributes, "导出失败！失败信息："+e.getMessage());
+		}
+		return "redirect:"+Global.getAdminPath()+"/order/order/taskLineMoney/?repage";
+	}
 }

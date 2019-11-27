@@ -25,7 +25,7 @@
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
-			<li><label>批次号：</label>
+			<li><label>集成号：</label>
 				<form:input path="batchNum" htmlEscape="false"   class="input-medium"/>
 			</li>
 			<li><label>生成时间：</label>
@@ -69,7 +69,7 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th class="sort-column batchNum">批次号</th>
+				<th class="sort-column batchNum">集成号</th>
 				<th class="sort-column batchGenDatetime">生成时间</th>
 				<th>总金额</th>
 
