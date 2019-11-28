@@ -276,6 +276,60 @@ public class OrderController extends BaseController {
 		}
 		return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
 	}
+	@RequiresPermissions("order:order:order:edit")
+	@RequestMapping(value = "exportProduct", method= RequestMethod.POST)
+	public String exportProduct(Order order, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+		try {
+			String fileName = "订单商品数据"+ DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+
+			if(null==order){
+				order=new Order();
+			}
+			List<Order> list=orderService.findList(order);
+			List<OrderDetail> ods=new ArrayList<OrderDetail>();
+			for (Order o:list
+				 ) {
+				List<OrderDetail> od2s=orderService.get(o.getId()).getOrderDetailList();
+				for (OrderDetail od2:od2s
+					 ) {
+					if(ods.size()==0){
+						ods.add(od2);
+					}
+					else{
+                        boolean f=false;
+						for (OrderDetail od:ods
+						) {
+							if(od.getProductNo().equals(od2.getProductNo())){
+								f=true;
+								od.setAmount(od.getAmount()+od2.getAmount());
+								break;
+							}
+
+						}
+                   if(f){
+
+				   }
+				   else{
+					   ods.add(od2);
+				   }
+
+
+					}
+
+
+
+				}
+
+			}
+
+
+			new ExportExcel("订单商品数据"+ DateUtils.getDate("yyyyMMddHHmmss"), OrderDetail.class).setDataList(ods).write(response, fileName).dispose();
+			return null;
+		} catch (Exception e) {
+			addMessage(redirectAttributes, "导出失败！失败信息："+e.getMessage());
+		}
+		return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
+	}
     @RequiresPermissions("order:order:order:shipper")
     @RequestMapping(value = "shipperexport", method= RequestMethod.POST)
     public String exportShipperFile(Order order, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {

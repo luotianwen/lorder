@@ -215,7 +215,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		List<OrderDetail> ods=order.getOrderDetailList();
 		for (OrderDetail od:ods
 			 ) {
-			details+="{ 'GoodsName':'"+od.getName()+"','Goodsquantity':1,'GoodsWeight':1.0}";
+			details+="{ 'GoodsName':'"+od.getName()+"','Goodsquantity':1,'GoodsWeight':''}";
 		}
 		String requestData= "{'OrderCode':'"+code+"'," +
 				"'ShipperCode':'"+ShipperCode+"'," +
@@ -239,7 +239,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 				"[" +
 				details +
 				"]," +
-				"'Weight':1.0," +
+				"'Weight':''," +
 				"'Quantity':1," +
 				"'Volume':0.0," +
 				"'TemplateSize':"+TemplateSize+"," +

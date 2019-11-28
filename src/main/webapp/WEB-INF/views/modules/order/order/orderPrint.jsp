@@ -13,7 +13,7 @@
     </script>
 </head>
 <body>
-<h1>Demo</h1>
+<h1>打印</h1>
 <div id="head"></div>
 <form id="form1" action="http://www.kdniao.com/External/PrintOrder.aspx" method="post" target="_self">
     <div style="">

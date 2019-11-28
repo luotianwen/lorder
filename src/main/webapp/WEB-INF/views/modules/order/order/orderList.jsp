@@ -24,6 +24,20 @@
                 }, {buttonsFocus: 1});
                 top.$('.jbox-body .jbox-icon').css('top', '55px');
             });
+            $("#btnExport2").click(function () {
+                top.$.jBox.confirm("确认要导出数据吗？", "系统提示", function (v, h, f) {
+                    if (v == "ok") {
+                        var oldAction = $("#searchForm").attr("action");
+                        $("#searchForm").attr("target", "_blank");
+                        $("#searchForm").attr("action", "${ctx}/order/order/order/exportProduct");
+                        $("#searchForm").submit();
+                        $("#searchForm").attr("target", "_self");
+                        $("#searchForm").attr("action", oldAction);
+                    }
+                }, {buttonsFocus: 1});
+                top.$('.jbox-body .jbox-icon').css('top', '55px');
+            });
+
             $(":checkbox[name='orderIds']").click(function () {
                 $("#checkId").attr('checked', $(":checkbox[name='orderIds']").length == $(":checkbox[name='orderIds']:checked").length);
             });
@@ -267,8 +281,8 @@
                    onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
         </li>
         <li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
-            <input id="btnExport" class="btn btn-primary" type="button" value="导出"/>
-
+            <input id="btnExport" class="btn btn-primary" type="button" value="导出订单"/>
+            <input id="btnExport2" class="btn btn-primary" type="button" value="导出商品"/>
             <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary">批量发货</a>
             <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary">批量重新发货</a>
             <a href="#" onclick="checkprint()" class="btn btn-primary">批量打印</a>

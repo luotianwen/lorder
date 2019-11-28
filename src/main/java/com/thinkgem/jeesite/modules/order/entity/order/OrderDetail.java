@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.order.entity.order;
 
+import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import org.hibernate.validator.constraints.Length;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
@@ -19,10 +20,13 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 	private String poolTaskNo;		// 集成单号
 	private String taskNo;		// 订单号
 	private String productName;		// 商品名称
+	@ExcelField(title="商品编号", align=1, sort=1 )
 	private String productNo;		// 商品编号
 	private String productClass;		// 产品线/产品分类
-	private String amount;		// 数量
+	@ExcelField(title="数量", align=1, sort=3 )
+	private int amount;		// 数量
 	private String productId;		// ERP物料编码
+	@ExcelField(title="商品名称", align=1, sort=2 )
 	private String name;		// 物料名称
 	private String isPresent;		// 赠品标识
 	private String presentNotes;		// 赠品备注
@@ -198,11 +202,11 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 	}
 	
 	@Length(min=1, max=5, message="数量长度必须介于 1 和 5 之间")
-	public String getAmount() {
+	public int getAmount() {
 		return amount;
 	}
 
-	public void setAmount(String amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 	
