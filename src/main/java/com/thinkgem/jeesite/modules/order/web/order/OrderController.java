@@ -3,12 +3,14 @@
  */
 package com.thinkgem.jeesite.modules.order.web.order;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.thinkgem.jeesite.common.utils.DateUtils;
-import com.thinkgem.jeesite.common.utils.UserAgentUtils;
+import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
+import com.thinkgem.jeesite.common.utils.excel.JxlsTemplate;
 import com.thinkgem.jeesite.modules.order.entity.address.Address;
 import com.thinkgem.jeesite.modules.order.entity.express.PoolExpress;
 import com.thinkgem.jeesite.modules.order.entity.express.PrintData;
@@ -36,9 +38,10 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.order.entity.order.Order;
 import com.thinkgem.jeesite.modules.order.service.order.OrderService;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 订单管理Controller
@@ -275,6 +278,42 @@ public class OrderController extends BaseController {
 			addMessage(redirectAttributes, "导出失败！失败信息："+e.getMessage());
 		}
 		return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
+	}
+	@RequiresPermissions("order:order:order:edit")
+	@RequestMapping(value = "export2", method= RequestMethod.POST)
+	public void exportFile2(Order order, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+		try {
+			String fileName = "订单数据"+ DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+			ServletOutputStream out = null;
+			if(null==order){
+				order=new Order();
+			}
+			List<Order> list=orderService.findList(order);
+			for (Order o:list
+			) {
+				List<OrderDetail> od2s = orderService.get(o.getId()).getOrderDetailList();
+				o.setOrderDetailList(od2s);
+			}
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("items", list);
+			try {
+				response.setHeader("Expires", "0");
+				response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+				response.setHeader("Content-Disposition", "attachment; filename="+ Encodes.urlEncode(fileName));
+				response.setHeader("Pragma", "public");
+				response.setContentType("application/x-excel;charset=UTF-8");
+				out = response.getOutputStream();
+				JxlsTemplate.processTemplate("/productList_export.xls", out, params);
+				out.flush();
+				out.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
+			addMessage(redirectAttributes, "导出失败！失败信息："+e.getMessage());
+		}
+
 	}
 	@RequiresPermissions("order:order:order:edit")
 	@RequestMapping(value = "exportProduct", method= RequestMethod.POST)
