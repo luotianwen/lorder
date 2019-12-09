@@ -234,7 +234,7 @@ public class ExportExcel {
 	 */
 	private Map<String, CellStyle> createStyles(Workbook wb) {
 		Map<String, CellStyle> styles = new HashMap<String, CellStyle>();
-		
+	/*
 		CellStyle style = wb.createCellStyle();
 		style.setAlignment(CellStyle.ALIGN_CENTER);
 		style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
@@ -289,7 +289,7 @@ public class ExportExcel {
 		headerFont.setColor(IndexedColors.WHITE.getIndex());
 		style.setFont(headerFont);
 		styles.put("header", style);
-		
+		*/
 		return styles;
 	}
 

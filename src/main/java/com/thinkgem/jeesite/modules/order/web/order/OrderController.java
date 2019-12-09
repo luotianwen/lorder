@@ -283,7 +283,7 @@ public class OrderController extends BaseController {
 	@RequestMapping(value = "export2", method= RequestMethod.POST)
 	public void exportFile2(Order order, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
-			String fileName = "订单数据"+ DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+			String fileName = "订单数据"+ DateUtils.getDate("yyyyMMddHHmmss")+".xls";
 			ServletOutputStream out = null;
 			if(null==order){
 				order=new Order();
