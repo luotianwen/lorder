@@ -25,6 +25,16 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 	private String productClass;		// 产品线/产品分类
 	@ExcelField(title="数量", align=1, sort=3 )
 	private int amount;		// 数量
+	private int stock;		// 库存
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
 	private String productId;		// ERP物料编码
 	@ExcelField(title="商品名称", align=1, sort=2 )
 	private String name;		// 物料名称

@@ -20,8 +20,13 @@ import com.thinkgem.jeesite.modules.order.entity.order.UserShipper;
 import com.thinkgem.jeesite.modules.order.service.address.AddressService;
 import com.thinkgem.jeesite.modules.order.service.express.PoolExpressService;
 import com.thinkgem.jeesite.modules.order.service.order.UserShipperService;
+import com.thinkgem.jeesite.modules.sys.entity.Dict;
+import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.jxls.expression.JexlExpressionEvaluator;
+import org.jxls.transform.Transformer;
+import org.jxls.util.JxlsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -266,13 +271,36 @@ public class OrderController extends BaseController {
 	@RequestMapping(value = "export", method= RequestMethod.POST)
 	public String exportFile(Order order, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
-			String fileName = "订单数据"+ DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+			String fileName = "订单数据"+ DateUtils.getDate("yyyyMMdd")+".xls";
 
 			if(null==order){
 				order=new Order();
 			}
 			List<Order> list=orderService.findList(order);
-			new ExportExcel("订单数据"+ DateUtils.getDate("yyyyMMddHHmmss"), Order.class).setDataList(list).write(response, fileName).dispose();
+			ServletOutputStream out = null;
+			Map<String, Object> params = new HashMap<String, Object>();
+			Map<String, String> ds = new HashMap<String, String>();
+			List<Dict> dl=DictUtils.getDictList("P_TASK_STATUS");
+			for (Dict d:dl
+				 ) {
+				ds.put(d.getValue(),d.getLabel());
+			}
+			params.put("items", list);
+			params.put("ds", ds);
+			try {
+				response.setHeader("Expires", "0");
+				response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+				response.setHeader("Content-Disposition", "attachment; filename="+ Encodes.urlEncode(fileName));
+				response.setHeader("Pragma", "public");
+				response.setContentType("application/x-excel;charset=UTF-8");
+				out = response.getOutputStream();
+				JxlsTemplate.processTemplate("/order_list_export.xls", out, params);
+				out.flush();
+				out.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			//new ExportExcel("订单数据"+ DateUtils.getDate("yyyyMMddHHmmss"), Order.class).setDataList(list).write(response, fileName).dispose();
 			return null;
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导出失败！失败信息："+e.getMessage());
@@ -283,7 +311,7 @@ public class OrderController extends BaseController {
 	@RequestMapping(value = "export2", method= RequestMethod.POST)
 	public void exportFile2(Order order, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
-			String fileName = "订单数据"+ DateUtils.getDate("yyyyMMddHHmmss")+".xls";
+			String fileName = "交货单"+ DateUtils.getDate("yyyyMMdd")+".xls";
 			ServletOutputStream out = null;
 			if(null==order){
 				order=new Order();
@@ -303,7 +331,7 @@ public class OrderController extends BaseController {
 				response.setHeader("Pragma", "public");
 				response.setContentType("application/x-excel;charset=UTF-8");
 				out = response.getOutputStream();
-				JxlsTemplate.processTemplate("/productList_export.xls", out, params);
+				JxlsTemplate.processTemplate("/product_jhd_export.xls", out, params);
 				out.flush();
 				out.close();
 			} catch (Exception e) {
@@ -319,7 +347,7 @@ public class OrderController extends BaseController {
 	@RequestMapping(value = "exportProduct", method= RequestMethod.POST)
 	public String exportProduct(Order order, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
-			String fileName = "订单商品数据"+ DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+			String fileName = "备货单"+ DateUtils.getDate("yyyyMMdd")+".xls";
 
 			if(null==order){
 				order=new Order();
@@ -360,10 +388,23 @@ public class OrderController extends BaseController {
 				}
 
 			}
-
-
-			new ExportExcel("订单商品数据"+ DateUtils.getDate("yyyyMMddHHmmss"), OrderDetail.class).setDataList(ods).write(response, fileName).dispose();
-			return null;
+			ServletOutputStream out = null;
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("items", ods);
+			try {
+				response.setHeader("Expires", "0");
+				response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+				response.setHeader("Content-Disposition", "attachment; filename="+ Encodes.urlEncode(fileName));
+				response.setHeader("Pragma", "public");
+				response.setContentType("application/x-excel;charset=UTF-8");
+				out = response.getOutputStream();
+				JxlsTemplate.processTemplate("/order_bhd_export.xls", out, params);
+				out.flush();
+				out.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		 		return null;
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导出失败！失败信息："+e.getMessage());
 		}

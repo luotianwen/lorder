@@ -3,11 +3,14 @@
  */
 package com.thinkgem.jeesite.modules.order.web.order;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.thinkgem.jeesite.common.utils.DateUtils;
+import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
+import com.thinkgem.jeesite.common.utils.excel.JxlsTemplate;
 import com.thinkgem.jeesite.modules.order.entity.order.Order;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +29,9 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.order.entity.order.TaskLineMoney;
 import com.thinkgem.jeesite.modules.order.service.order.TaskLineMoneyService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 分润Controller
@@ -89,14 +94,25 @@ public class TaskLineMoneyController extends BaseController {
 	@RequestMapping(value = "export", method= RequestMethod.POST)
 	public String exportFile(TaskLineMoney taskLineMoney,HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
-			String fileName = "订单分润数据"+ DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+			String fileName = "订单分润数据"+ DateUtils.getDate("yyyyMMdd")+".xls";
 
 			if(null==taskLineMoney){
 				taskLineMoney=new TaskLineMoney();
 			}
 			List<TaskLineMoney> list=taskLineMoneyService.findList(taskLineMoney);
-			new ExportExcel("订单分润数据"+ DateUtils.getDate("yyyyMMddHHmmss"), TaskLineMoney.class).setDataList(list).write(response, fileName).dispose();
-			return null;
+			Map<String, Object> params = new HashMap<String, Object>();
+			ServletOutputStream out = null;
+			params.put("items", list);
+
+				response.setHeader("Expires", "0");
+				response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+				response.setHeader("Content-Disposition", "attachment; filename="+ Encodes.urlEncode(fileName));
+				response.setHeader("Pragma", "public");
+				response.setContentType("application/x-excel;charset=UTF-8");
+				out = response.getOutputStream();
+				JxlsTemplate.processTemplate("/profit_export.xls", out, params);
+				out.flush();
+				out.close();			return null;
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导出失败！失败信息："+e.getMessage());
 		}

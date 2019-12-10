@@ -2,11 +2,14 @@ package com.thinkgem.jeesite.common.utils.excel;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jxls.common.Context;
+import org.jxls.expression.JexlExpressionEvaluator;
+import org.jxls.transform.Transformer;
 import org.jxls.util.JxlsHelper;
 
 /**
@@ -62,6 +65,18 @@ public class JxlsTemplate {
      * @throws IOException
      */
     private static void processTemplate(InputStream templateStream, OutputStream out, Context context) throws IOException {
+       /* JxlsHelper jxlsHelper = JxlsHelper.getInstance();
+        Transformer transformer  = jxlsHelper.createTransformer(templateStream, out);
+        //获得配置
+        JexlExpressionEvaluator evaluator = (JexlExpressionEvaluator)transformer.getTransformationConfig().getExpressionEvaluator();
+        //设置静默模式，不报警告
+        evaluator.getJexlEngine().setSilent(true);
+        //函数强制，自定义功能
+        Map<String, Object> funcs = new HashMap<String, Object>();
+        funcs.put("utils", new JxlsUtils());    //添加自定义功能
+        evaluator.getJexlEngine().setFunctions(funcs);
+        //必须要这个，否者表格函数统计会错乱
+        jxlsHelper.setUseFastFormulaProcessor(false).processTemplate(context, transformer);*/
         JxlsHelper.getInstance().processTemplate(templateStream, out, context);
     }
 

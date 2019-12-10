@@ -300,8 +300,8 @@
             <input id="btnExport3" class="btn btn-primary" type="button" value="导出交货单"/>
             <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary">批量发货</a>
             <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary">批量重新发货</a>
-            <a href="#" onclick="checkprint()" class="btn btn-primary">批量打印</a>
-            <a href="http://www.kdniao.com/documents-instrument" target="_blank" class="btn btn-primary">下载打印组件</a>
+            <a href="#" onclick="checkprint()" class="btn btn-primary">批量打印面单</a>
+            <a href="http://www.kdniao.com/documents-instrument" target="_blank" class="btn btn-primary">下载打印面单组件</a>
         </li>
         <li class="clearfix"></li>
     </ul>
