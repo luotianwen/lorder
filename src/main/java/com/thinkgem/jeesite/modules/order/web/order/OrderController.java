@@ -333,8 +333,8 @@ public class OrderController extends BaseController {
 			) {
 				List<OrderDetail> od2s = orderService.get(o.getId()).getOrderDetailList();
 				o.setOrderDetailList(od2s);
-				if(od2s.size()<6){
-					int la=6-od2s.size();
+				if(od2s.size()<8){
+					int la=8-od2s.size();
 					for (int i = 0; i <la ; i++) {
 						od2s.add(new OrderDetail());
 					}
