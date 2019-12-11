@@ -24,7 +24,7 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 	private String productNo;		// 商品编号
 	private String productClass;		// 产品线/产品分类
 	@ExcelField(title="数量", align=1, sort=3 )
-	private int amount;		// 数量
+	private Integer amount;		// 数量
 	private int stock;		// 库存
 
 	public int getStock() {
@@ -211,12 +211,11 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 		this.productClass = productClass;
 	}
 	
-	@Length(min=1, max=5, message="数量长度必须介于 1 和 5 之间")
-	public int getAmount() {
+	public Integer getAmount() {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(Integer amount) {
 		this.amount = amount;
 	}
 	

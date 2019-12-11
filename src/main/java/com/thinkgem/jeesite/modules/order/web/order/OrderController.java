@@ -43,6 +43,7 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.order.entity.order.Order;
 import com.thinkgem.jeesite.modules.order.service.order.OrderService;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -316,14 +317,34 @@ public class OrderController extends BaseController {
 			if(null==order){
 				order=new Order();
 			}
+			order.setTaskStatus("3");
 			List<Order> list=orderService.findList(order);
+			List<Dict> dl=DictUtils.getDictList("P_TASK_TYPE");
+			Map<String, String> ds = new HashMap<String, String>();
+
+			for (Dict d:dl
+			) {
+				ds.put(d.getValue(),d.getLabel());
+			}
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("items", list);
+			params.put("ds", ds);
 			for (Order o:list
 			) {
 				List<OrderDetail> od2s = orderService.get(o.getId()).getOrderDetailList();
 				o.setOrderDetailList(od2s);
+				if(od2s.size()<6){
+					int la=6-od2s.size();
+					for (int i = 0; i <la ; i++) {
+						od2s.add(new OrderDetail());
+					}
+
+				}
+				o.getPage().setPageNo(new BigDecimal(od2s.size()/6.0).setScale(0, BigDecimal.ROUND_UP).intValue());
 			}
-			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("items", list);
+
+
+
 			try {
 				response.setHeader("Expires", "0");
 				response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
