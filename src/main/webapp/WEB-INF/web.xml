@@ -79,7 +79,7 @@
 		<filter-name>sitemeshFilter</filter-name>
 		<url-pattern>/f/*</url-pattern>
 	</filter-mapping>
-	
+	<servlet> <servlet-name>ReportServer</servlet-name> <servlet-class>com.fr.web.ReportServlet</servlet-class> <load-on-startup>0</load-on-startup> </servlet> <servlet-mapping> <servlet-name>ReportServer</servlet-name> <url-pattern>/ReportServer</url-pattern> </servlet-mapping>
 	<!-- MVC Servlet -->
 	<servlet>
 		<servlet-name>springServlet</servlet-name>

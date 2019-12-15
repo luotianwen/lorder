@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DatasourceManager xmlVersion="20151125" releaseVersion="8.0.0">
+<ConnectionMap>
+<Connection name="FRDemo" class="com.fr.data.impl.JDBCDatabaseConnection">
+<DatabaseAttr/>
+<JDBCDatabaseAttr url="jdbc:sqlite://${ENV_HOME}/../FRDemo.db" driver="org.sqlite.JDBC" user="" password="___" encryptPassword="true">
+<DBCPAttr/>
+</JDBCDatabaseAttr>
+</Connection>
+<Connection name="JDBC2" class="com.fr.data.impl.JDBCDatabaseConnection">
+<DatabaseAttr originalCharsetName="UTF-8" newCharsetName="UTF-8"/>
+<JDBCDatabaseAttr url="jdbc:mysql://localhost:3306/order?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;serverTimezone=UTC" driver="com.mysql.jdbc.Driver" user="root" password="___006100210065007b" encryptPassword="true">
+<DBCPAttr/>
+</JDBCDatabaseAttr>
+</Connection>
+</ConnectionMap>
+<TableDataMap>
+<TableData name="员工信息表" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[FRDemo]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT * FROM 员工信息表]]></Query>
+</TableData>
+<TableData name="用户信息表" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[FRDemo]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT * FROM [userinfo]A]]></Query>
+</TableData>
+<TableData name="staff" class="com.fr.data.impl.EmbeddedTableData">
+<Parameters/>
+<DSName>
+<![CDATA[]]></DSName>
+<ColumnNames>
+<![CDATA[name,,.,,password,,.,,fullname,,.,,department,,.,,position,,.,,salary,,.,,email]]></ColumnNames>
+<ColumnTypes>
+<![CDATA[java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String]]></ColumnTypes>
+<RowData>
+<![CDATA[NKVO]A_E\fhf@,Lh5R"Wk)aeSHEE>f0'?\h3FoeW^e.=J,-RCB%&WCC)TSZ'70Y@fMV/IO+:'
+V'@\EVd1pRJGMVTg5/J`PP]A7Oej&dotOn:]AZZh9qJr7l&t?g0^d]A02d3^`,n^NGQ/prU0gpn
+mSERt,;O$j;5VHUgXi29e(3.869KoK/Hi&GYd@dT1=L;5n"B@BoN5-coKT[Y(NiEpc3QBFK/
+0:hkfe6'nOaW(TK,SCNRN]A_CL[1"bhDt+D=Z0\!(AS`Q((VsHLGllWM\XuCS'f)BguY!g^u'
+"d]Au'`:OAukOiij#9&rP6=i/?)lBBm--dUR9!o7nHhnAn5A6f3/1HgeJn,0`<=FBZ1t:X_J:
+^=+=!9b=<TF@g5sk)FJCIiA*V]Au$^NL*^LE(%MtJ'>.T0mZ8Gf"(62dSBmH%JR`2f_fA1?KJ
+se+S4dHH7Ut:'g+%"XY+h\Cb.lBsk@?69<KZ8W~
+]]></RowData>
+</TableData>
+<TableData name="上报用户" class="com.fr.data.impl.EmbeddedTableData">
+<Parameters/>
+<DSName>
+<![CDATA[]]></DSName>
+<ColumnNames>
+<![CDATA[一级用户,,.,,二级用户,,.,,三级用户]]></ColumnNames>
+<ColumnTypes>
+<![CDATA[java.lang.String,java.lang.String,java.lang.String]]></ColumnTypes>
+<RowData>
+<![CDATA[.k]A)iairdebf`Z?%*?iWWldlV9.pJ^#bc:389nqsVb^nZ6i\W>SsfoI!rr~
+]]></RowData>
+</TableData>
+<TableData name="订单" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="ids"/>
+<O>
+<![CDATA[9e8958b1d3ee417db411e941d329522c]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select * from pool_task where id in('${REPLACE(ids,",","','")}')]]></Query>
+</TableData>
+<TableData name="类型" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select* from sys_dict where type='P_TASK_TYPE']]></Query>
+</TableData>
+</TableDataMap>
+</DatasourceManager>
