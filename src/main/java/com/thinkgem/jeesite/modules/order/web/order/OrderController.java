@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.Encodes;
+import com.thinkgem.jeesite.common.utils.ObjectUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.utils.excel.JxlsTemplate;
 import com.thinkgem.jeesite.modules.order.entity.address.Address;
@@ -23,6 +24,7 @@ import com.thinkgem.jeesite.modules.order.service.order.UserShipperService;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jxls.expression.JexlExpressionEvaluator;
 import org.jxls.transform.Transformer;
@@ -327,25 +329,48 @@ public class OrderController extends BaseController {
 				ds.put(d.getValue(),d.getLabel());
 			}
 			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("items", list);
-			params.put("ds", ds);
+
+			List<Order> alllist=new ArrayList<Order>();
 			for (Order o:list
 			) {
+
+				//ObjectUtils.annotationToObject(o,od);
 				List<OrderDetail> od2s = orderService.get(o.getId()).getOrderDetailList();
-				o.setOrderDetailList(od2s);
-				if(od2s.size()<8){
-					int la=8-od2s.size();
-					for (int i = 0; i <la ; i++) {
-						od2s.add(new OrderDetail());
+				int page=new BigDecimal(od2s.size()/6.0).setScale(0, BigDecimal.ROUND_UP).intValue();
+               if(od2s==null||od2s.size()==0){
+               	continue;
+			   }
+                int all=od2s.size();
+				for (int i = 0; i <page ; i++) {
+
+					List<OrderDetail> od2s2=new ArrayList<OrderDetail>();
+					int l=(i)*6;
+					int k=(l+5)>all?all:(l+5);
+					for (int j = l; j <k; j++) {
+						od2s2.add(od2s.get(j));
 					}
 
+					if(od2s2.size()<6){
+						int la=6-od2s2.size();
+						for (int j = 0; j <la ; j++) {
+							od2s2.add(new OrderDetail());
+						}
+					}
+					Order od=new Order();
+					BeanUtils.copyProperties(od,o);
+					od.setOrderDetailList(od2s2);
+					od.getPage().setPageNo(i+1);
+					alllist.add(od);
 				}
-				o.getPage().setPageNo(new BigDecimal(od2s.size()/6.0).setScale(0, BigDecimal.ROUND_UP).intValue());
+
+
+
 			}
 
+			params.put("items", alllist);
+			params.put("ds", ds);
 
 
-			try {
 				response.setHeader("Expires", "0");
 				response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
 				response.setHeader("Content-Disposition", "attachment; filename="+ Encodes.urlEncode(fileName));
@@ -355,25 +380,34 @@ public class OrderController extends BaseController {
 				JxlsTemplate.processTemplate("/product_jhd_export.xls", out, params);
 				out.flush();
 				out.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			addMessage(redirectAttributes, "导出失败！失败信息："+e.getMessage());
 		}
 
 	}
 	@RequiresPermissions("order:order:order:edit")
 	@RequestMapping(value = "exportProduct", method= RequestMethod.POST)
-	public String exportProduct(Order order, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+	public String exportProduct(Order order,String ids, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
 			String fileName = "备货单"+ DateUtils.getDate("yyyyMMdd")+".xls";
 
 			if(null==order){
 				order=new Order();
 			}
-			List<Order> list=orderService.findList(order);
+			List<Order> list=null;
+			if(StringUtils.isEmpty(ids)){
+				list=orderService.findList(order);}
+			else{
+				String[] id=ids.split(",");
+				list=new ArrayList<Order>();
+				for (String i:id
+					 ) {
+					list.add(orderService.get(i));
+				}
+			}
 			List<OrderDetail> ods=new ArrayList<OrderDetail>();
 			for (Order o:list
 				 ) {

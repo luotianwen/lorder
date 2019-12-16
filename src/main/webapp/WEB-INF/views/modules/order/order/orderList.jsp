@@ -73,7 +73,7 @@
                         var delIds = ids.join(",");
                         var oldAction = $("#searchForm").attr("action");
                         $("#searchForm").attr("target", "_blank");
-                        $("#searchForm").attr("action", "${ctx}/order/order/order/exportProduct?");
+                        $("#searchForm").attr("action", "${ctx}/order/order/order/exportProduct");
                         $("#searchForm").submit();
                         $("#searchForm").attr("target", "_self");
                         $("#searchForm").attr("action", oldAction);
@@ -92,7 +92,7 @@
                         var delIds = ids.join(",");
                         var oldAction = $("#searchForm").attr("action");
                         $("#searchForm").attr("target", "_blank");
-                        $("#searchForm").attr("action", "${ctx}/order/order/order/exportProduct");
+                        $("#searchForm").attr("action", "${ctx}/order/order/order/exportProduct?ids="+delIds);
                         $("#searchForm").submit();
                         $("#searchForm").attr("target", "_self");
                         $("#searchForm").attr("action", oldAction);
