@@ -312,7 +312,7 @@ public class OrderController extends BaseController {
 	}
 	@RequiresPermissions("order:order:order:edit")
 	@RequestMapping(value = "export2", method= RequestMethod.POST)
-	public void exportFile2(Order order, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+	public void exportFile2(Order order,String ids, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
 			String fileName = "交货单"+ DateUtils.getDate("yyyyMMdd")+".xls";
 			ServletOutputStream out = null;
@@ -320,7 +320,17 @@ public class OrderController extends BaseController {
 				order=new Order();
 			}
 			order.setTaskStatus("3");
-			List<Order> list=orderService.findList(order);
+			List<Order> list=null;
+			if(StringUtils.isEmpty(ids)){
+				list=orderService.findList(order);}
+			else{
+				String[] id=ids.split(",");
+				list=new ArrayList<Order>();
+				for (String i:id
+				) {
+					list.add(orderService.get(i));
+				}
+			}
 			List<Dict> dl=DictUtils.getDictList("P_TASK_TYPE");
 			Map<String, String> ds = new HashMap<String, String>();
 
@@ -331,6 +341,8 @@ public class OrderController extends BaseController {
 			Map<String, Object> params = new HashMap<String, Object>();
 
 			List<Order> alllist=new ArrayList<Order>();
+			List<String> sheetNames=new ArrayList();
+
 			for (Order o:list
 			) {
 
@@ -360,14 +372,15 @@ public class OrderController extends BaseController {
 					BeanUtils.copyProperties(od,o);
 					od.setOrderDetailList(od2s2);
 					od.getPage().setPageNo(i+1);
+					sheetNames.add(o.getTaskNo()+"_"+i+1);
 					alllist.add(od);
 				}
 
 
 
 			}
-
 			params.put("items", alllist);
+			params.put("sheetNames", sheetNames);
 			params.put("ds", ds);
 
 

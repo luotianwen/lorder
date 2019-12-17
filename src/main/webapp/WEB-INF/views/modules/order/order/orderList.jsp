@@ -39,7 +39,7 @@
 
                         var oldAction = $("#searchForm").attr("action");
                         $("#searchForm").attr("target", "_blank");
-                        $("#searchForm").attr("action", "/ReportServer?reportlet=order.cpt&ids="+delIds);
+                        $("#searchForm").attr("action", "${ctx}/order/order/order/export2?ids="+delIds);
                         $("#searchForm").submit();
                         $("#searchForm").attr("target", "_self");
                         $("#searchForm").attr("action", oldAction);
@@ -345,9 +345,9 @@
         <li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
             <input id="btnExport" class="btn btn-primary" type="button" value="导出订单"/>
             <input id="btnExport2" class="btn btn-primary" type="button" value="导出备货单"/>
-            <input id="btnExport3" class="btn btn-primary" type="button" value="选择打印交货单"/>
+            <input id="btnExport3" class="btn btn-primary" type="button" value="导出选择交货单"/>
             <input id="btnExport4" class="btn btn-primary" type="button" value="导出选择备货单"/>
-           <%-- <input id="btnExport5" class="btn btn-primary" type="button" value="导出选择交货单"/>--%>
+            <input id="btnExport5" class="btn btn-primary" type="button" value="导出交货单"/>
             <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary">批量发货</a>
             <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary">批量重新发货</a>
             <a href="#" onclick="checkprint()" class="btn btn-primary">批量打印面单</a>
