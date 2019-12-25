@@ -71,7 +71,8 @@
 		a.score AS "socre",
 		a.agentType AS "agentType",
 		a.sapSupplierID AS "sapSupplierID",
-		a.cardCode AS "cardCode"
+		a.cardCode AS "cardCode",
+		a.weight
 
 	</sql>
 	
@@ -319,6 +320,7 @@
 			carriers = #{carriers},
 			task_status='3',
 			 send_way = #{sendWay},
+			 weight= #{weight},
 			 pre_send_address = #{preSendAddress},
 			send_store_datetime = #{sendStoreDatetime}
 			where id=#{id}
@@ -350,6 +352,7 @@
 			company_phone = #{companyPhone},
 			hand_phone = #{handPhone},
 			email = #{email},
+			 weight= #{weight},
 			fax = #{fax},
 			id_card_name = #{idCardName},
 			id_card = #{idCard},

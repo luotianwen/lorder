@@ -55,10 +55,18 @@ public class PoiUtil {
         dest.setMargin(Sheet.RightMargin, src.getMargin(Sheet.RightMargin));
         dest.setMargin(Sheet.BottomMargin, src.getMargin(Sheet.BottomMargin));
     //设置顶端标题行
-
-    Workbook wb = src.getWorkbook();
-
-    Name name = wb.getName("Print_Titles");
+/*
+        Workbook wb = src.getWorkbook();
+        wb.setPrintArea(
+                0, //sheet index
+                0, //start column
+                2, //end column
+                0, //start row
+                14  //end row
+        );
+        PrintSetup ps=dest.getPrintSetup();
+        ps.setPaperSize(PrintSetup.TABLOID_PAPERSIZE);
+        Name name = wb.getName("Print_Titles");*/
 
     /*AreaReference[] generateContiguous = AreaReference.generateContiguous(name.getRefersToFormula());
 

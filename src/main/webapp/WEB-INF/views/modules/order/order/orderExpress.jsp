@@ -22,7 +22,127 @@
 					}
 				}
 			});
+            initActiveX(); // 初始化控件方法
 		});
+        function initActiveX(){
+            try {
+                msComm1 = new ActiveXObject("MSCOMMLib.MSComm.1"); // 初始化MSCOMM控件
+            }catch (err) {
+                console.log(err); // 初始化失败，打印错误
+            }
+            if ((typeof (msComm1) == "undefined") || (msComm1 == null)) { // 未初始化成功
+                alert("msComm1 is null");
+                return false;
+            }else{ // 初始化成功
+                configPort(); // 配置端口信息
+                searchAndOpenPort(); // 自动搜索端口并打开端口
+                return false;
+            }
+        }
+        function configPort(){ // 配置端口方法
+            msComm1.settings = '9600,n,8,1'; // 9600：波特率 n：奇偶位 8：数据位 1：校验位
+            msComm1.OutBufferCount =0; //清空发送缓冲区
+            msComm1.InBufferCount = 0; //滑空接收缓冲区
+            msComm1.RThreshold=14; //这个参数很重要，这个参数配置要符合硬件设备 该参数表示接收硬件设备多少位数据的时候触发onComm事件
+        }
+        var com = 0; // 端口变量
+        var res = ''; // 接收硬件
+        function searchAndOpenPort(){
+            if(msComm1.PortOpen == true){
+                toggglePort(); // 关闭或者打开端口
+            }
+            if(com > 16){ // 一般电脑只有16个端口
+                com = 0;
+                alert("未连接称重仪!")
+                return;
+            }
+            if(res != ''){ // res为接收到称重仪的数据 后面会讲到如何接收
+                msComm1.CommPort = com - 1; // 设置串口为搜索到的串口
+                toggglePort();
+                return;
+            }
+            msComm1.CommPort = com; // 设置串口
+            var b = toggglePort(); // 打开串口 并返回打开结果
+            if(b){
+                send('27,112'); // 向串口发送信息
+            }
+            com += 1;
+            setTimeout('searchAndOpenPort()', 500); // 间隔500ms等待接收数据 并实现循环，如果不间隔时间，受代码执行顺序影响，将接受不到数据
+        }
+        function toggglePort(){
+            if(msComm1.PortOpen == false){
+                try {
+                    msComm1.PortOpen = true; // 开启串口
+                    bindEvent(); //开启串口后绑定串口收发事件
+                    return true;
+                }catch(ex){
+                    console.log(ex);
+                    return false;
+                }
+            }else{
+                try {
+                    msComm1.PortOpen = false; // 关闭串口
+                    return true;
+                }catch(ex){
+                    alert(ex.message);
+                    return false;
+                }
+            }
+        }
+
+        var bindEvent = function () {
+           // function msComm1::OnComm(){
+                msComm1_event(); // 触发收发事件后的处理方法
+            // }
+        }
+        function msComm1_event(){
+            //console.log(msComm1.CommEvent); // 这个是在触发收发事件后返回的标志 1：表示发送；
+            // 2：表示接受
+            // 其他的标识线变等信息（线变具体信息需要参照MSCOMM的API）
+            if(msComm1.CommEvent == 1){
+                alert("Send OK！");
+            }else if(msComm1.CommEvent == 2){
+                Receive(); // 接收串口信息方法
+            }
+        }
+        function Receive() {
+            var inputvalue = msComm1.Input; // 接收串口信息
+            // console.log("input:::" + inputvalue);
+            if(inputvalue.indexOf("g")>0){ // 如果返回数据包含g
+                res = $.trim(inputvalue.split("g")[0]); // 取得重量并赋值给res
+            }
+        }
+        function send(str){
+            var cmd_send = '';
+            try{
+                var results = str.split(',');
+                for(var i=0;i<results.length;i++) {
+                    cmd_send += String.fromCharCode(results[i]); // 十进制转char
+                }
+                msComm1.Output=cmd_send; // 向串口发送消息
+            }catch(ex){
+                console.log(ex.message);
+            }
+        }
+        function getWeight(){
+            if(com == '0'){
+                alert("未连接称重仪!")
+            }else{
+                send('27,112'); // 向串口发送一次请求
+                setTimeout("auto_weight_once()", 200); // 200ms后接收数据，这里设置200ms后再获取很有必要，这个是执行顺序问题
+            }
+        }
+        function auto_weight_once(){
+            $("#weight").val(res); // 填充获取的数据到页面
+        }
+        function auto_weight(){
+            // if(!continue_auto_weight){ // 这里是结束持续输出的标志，至于什么时候结束， 可根据项目而定
+            // return;
+            // }
+            $("#weight").val(res);
+            send('27,112');
+            setTimeout("auto_weight()", 200);
+        }
 		function addRow(list, idx, tpl, row){
 			$(list).append(Mustache.render(tpl, {
 				idx: idx, delBtn: true, row: row
@@ -378,6 +498,18 @@
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
+
+		<div class="row control-group">
+			<label class="span1 control-label">重量：</label>
+			<div class="span2 ">
+				<form:input path="weight"    maxlength="255" class="input-xxlarge "/>
+			</div>
+			<label class="span1 control-label"></label>
+			<div class="span2 ">
+			<input   class="btn" type="button" value="获取称重" onclick="getWeight()"/>
+			</div>
+		</div>
+
 		<div class="row control-group">
 			<label class="span1 control-label">备注信息：</label>
 			<div class="span2 ">
