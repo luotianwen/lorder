@@ -22,7 +22,7 @@
 					}
 				}
 			});
-            initActiveX(); // 初始化控件方法
+            //initActiveX(); // 初始化控件方法
 		});
         function initActiveX(){
             try {
@@ -504,10 +504,10 @@
 			<div class="span2 ">
 				<form:input path="weight"    maxlength="255" class="input-xxlarge "/>
 			</div>
-			<label class="span1 control-label"></label>
+			<%--<label class="span1 control-label"></label>
 			<div class="span2 ">
 			<input   class="btn" type="button" value="获取称重" onclick="getWeight()"/>
-			</div>
+			</div>--%>
 		</div>
 
 		<div class="row control-group">

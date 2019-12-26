@@ -365,7 +365,7 @@
             <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary">批量重新发货</a>
             <a href="#" onclick="checkprint()" class="btn btn-primary">批量打印面单</a>
             <a href="http://www.kdniao.com/documents-instrument" target="_blank" class="btn btn-primary">下载打印面单组件</a>
-            <a href="../mscomm32.ocx_downcc.com.zip" target="_blank" class="btn btn-primary">下载称重组件</a>
+          <%--  <a href="../mscomm32.ocx_downcc.com.zip" target="_blank" class="btn btn-primary">下载称重组件</a>--%>
         </li>
         <li class="clearfix"></li>
     </ul>
