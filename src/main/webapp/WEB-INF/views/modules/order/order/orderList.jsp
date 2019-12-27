@@ -234,12 +234,31 @@
             var preSendAddress = $("#preSendAddress").val();
             var carriers = $("#carriers").val();
             //$("#searchForm").attr("target","_blank");
-            $("#searchForm").attr("action", "${ctx}/order/order/order/allDeliver?ids=" + delIds);
-            $("#searchForm").submit();
+           /* $("#searchForm").attr("action", "${ctx}/order/order/order/allDeliver?ids=" + delIds);
+            $("#searchForm").submit();*/
+
+            $.ajax({
+                url: "${ctx}/order/order/order/allDeliver",
+                type: 'post',
+                dataType: 'json',
+                data:{
+                    ids:delIds,
+                    preSendAddress:preSendAddress,
+                    carriers:carriers
+                },
+                cache: false,
+                async: true,
+                success: function(data) {
+                        confirmx(data.message, su);
+                }
+            });
+
             //$("#searchForm").attr("target","_self");
             // $("#searchForm").attr("action", oldAction);
         }
-
+    function su() {
+        $("#searchForm").submit();
+    }
         function allprint() {
             var ids = [];
             $("input[name='orderIds']:checked").each(function () {

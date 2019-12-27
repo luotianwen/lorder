@@ -35,10 +35,7 @@ import org.jxls.util.JxlsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
@@ -209,7 +206,10 @@ public class OrderController extends BaseController {
 
 	@RequiresPermissions("order:order:order:view")
 	@RequestMapping(value = "allDeliver")
-	public String allDeliver(String ids, String type,String preSendAddress ,String carriers, Model model,RedirectAttributes redirectAttributes) throws Exception {
+	@ResponseBody
+	public StockReData allDeliver(String ids, String type,String preSendAddress ,String carriers, Model model,RedirectAttributes redirectAttributes) throws Exception {
+		StockReData st=new StockReData();
+
 		List<Order> os=new ArrayList<Order>();
 		String ors[]=ids.split(",");
 		String taskno="";
@@ -221,27 +221,26 @@ public class OrderController extends BaseController {
 				break;
 			}
 
-			if (StringUtils.isEmpty(order.getCarriers())) {
+
 				order.setCarriers(carriers);
 				Address ad = addressService.get(preSendAddress);
 				String sendAddress = ad.getName() + "，" + ad.getPhone() + "，" + ad.getProvice().getName() + "，" + ad.getCity().getName() + "，" + ad.getCounty().getName() + "，" + ad.getAddressDetail();
 				order.setPreSendAddress(sendAddress);
 				os.add(order);
-			} else {
-				taskno += "失败 订单号" + order.getTaskNo() + "订单号有单号不能重新发货";
-				break;
-			}
+
 
 		}
 		if(StringUtils.isEmpty(taskno)) {
 			orderService.allDeliver(os);
-			addMessage(redirectAttributes, "订单重新发货成功");
-			return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
-		}else{
-			addMessage(redirectAttributes, taskno);
-			return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
-		}
+			st.setCode("1");
+			st.setMessage("订单重新发货成功");
 
+		}else{
+			st.setCode("0");
+			st.setMessage(taskno);
+
+		}
+		return st;
 	}
 
 

@@ -541,9 +541,7 @@
 						</thead>
 						<tbody id="orderDetailList">
 						</tbody>
-						<shiro:hasPermission name="order:order:order:edit"><tfoot>
-							<tr><td colspan="35"><a href="javascript:" onclick="addRow('#orderDetailList', orderDetailRowIdx, orderDetailTpl);orderDetailRowIdx = orderDetailRowIdx + 1;" class="btn">新增</a></td></tr>
-						</tfoot></shiro:hasPermission>
+
 					</table>
 					<script type="text/template" id="orderDetailTpl">//<!--
 						<tr id="orderDetailList{{idx}}">
@@ -598,7 +596,7 @@
 				</div>
 			</div>
 		<div class="form-actions">
-			<shiro:hasPermission name="order:order:order:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="order:order:order:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="发货"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
