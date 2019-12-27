@@ -60,7 +60,59 @@
                 }, {buttonsFocus: 1});
                 top.$('.jbox-body .jbox-icon').css('top', '55px');
             });
+            $("#btnExport6").click(function () {
+                top.$.jBox.confirm("确认要导出数据吗？", "系统提示", function (v, h, f) {
+                    if (v == "ok") {
+                        var oldAction = $("#searchForm").attr("action");
+                        $("#searchForm").attr("target", "_blank");
+                        $("#searchForm").attr("action", "${ctx}/order/order/order/export6");
+                        $("#searchForm").submit();
+                        $("#searchForm").attr("target", "_self");
+                        $("#searchForm").attr("action", oldAction);
+                    }
+                }, {buttonsFocus: 1});
+                top.$('.jbox-body .jbox-icon').css('top', '55px');
+            });
+            $("#btnExport7").click(function () {
+                top.$.jBox.confirm("确认要导出数据吗？", "系统提示", function (v, h, f) {
+                    if (v == "ok") {
+                        var ids = [];
+                        $("input[name='orderIds']:checked").each(function () {
+                            ids.push($(this).val());
+                        });
+                        if (ids.length==0) {
+                            top.$.jBox.alert("请选择你要批量打印的数据");
+                            return;
+                        }
+                        var delIds = ids.join(",");
 
+                        var oldAction = $("#searchForm").attr("action");
+                        $("#searchForm").attr("target", "_blank");
+                        $("#searchForm").attr("action", "${ctx}/order/order/order/export7?ids="+delIds);
+                        $("#searchForm").submit();
+                        $("#searchForm").attr("target", "_self");
+                        $("#searchForm").attr("action", oldAction);
+                    }
+                }, {buttonsFocus: 1});
+                top.$('.jbox-body .jbox-icon').css('top', '55px');
+            });
+
+            $("#btnExport9").click(function () {
+
+                        var ids = [];
+                        $("input[name='orderIds']:checked").each(function () {
+                            ids.push($(this).val());
+                        });
+                        var delIds = ids.join(",");
+                        var oldAction = $("#searchForm").attr("action");
+                        $("#searchForm").attr("target", "_blank");
+                        $("#searchForm").attr("action", "${ctx}/order/order/order/exportProduct2");
+                        $("#searchForm").submit();
+                        $("#searchForm").attr("target", "_self");
+                        $("#searchForm").attr("action", oldAction);
+
+
+            });
             $("#btnExport2").click(function () {
                 top.$.jBox.confirm("确认要导出数据吗？", "系统提示", function (v, h, f) {
 
@@ -358,10 +410,13 @@
         <li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
             <input id="btnExport" class="btn btn-primary" type="button" value="导出订单"/>
             <input id="btnExport2" class="btn btn-primary" type="button" value="导出备货单"/>
+            <input id="btnExport9" class="btn btn-primary" type="button" value="查看备货单"/>
             <input id="btnExport3" class="btn btn-primary" type="button" value="导出选择交货单"/>
+            <input id="btnExport7" class="btn btn-primary" type="button" value="导出选择3条交货单"/>
             <input id="btnExport4" class="btn btn-primary" type="button" value="导出选择备货单"/>
-            <input id="btnExport5" class="btn btn-primary" type="button" value="导出交货单"/>
-            <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary">批量发货</a>
+            <input id="btnExport5" class="btn btn-primary" type="button" value="导出分页交货单"/>
+            <input id="btnExport6" class="btn btn-primary" type="button" value="导出一页交货单"/>
+            <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary">批量合并发货</a>
             <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary">批量重新发货</a>
             <a href="#" onclick="checkprint()" class="btn btn-primary">批量打印面单</a>
             <a href="http://www.kdniao.com/documents-instrument" target="_blank" class="btn btn-primary">下载打印面单组件</a>
@@ -478,15 +533,15 @@
         <th>订单金额</th>
         <th>是否能发货</th>
         <th>发货组织</th>
-        <th>发货人名称</th>
+        <th class="sort-column shipperName">发货人名称</th>
         <%--<th>订单来源</th>--%>
         <%--<th class="sort-column ebTaskNo">SAP单号</th>--%>
         <%--<th>订单创建人</th>--%>
         <th>客户编号</th>
         <%--<th>客户名称</th>
         <th>客户手机</th>--%>
-        <th>收货人名称</th>
-        <th>收货人电话</th>
+        <th class="sort-column consignee_name">收货人名称</th>
+        <th class="sort-column consignee_phone">收货人电话</th>
         <th class="sort-column sendStoreDatetime">发货日期</th>
         <th>快递信息</th>
         <th>创建时间</th>

@@ -7,6 +7,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
+import com.thinkgem.jeesite.common.OrderStatic;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.ObjectUtils;
@@ -17,6 +19,7 @@ import com.thinkgem.jeesite.modules.order.entity.express.PoolExpress;
 import com.thinkgem.jeesite.modules.order.entity.express.PrintData;
 import com.thinkgem.jeesite.modules.order.entity.express.SearchData;
 import com.thinkgem.jeesite.modules.order.entity.order.OrderDetail;
+import com.thinkgem.jeesite.modules.order.entity.order.StockReData;
 import com.thinkgem.jeesite.modules.order.entity.order.UserShipper;
 import com.thinkgem.jeesite.modules.order.service.address.AddressService;
 import com.thinkgem.jeesite.modules.order.service.express.PoolExpressService;
@@ -46,10 +49,7 @@ import com.thinkgem.jeesite.modules.order.entity.order.Order;
 import com.thinkgem.jeesite.modules.order.service.order.OrderService;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 订单管理Controller
@@ -349,10 +349,10 @@ public class OrderController extends BaseController {
 				//ObjectUtils.annotationToObject(o,od);
 				List<OrderDetail> od2s = orderService.get(o.getId()).getOrderDetailList();
 				int page=new BigDecimal(od2s.size()/6.0).setScale(0, BigDecimal.ROUND_UP).intValue();
-               if(od2s==null||od2s.size()==0){
-               	continue;
-			   }
-                int all=od2s.size();
+				if(od2s==null||od2s.size()==0){
+					continue;
+				}
+				int all=od2s.size();
 				for (int i = 0; i <page ; i++) {
 
 					List<OrderDetail> od2s2=new ArrayList<OrderDetail>();
@@ -384,13 +384,219 @@ public class OrderController extends BaseController {
 			params.put("ds", ds);
 
 
+			response.setHeader("Expires", "0");
+			response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+			response.setHeader("Content-Disposition", "attachment; filename="+ Encodes.urlEncode(fileName));
+			response.setHeader("Pragma", "public");
+			response.setContentType("application/x-excel;charset=UTF-8");
+			out = response.getOutputStream();
+			JxlsTemplate.processTemplate("/product_jhd_export.xls", out, params);
+			out.flush();
+			out.close();
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			addMessage(redirectAttributes, "导出失败！失败信息："+e.getMessage());
+		}
+
+	}
+	@RequiresPermissions("order:order:order:edit")
+	@RequestMapping(value = "export6", method= RequestMethod.POST)
+	public void exportFile6(Order order,String ids, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+		try {
+			String fileName = "所有交货单"+ DateUtils.getDate("yyyyMMdd")+".xls";
+			ServletOutputStream out = null;
+			if(null==order){
+				order=new Order();
+			}
+			order.setTaskStatus("3");
+			List<Order> list=null;
+			if(StringUtils.isEmpty(ids)){
+				list=orderService.findList(order);}
+			else{
+				String[] id=ids.split(",");
+				list=new ArrayList<Order>();
+				for (String i:id
+				) {
+					Order o=orderService.get(i);
+					if(o.getTaskStatus().equals("3")) {
+						list.add(o);
+					}
+				}
+			}
+			List<Dict> dl=DictUtils.getDictList("P_TASK_TYPE");
+			Map<String, String> ds = new HashMap<String, String>();
+
+			for (Dict d:dl
+			) {
+				ds.put(d.getValue(),d.getLabel());
+			}
+			Map<String, Object> params = new HashMap<String, Object>();
+
+			Collections.sort(list, new Comparator<Order>() {
+				@Override
+				public int compare(Order o1, Order o2) {
+
+					return o1.getConsigneeName().compareTo(o2.getConsigneeName());
+				}
+			});
+
+
+			for (Order o:list
+			) {
+				List<OrderDetail> od2s = orderService.get(o.getId()).getOrderDetailList();
+				o.setOrderDetailList(od2s);
+			}
+			params.put("items", list);
+
+			params.put("ds", ds);
+
+
+			response.setHeader("Expires", "0");
+			response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+			response.setHeader("Content-Disposition", "attachment; filename="+ Encodes.urlEncode(fileName));
+			response.setHeader("Pragma", "public");
+			response.setContentType("application/x-excel;charset=UTF-8");
+			out = response.getOutputStream();
+			JxlsTemplate.processTemplate("/product_jhd_export6.xls", out, params);
+			out.flush();
+			out.close();
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			addMessage(redirectAttributes, "导出失败！失败信息："+e.getMessage());
+		}
+
+	}
+	@RequiresPermissions("order:order:order:edit")
+	@RequestMapping(value = "export7", method= RequestMethod.POST)
+	public void export7(Order order,String ids, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+		try {
+			String fileName = "交货单2"+ DateUtils.getDate("yyyyMMdd")+".xls";
+			ServletOutputStream out = null;
+			if(null==order){
+				order=new Order();
+			}
+			order.setTaskStatus("3");
+			List<Order> list=null;
+			if(StringUtils.isEmpty(ids)){
+				list=orderService.findList(order);}
+			else{
+				String[] id=ids.split(",");
+				list=new ArrayList<Order>();
+				for (String i:id
+				) {
+					Order o=orderService.get(i);
+					if(o.getTaskStatus().equals("3")) {
+						list.add(o);
+					}
+				}
+			}
+			List<Dict> dl=DictUtils.getDictList("P_TASK_TYPE");
+			Map<String, String> ds = new HashMap<String, String>();
+
+			for (Dict d:dl
+			) {
+				ds.put(d.getValue(),d.getLabel());
+			}
+			Map<String, Object> params = new HashMap<String, Object>();
+
+			List<Order> alllist=new ArrayList<Order>();
+
+
+			for (Order o:list
+			) {
+
+				//ObjectUtils.annotationToObject(o,od);
+				List<OrderDetail> od2s = orderService.get(o.getId()).getOrderDetailList();
+				int page=new BigDecimal(od2s.size()/6.0).setScale(0, BigDecimal.ROUND_UP).intValue();
+               if(od2s==null||od2s.size()==0){
+               	continue;
+			   }
+                int all=od2s.size();
+				for (int i = 0; i <page ; i++) {
+
+					List<OrderDetail> od2s2=new ArrayList<OrderDetail>();
+					int l=(i)*6;
+					int k=(l+5)>all?all:(l+5);
+					for (int j = l; j <k; j++) {
+						od2s2.add(od2s.get(j));
+					}
+
+					if(od2s2.size()<6){
+						int la=6-od2s2.size();
+						for (int j = 0; j <la ; j++) {
+							od2s2.add(new OrderDetail());
+						}
+					}
+					Order od=new Order();
+					BeanUtils.copyProperties(od,o);
+					od.setOrderDetailList(od2s2);
+					od.getPage().setPageNo(i+1);
+
+					alllist.add(od);
+				}
+
+
+
+			}
+			Collections.sort(alllist, new Comparator<Order>() {
+				@Override
+				public int compare(Order o1, Order o2) {
+
+					return o1.getConsigneeName().compareTo(o2.getConsigneeName());
+				}
+			});
+			List<String> sheetNames=new ArrayList();
+
+			//
+			List<List<Order>> lastlist=new ArrayList<List<Order>>();
+			int ll =new BigDecimal(alllist.size()/3.0).setScale(0, BigDecimal.ROUND_UP).intValue();
+			int size=alllist.size();
+			int sy=ll*3-size;
+			if(sy==0) {
+				for (int i = 0; i < ll; i++) {
+					List<Order> lls = new ArrayList<Order>();
+					lls.add(alllist.get(i * 3 + 0));
+					lls.add(alllist.get(i * 3 + 1));
+					lls.add(alllist.get(i * 3 + 2));
+					lastlist.add(lls);
+					sheetNames.add("第_" + (i + 1) + "页");
+				}
+			}
+			else{
+				for (int i = 0; i < ll-1; i++) {
+					List<Order> lls = new ArrayList<Order>();
+					lls.add(alllist.get(i * 3 + 0));
+					lls.add(alllist.get(i * 3 + 1));
+					lls.add(alllist.get(i * 3 + 2));
+					lastlist.add(lls);
+					sheetNames.add("第_" + (i + 1) + "页");
+				}
+				List<Order> lls=new ArrayList<Order>();
+				for (int i = 1; i <=3-sy ; i++) {
+					lls.add(alllist.get(size-i));
+				}
+
+				//lls.add(alllist.get(size-2));
+
+				lastlist.add(lls);
+				sheetNames.add("第_"+ll+"页");
+			}
+			params.put("items", lastlist);
+			params.put("sheetNames", sheetNames);
+			params.put("ds", ds);
+
+
 				response.setHeader("Expires", "0");
 				response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
 				response.setHeader("Content-Disposition", "attachment; filename="+ Encodes.urlEncode(fileName));
 				response.setHeader("Pragma", "public");
 				response.setContentType("application/x-excel;charset=UTF-8");
 				out = response.getOutputStream();
-				JxlsTemplate.processTemplate("/product_jhd_export.xls", out, params);
+				JxlsTemplate.processTemplate("/product_jhd_export3.xls", out, params);
 				out.flush();
 				out.close();
 
@@ -402,60 +608,97 @@ public class OrderController extends BaseController {
 
 	}
 	@RequiresPermissions("order:order:order:edit")
+	@RequestMapping(value = "exportProduct2", method= RequestMethod.POST)
+	public String exportProduct2(Order order,String ids, Model model, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+
+		List<OrderDetail> ods=getOds(order,ids);
+			model.addAttribute("items",ods);
+		return "modules/order/order/exportProduct2";
+	}
+
+	private List<OrderDetail> getOds(Order order,String ids){
+		if(null==order){
+			order=new Order();
+		}
+		List<Order> list=null;
+		if(StringUtils.isEmpty(ids)){
+			list=orderService.findList(order);}
+		else{
+			String[] id=ids.split(",");
+			list=new ArrayList<Order>();
+			for (String i:id
+			) {
+				list.add(orderService.get(i));
+			}
+		}
+		List<OrderDetail> ods=new ArrayList<OrderDetail>();
+		for (Order o:list
+		) {
+			List<OrderDetail> od2s=orderService.get(o.getId()).getOrderDetailList();
+			for (OrderDetail od2:od2s
+			) {
+				if(ods.size()==0){
+					ods.add(od2);
+				}
+				else{
+					boolean f=false;
+					for (OrderDetail od:ods
+					) {
+						if(od.getProductNo().equals(od2.getProductNo())){
+							f=true;
+							od.setAmount(od.getAmount()+od2.getAmount());
+							break;
+						}
+
+					}
+					if(f){
+
+					}
+					else{
+						ods.add(od2);
+					}
+
+
+				}
+
+
+
+			}
+
+		}
+		for (OrderDetail d:ods
+			 ) {
+			StockReData sd=getSapStockByItemCode(d.getProductNo());
+			int stock=0;
+			if(sd!=null&&sd.getData()!=null&&sd.getData().size()>0){
+				List<StockReData.DataBean> dbs=sd.getData();
+				for (StockReData.DataBean sd1:dbs
+					 ) {
+					stock+=sd1.getQuantity();
+				}
+			}
+			d.setStock(stock);
+		}
+		Collections.sort(ods, new Comparator<OrderDetail>() {
+			@Override
+			public int compare(OrderDetail o1, OrderDetail o2) {
+				return o2.getAmount().compareTo(o1.getAmount());
+			}
+		});
+		return ods;
+	}
+	private StockReData getSapStockByItemCode(String itemCode){
+
+		String json= OrderStatic.get(OrderStatic.salesstock+itemCode);
+		StockReData sr= JSON.parseObject(json,StockReData.class);
+		return sr;
+	}
+	@RequiresPermissions("order:order:order:edit")
 	@RequestMapping(value = "exportProduct", method= RequestMethod.POST)
 	public String exportProduct(Order order,String ids, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
 			String fileName = "备货单"+ DateUtils.getDate("yyyyMMdd")+".xls";
-
-			if(null==order){
-				order=new Order();
-			}
-			List<Order> list=null;
-			if(StringUtils.isEmpty(ids)){
-				list=orderService.findList(order);}
-			else{
-				String[] id=ids.split(",");
-				list=new ArrayList<Order>();
-				for (String i:id
-					 ) {
-					list.add(orderService.get(i));
-				}
-			}
-			List<OrderDetail> ods=new ArrayList<OrderDetail>();
-			for (Order o:list
-				 ) {
-				List<OrderDetail> od2s=orderService.get(o.getId()).getOrderDetailList();
-				for (OrderDetail od2:od2s
-					 ) {
-					if(ods.size()==0){
-						ods.add(od2);
-					}
-					else{
-                        boolean f=false;
-						for (OrderDetail od:ods
-						) {
-							if(od.getProductNo().equals(od2.getProductNo())){
-								f=true;
-								od.setAmount(od.getAmount()+od2.getAmount());
-								break;
-							}
-
-						}
-                   if(f){
-
-				   }
-				   else{
-					   ods.add(od2);
-				   }
-
-
-					}
-
-
-
-				}
-
-			}
+			List<OrderDetail> ods=getOds(order,ids);
 			ServletOutputStream out = null;
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("items", ods);

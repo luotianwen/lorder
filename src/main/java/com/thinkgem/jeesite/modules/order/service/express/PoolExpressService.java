@@ -213,10 +213,13 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		String addrsss[]=order.getPreSendAddress().split("，");
 
 		List<OrderDetail> ods=order.getOrderDetailList();
-		for (OrderDetail od:ods
-			 ) {
-			details+="{ 'GoodsName':'"+od.getName()+"','Goodsquantity':1,'GoodsWeight':''}";
-		}
+		int q=0;
+		 for (OrderDetail od:ods
+			 ) { /*
+			details+="{ 'GoodsName':'"+od.getName()+"','Goodsquantity':1,'GoodsWeight':''}";*/
+				q=q+od.getAmount();
+		 }
+		details+="{ 'GoodsName':'莲香岛商品','Goodsquantity':"+q+",'GoodsWeight':'"+order.getWeight()+"'}";
 		String requestData= "{'OrderCode':'"+code+"'," +
 				"'ShipperCode':'"+ShipperCode+"'," +
 				"'CustomerName':'"+CustomerName+"'," +
@@ -239,8 +242,8 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 				"[" +
 				details +
 				"]," +
-				"'Weight':''," +
-				"'Quantity':1," +
+				"'Weight':'"+order.getWeight()+"'," +
+				"'Quantity':"+q+"," +
 				"'Volume':0.0," +
 				"'TemplateSize':"+TemplateSize+"," +
 
@@ -305,10 +308,13 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		String details="";
 		String addrsss[]=order.getPreSendAddress().split("，");
 		List<OrderDetail> ods=order.getOrderDetailList();
+		int q=0;
 		for (OrderDetail od:ods
-		) {
-			details+="{ 'GoodsName':'"+od.getName()+"','Goodsquantity':1,'GoodsWeight':1.0}";
+		) { /*
+			details+="{ 'GoodsName':'"+od.getName()+"','Goodsquantity':1,'GoodsWeight':''}";*/
+			q=q+od.getAmount();
 		}
+		details+="{ 'GoodsName':'莲香岛商品','Goodsquantity':"+q+",'GoodsWeight':'"+order.getWeight()+"'}";
 		String requestData="{'OrderCode': '"+code+"'," +
 				"'ShipperCode':'"+ShipperCode+"'," +
 				"'CustomerName':'"+CustomerName+"'," +
@@ -333,8 +339,8 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 				details +
 				"]," +
 
-				"'Weight':1.0," +
-				"'Quantity':1," +
+				"'Weight':"+order.getWeight()+"," +
+				"'Quantity':"+q+"," +
 				"'Volume':0.0," +
 				"'Remark':'小心轻放'}";
 

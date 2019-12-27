@@ -45,7 +45,7 @@ public class Order extends DataEntity<Order> {
 	private String taskType;		// 订单类型
 	private String dmNo;		// 档期编码
 	private String dmName;		// 档期名称
-	private String weight="1";
+	private String weight="0.5";
 
 	public String getWeight() {
 		return weight;

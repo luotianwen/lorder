@@ -3,8 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.order.service.order;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import com.thinkgem.jeesite.modules.order.entity.express.OrderReturn;
 import com.thinkgem.jeesite.modules.order.entity.express.PoolExpress;
@@ -97,7 +96,39 @@ public class OrderService extends CrudService<OrderDao, Order> {
 
 	@Transactional(readOnly = false)
 	public void allDeliver(List<Order> os) throws Exception{
+        Map<String,Order> map=new HashMap<String, Order>();
 		for (Order order:os
+		) {
+			String key=order.getConsigneeName()+order.getConsigneePhone()+order.getProvince().getId()+order.getCity().getId()+order.getCounty().getId()+order.getAddressDetail();
+			map.put(key,order);
+		}
+		Set<Map.Entry<String, Order>> set= map.entrySet();
+		for (Map.Entry<String, Order> entry : set) {
+			Order order = entry.getValue();
+			PoolExpress pe=null;
+			OrderReturn or=null;
+			String key=order.getConsigneeName()+order.getConsigneePhone()+order.getProvince().getId()+order.getCity().getId()+order.getCounty().getId()+order.getAddressDetail();
+			for (Order o:os){
+				String okey=o.getConsigneeName()+o.getConsigneePhone()+o.getProvince().getId()+o.getCity().getId()+o.getCounty().getId()+o.getAddressDetail();
+				  if(key.equals(okey)) {
+				  	if(pe==null) {
+						or = poolExpressService.express(order);
+						pe = poolExpressService.get(order.getCarriers());
+					}
+					  o.setRemark(order.getCarriers());
+					  o.setCarriers(pe.getName()+" "+or.getOrder().getLogisticCode());
+					  o.setSendWay("2");
+					  o.setSendStoreDatetime(new Date());
+					  dao.saveExpress(o);
+					  //订阅物流
+					  poolExpressService.orderTracesSubByJson(o);
+				  }
+
+			}
+
+		}
+
+		/*for (Order order:os
 				) {
 			OrderReturn or=poolExpressService.express(order);
 			PoolExpress pe=poolExpressService.get(order.getCarriers());
@@ -108,6 +139,6 @@ public class OrderService extends CrudService<OrderDao, Order> {
 			dao.saveExpress(order);
 			//订阅物流
 			poolExpressService.orderTracesSubByJson(order);
-		}
+		}*/
 	}
 }

@@ -317,7 +317,7 @@
 	</update>
 	<update id="saveExpress">
 			UPDATE pool_task SET
-			carriers = #{carriers},
+			carriers =CONCAT_WS('|',carriers, #{carriers}) ,
 			task_status='3',
 			 send_way = #{sendWay},
 			 weight= #{weight},
