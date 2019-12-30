@@ -231,7 +231,7 @@ public class OrderController extends BaseController {
 
 		}
 		if(StringUtils.isEmpty(taskno)) {
-			orderService.allDeliver(os);
+			orderService.allDeliver(os,type);
 			st.setCode("1");
 			st.setMessage("订单重新发货成功");
 
@@ -534,7 +534,8 @@ public class OrderController extends BaseController {
 					BeanUtils.copyProperties(od,o);
 					od.setOrderDetailList(od2s2);
 					od.getPage().setPageNo(i+1);
-
+					String t=od.getTaskNo();
+					od.setRemark(t.substring(t.length() -5,t.length()));
 					alllist.add(od);
 				}
 

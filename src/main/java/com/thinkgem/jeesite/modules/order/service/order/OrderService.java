@@ -95,7 +95,10 @@ public class OrderService extends CrudService<OrderDao, Order> {
 	}
 
 	@Transactional(readOnly = false)
-	public void allDeliver(List<Order> os) throws Exception{
+	public void allDeliver(List<Order> os,String type) throws Exception{
+		if(StringUtils.isEmpty(type)){
+			type="1";
+		}
         Map<String,Order> map=new HashMap<String, Order>();
 		for (Order order:os
 		) {
@@ -119,7 +122,12 @@ public class OrderService extends CrudService<OrderDao, Order> {
 					  o.setCarriers(pe.getName()+" "+or.getOrder().getLogisticCode());
 					  o.setSendWay("2");
 					  o.setSendStoreDatetime(new Date());
-					  dao.saveExpress(o);
+					  if(type.equals("1")) {
+						  dao.saveExpress(o);
+					  }
+					  else {
+						  dao.updateExpress(o);
+					  }
 					  //订阅物流
 					  poolExpressService.orderTracesSubByJson(o);
 				  }

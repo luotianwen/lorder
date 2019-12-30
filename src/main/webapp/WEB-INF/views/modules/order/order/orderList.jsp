@@ -223,7 +223,7 @@
 
 
         }
-
+         var type="1";
         function allDeliver() {
             var ids = [];
             $("input[name='orderIds']:checked").each(function () {
@@ -244,11 +244,13 @@
                 data:{
                     ids:delIds,
                     preSendAddress:preSendAddress,
-                    carriers:carriers
+                    carriers:carriers,
+                    type:type
                 },
                 cache: false,
                 async: true,
                 success: function(data) {
+
                         confirmx(data.message, su);
                 }
             });
@@ -257,6 +259,7 @@
             // $("#searchForm").attr("action", oldAction);
         }
     function su() {
+        type="1";
         $("#searchForm").submit();
     }
         function allprint() {
@@ -296,6 +299,9 @@
             $("#searchForm").submit();
 
 
+        }
+        function plfh() {
+            type="2";
         }
         function pagesize(a) {
             $("#pageSize").val(a);
@@ -340,7 +346,7 @@
         </li>
         <li><label>是否有货：</label>
             <form:select path="haveAmount" class="input-medium">
-                <form:option value="" label=""/>
+                <form:option value="" label="全部"/>
                 <form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value"
                               htmlEscape="false"/>
             </form:select>
@@ -422,22 +428,28 @@
                 <form:option value="30" label="30"/>
                 <form:option value="50" label="50"/>
                 <form:option value="100" label="100"/>
-
+                <form:option value="200" label="200"/>
+                <form:option value="300" label="300"/>
+                <form:option value="500" label="500"/>
             </form:select>
         </li>
         <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
         <li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
+            <input id="btnExport2" class="btn btn-primary" type="button" value="1导出全部备货单"/>
+            <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary">2批量合并发货</a>
+            <a href="#" onclick="checkprint()" class="btn btn-primary">3批量打印面单</a>
+            <input id="btnExport7" class="btn btn-primary" type="button" value="4导出选择交货单"/>
+
+
             <input id="btnExport" class="btn btn-primary" type="button" value="导出订单"/>
-            <input id="btnExport2" class="btn btn-primary" type="button" value="导出备货单"/>
             <input id="btnExport9" class="btn btn-primary" type="button" value="查看备货单"/>
-            <input id="btnExport3" class="btn btn-primary" type="button" value="导出选择交货单"/>
-            <input id="btnExport7" class="btn btn-primary" type="button" value="导出选择3条交货单"/>
+          <%--  <input id="btnExport3" class="btn btn-primary" type="button" value="导出选择交货单"/>--%>
             <input id="btnExport4" class="btn btn-primary" type="button" value="导出选择备货单"/>
-            <input id="btnExport5" class="btn btn-primary" type="button" value="导出分页交货单"/>
+           <%-- <input id="btnExport5" class="btn btn-primary" type="button" value="导出分页交货单"/>--%>
             <input id="btnExport6" class="btn btn-primary" type="button" value="导出一页交货单"/>
-            <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary">批量合并发货</a>
-            <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary">批量重新发货</a>
-            <a href="#" onclick="checkprint()" class="btn btn-primary">批量打印面单</a>
+
+            <a href="#" data-toggle="modal" data-target="#myModal" onclick="plfh()" class="btn btn-primary">批量重新发货</a>
+          <%--  <a href="#" onclick="checkprint()" class="btn btn-primary">批量打印面单</a>--%>
             <a href="http://www.kdniao.com/documents-instrument" target="_blank" class="btn btn-primary">下载打印面单组件</a>
           <%--  <a href="../mscomm32.ocx_downcc.com.zip" target="_blank" class="btn btn-primary">下载称重组件</a>--%>
         </li>
@@ -654,12 +666,12 @@
                     <c:if test="${not empty order.haveAmount}">
                         <c:if test="${empty  order.carriers}">
                             <a href="${ctx}/order/order/order/express?id=${order.id}">发货</a>
-                            <a style="cursor: pointer;" onclick="tfh('${order.id}')">三方发货</a>
+                            <a style="cursor: pointer;" onclick="tfh('${order.id}')">填写单号</a>
                         </c:if>
 
                         <c:if test="${not empty order.carriers}">
-                            <a href="${ctx}/order/order/order/express?id=${order.id}">重新发货</a>
-                            <a style="cursor: pointer;" onclick="tfh('${order.id}')" )>重新三方发货</a>
+                            <a href="${ctx}/order/order/order/express?id=${order.id}">多单号</a>
+                            <a style="cursor: pointer;" onclick="tfh('${order.id}')" )>重新填写单号</a>
                         </c:if>
                     </c:if>
                         <%--&lt;%&ndash;<c:if test="${empty  order.carriers}">

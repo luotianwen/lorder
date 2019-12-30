@@ -315,6 +315,16 @@
 		send_store_datetime = #{sendStoreDatetime}
 		where id=#{id}
 	</update>
+
+	<update id="updateExpress">
+		UPDATE pool_task SET	carriers =#{carriers} ,
+		task_status='3',
+		send_way = #{sendWay},
+		weight= #{weight},
+		pre_send_address = #{preSendAddress},
+		send_store_datetime = #{sendStoreDatetime}
+		where id=#{id}
+	</update>
 	<update id="saveExpress">
 			UPDATE pool_task SET
 			carriers =CONCAT_WS('|',carriers, #{carriers}) ,
