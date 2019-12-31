@@ -311,9 +311,7 @@
 <body>
 <ul class="nav nav-tabs">
     <li class="active"><a href="${ctx}/order/order/order/">订单管理列表</a></li>
-    <shiro:hasPermission name="order:order:order:edit">
-        <li><a href="${ctx}/order/order/order/form">订单管理添加</a></li>
-    </shiro:hasPermission>
+
 </ul>
 <form:form id="searchForm" modelAttribute="order" action="${ctx}/order/order/order/" method="post"
            class="breadcrumb form-search">
@@ -339,7 +337,7 @@
         </li>
         <li><label>订单状态：</label>
             <form:select path="taskStatus" class="input-medium">
-                <form:option value="" label=""/>
+                <form:option value="" label="全部"/>
                 <form:options items="${fns:getDictList('P_TASK_STATUS')}" itemLabel="label" itemValue="value"
                               htmlEscape="false"/>
             </form:select>
@@ -353,14 +351,14 @@
         </li>
         <li><label>订单类型：</label>
             <form:select path="taskType" class="input-medium">
-                <form:option value="" label=""/>
+                <form:option value="" label="全部"/>
                 <form:options items="${fns:getDictList('P_TASK_TYPE')}" itemLabel="label" itemValue="value"
                               htmlEscape="false"/>
             </form:select>
         </li>
         <li><label>发货组织：</label>
             <form:select path="saleGroup" class="input-medium">
-                <form:option value="" label=""/>
+                <form:option value="" label="全部"/>
                 <form:options items="${fns:getDictList('SALE_GROUP')}" itemLabel="label" itemValue="value"
                               htmlEscape="false"/>
             </form:select>
@@ -401,19 +399,19 @@
         </li>
         <li><label>是否签收：</label>
             <form:select path="signResult" class="input-medium">
-                <form:option value="" label=""/>
+                <form:option value="" label="全部"/>
                 <form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value"
                               htmlEscape="false"/>
             </form:select>
         </li>
-        <li><label>签收时间：</label>
+       <%-- <li><label>签收时间：</label>
             <input name="beginSignDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
                    value="<fmt:formatDate value="${order.beginSignDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
                    onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> -
             <input name="endSignDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
                    value="<fmt:formatDate value="${order.endSignDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
                    onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
-        </li>
+        </li>--%>
         <li><label>创建时间：</label>
             <input name="beginCreateDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
                    value="<fmt:formatDate value="${order.beginCreateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
@@ -431,6 +429,7 @@
                 <form:option value="200" label="200"/>
                 <form:option value="300" label="300"/>
                 <form:option value="500" label="500"/>
+                <form:option value="1000" label="1000"/>
             </form:select>
         </li>
         <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
