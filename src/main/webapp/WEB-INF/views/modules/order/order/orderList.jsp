@@ -662,7 +662,7 @@
             <shiro:hasPermission name="order:order:order:edit">
                 <td>
                     <a href="${ctx}/order/order/order/form?id=${order.id}">查看</a>
-                    <c:if test="${not empty order.haveAmount}">
+                    <c:if test="${ order.haveAmount eq 1}">
                         <c:if test="${empty  order.carriers}">
                             <a href="${ctx}/order/order/order/express?id=${order.id}">发货</a>
                             <a style="cursor: pointer;" onclick="tfh('${order.id}')">填写单号</a>
