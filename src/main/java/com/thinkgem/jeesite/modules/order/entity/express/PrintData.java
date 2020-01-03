@@ -6,6 +6,15 @@ public class PrintData {
     private String ebusinessID;
     private String dataSign;
     private String isPreview;
+    private String requestData2;
+
+    public String getRequestData2() {
+        return requestData2;
+    }
+
+    public void setRequestData2(String requestData2) {
+        this.requestData2 = requestData2;
+    }
 
     public String getRequestData() {
         return requestData;

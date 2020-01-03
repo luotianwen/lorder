@@ -16,6 +16,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import com.thinkgem.jeesite.common.OrderStatic;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
+import com.thinkgem.jeesite.modules.order.dao.order.OrderDao;
 import com.thinkgem.jeesite.modules.order.entity.express.OrderReturn;
 import com.thinkgem.jeesite.modules.order.entity.express.PrintData;
 import com.thinkgem.jeesite.modules.order.entity.express.SearchData;
@@ -194,7 +195,18 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		}
 		return result.toString();
 	}
-    public OrderReturn   express(Order order) throws Exception {
+
+	@Autowired
+	private OrderDao orderDao;
+	/**
+	 *
+	 * @param order
+	 * @param type 1发货或者重新发货 2多单号
+	 * @return
+	 * @throws Exception
+	 */
+    public OrderReturn   express(Order order,int type) throws Exception {
+
 		String EBusinessID= Global.getConfig("express.EBusinessID");
 		String AppKey= Global.getConfig("express.AppKey");
 		String ReqURL= Global.getConfig("express.ReqURL");
@@ -205,7 +217,12 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		String MonthCode=pe.getMonthcode();
 		String SendSite=pe.getSendsite();
 		String TemplateSize=pe.getTemplatesize();
-		String code=order.getTaskNo().replace("LD20","");
+		Order order2=orderDao.get(order.getId());
+		String code=order.getTaskNo();//.replace("LD20","");
+		if(type==2){
+			int csl=order2.getCarriers().split("\\|").length+1;
+			code=code+"_"+csl;
+		}
         String payType=pe.getPaytype();
 
 		String details="";
@@ -243,7 +260,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 				details +
 				"]," +
 				"'Weight':'"+order.getWeight()+"'," +
-				"'Quantity':"+q+"," +
+				"'Quantity':1," +
 				"'Volume':0.0," +
 				"'TemplateSize':"+TemplateSize+"," +
 
@@ -287,7 +304,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 	 * Json方式  物流信息订阅
 	 * @throws Exception
 	 */
-	public void orderTracesSubByJson(Order order) throws Exception{
+	public void orderTracesSubByJson(Order order,int type) throws Exception{
 		String EBusinessID= Global.getConfig("express.EBusinessID");
 		String AppKey= Global.getConfig("express.AppKey");
 		String ReqURL= Global.getConfig("express.ReqSubscribeURL");
@@ -299,7 +316,13 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		String MonthCode=pe.getMonthcode();
 		String SendSite=pe.getSendsite();
 		String TemplateSize=pe.getTemplatesize();
-		String code=order.getTaskNo().replace("LD20","");
+		Order order2=orderDao.get(order.getId());
+		String code=order.getTaskNo();//.replace("LD20","");
+		if(type==2){
+			int csl=order2.getCarriers().split("\\|").length+1;
+			code=code+"_"+csl;
+		}
+		//String code=order.getTaskNo().replace("LD20","");
 		String payType=pe.getPaytype();
 
 
@@ -340,7 +363,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 				"]," +
 
 				"'Weight':"+order.getWeight()+"," +
-				"'Quantity':"+q+"," +
+				"'Quantity':1," +
 				"'Volume':0.0," +
 				"'Remark':'小心轻放'}";
 
@@ -436,9 +459,17 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		PrintData pd=new PrintData();
 		for (Order order:orders
 				) {
-			data += "{\"OrderCode\":"+order.getTaskNo().replace("LD20","")+",\"PortName\":\""+name+"\"},";
+			String code=order.getTaskNo();//.replace("LD20","");
+
+				int csl=order.getCarriers().split("\\|").length;
+			data += "{\"OrderCode\":\""+code+"\",\"PortName\":\""+name+"\"},";
+				if(csl>1){
+					for (int i = 2; i <=csl ; i++) {
+						data += "{\"OrderCode\":\""+code+"_"+i+"\",\"PortName\":\""+name+"\"},";
+					}
+				}
 		}
-		data=data.substring(0,data.length());
+		data=data.substring(0,data.length()-1);
 		data+="]";
 		String EBusinessID= Global.getConfig("express.EBusinessID");
 		String AppKey= Global.getConfig("express.AppKey");
@@ -446,6 +477,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		pd.setRequestData(URLEncoder.encode(data, "UTF-8"));
 		pd.setDataSign(encrpy(ip + data, AppKey));
 		pd.setIsPreview("1");
+		pd.setRequestData2(data);
 		/*String result = "{\"RequestData\": \"" + URLEncoder.encode(data, "UTF-8") + "\", \"EBusinessID\":\"" + EBussinessID + "\", \"DataSign\":\"" + encrpy(ip + data, AppKey) + "\", \"IsPreview\":\""
 				+ IsPreview + "\"}";*/
 

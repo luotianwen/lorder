@@ -163,7 +163,7 @@ public class OrderController extends BaseController {
 		order.setPreSendAddress(sendAddress);
 		orderService.saveExpress(order);
 		//订阅物流
-		poolExpressService.orderTracesSubByJson(order);
+		poolExpressService.orderTracesSubByJson(order,2);
 		addMessage(redirectAttributes, "订单发货成功");
 		return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
 	}
@@ -535,7 +535,7 @@ public class OrderController extends BaseController {
 					od.setOrderDetailList(od2s2);
 					od.getPage().setPageNo(i+1);
 					String t=od.getTaskNo();
-					od.setRemark(t.substring(t.length() -5,t.length()));
+					od.setSignStandard(t.substring(t.length() -5,t.length()));
 					alllist.add(od);
 				}
 

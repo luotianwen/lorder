@@ -386,8 +386,12 @@
 		</div>
 		<label class="span1 control-label">备注信息：</label>
 		<div class="span2 ">
-			<form:textarea path="remarks" htmlEscape="false" rows="4" readonly="true"  maxlength="255" class="input-xxlarge "/>
+			<form:textarea path="remark" htmlEscape="false" rows="4" readonly="true"  maxlength="255" class="input-large"/>
 		</div>
+		<%--<label class="span1 control-label">商家备注：</label>
+		<div class="span2 ">
+			<form:textarea path="remarks" htmlEscape="false" rows="4" readonly="true"  maxlength="255" class="input-large "/>
+		</div>--%>
 	</div>
 	<div class="control-group">
 		<label class="control-label">订单行数据表：</label>

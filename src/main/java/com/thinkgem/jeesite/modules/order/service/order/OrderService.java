@@ -79,7 +79,7 @@ public class OrderService extends CrudService<OrderDao, Order> {
 	private PoolExpressService poolExpressService;
 	@Transactional(readOnly = false)
     public void saveExpress(Order order) throws Exception {
-		OrderReturn or=poolExpressService.express(order);
+		OrderReturn or=poolExpressService.express(order,2);
 		PoolExpress pe=poolExpressService.get(order.getCarriers());
 		order.setRemark(order.getCarriers());
 		order.setCarriers(pe.getName()+" "+or.getOrder().getLogisticCode());
@@ -96,9 +96,7 @@ public class OrderService extends CrudService<OrderDao, Order> {
 
 	@Transactional(readOnly = false)
 	public void allDeliver(List<Order> os,String type) throws Exception{
-		if(StringUtils.isEmpty(type)){
-			type="1";
-		}
+
         Map<String,Order> map=new HashMap<String, Order>();
 		for (Order order:os
 		) {
@@ -115,21 +113,22 @@ public class OrderService extends CrudService<OrderDao, Order> {
 				String okey=o.getConsigneeName()+o.getConsigneePhone()+o.getProvince().getId()+o.getCity().getId()+o.getCounty().getId()+o.getAddressDetail();
 				  if(key.equals(okey)) {
 				  	if(pe==null) {
-						or = poolExpressService.express(order);
+						or = poolExpressService.express(order,1);
 						pe = poolExpressService.get(order.getCarriers());
 					}
 					  o.setRemark(order.getCarriers());
 					  o.setCarriers(pe.getName()+" "+or.getOrder().getLogisticCode());
 					  o.setSendWay("2");
 					  o.setSendStoreDatetime(new Date());
-					  if(type.equals("1")) {
-						  dao.saveExpress(o);
-					  }
-					  else {
+					  //if(type.equals("1")) {
+						//  dao.saveExpress(o);
+					 // }
+					 /* else {
 						  dao.updateExpress(o);
-					  }
+					  }*/
+					  dao.updateExpress(o);
 					  //订阅物流
-					  poolExpressService.orderTracesSubByJson(o);
+					  poolExpressService.orderTracesSubByJson(o,1);
 				  }
 
 			}
