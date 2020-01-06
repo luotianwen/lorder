@@ -659,7 +659,7 @@
             <td>
                 <fmt:formatDate value="${order.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
             </td>
-            <shiro:hasPermission name="order:order:order:edit">
+
                 <td>
                     <a href="${ctx}/order/order/order/form?id=${order.id}">查看</a>
                     <c:if test="${ order.haveAmount eq 1}">
@@ -679,9 +679,13 @@
                     <c:if test="${not empty  order.carriers   }">
                         <a href="${ctx}/order/order/order/print?id=${order.id}"   target="_blank">打印面单</a>
                     </c:if>--%>
+                    <shiro:hasPermission name="order:order:order:edit">
+                        <c:if test="${ order.taskStatus eq 1 and order.haveAmount !=1}">
                          <a href="${ctx}/order/order/order/delete?id=${order.id}" onclick="return confirmx('确认要删除该订单管理吗？', this.href)">删除</a>
+                        </c:if>
+                    </shiro:hasPermission>
                 </td>
-            </shiro:hasPermission>
+
         </tr>
     </c:forEach>
     </tbody>
