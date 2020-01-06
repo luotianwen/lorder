@@ -396,10 +396,15 @@
 		WHERE id = #{id}
 	</update>
 	
-	<update id="delete">
-		UPDATE pool_task SET 
+	<!--<update id="delete">
+		  pool_task SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
-	</update>
+	</update>-->
+	<delete id="delete">
+        delete from
+		pool_task
+		WHERE id = #{id}
+	</delete>
 	
 </mapper>
