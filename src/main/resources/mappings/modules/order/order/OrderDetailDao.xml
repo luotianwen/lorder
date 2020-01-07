@@ -253,8 +253,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE pool_task_line SET 
-			del_flag = #{DEL_FLAG_DELETE}
+		delete from pool_task_line
 		<choose>
 			<when test="id !=null and id != ''">
 				WHERE id = #{id}
