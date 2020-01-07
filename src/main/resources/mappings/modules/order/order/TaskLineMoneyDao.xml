@@ -26,7 +26,7 @@
 	</sql>
 
 	<sql id="taskLineMoneyJoins">
-		LEFT JOIN pool_task_line b ON b.id = a.line_id
+		  JOIN pool_task_line b ON b.id = a.line_id
 	</sql>
     
 	<select id="get" resultType="TaskLineMoney">

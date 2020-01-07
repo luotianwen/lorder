@@ -356,7 +356,7 @@ public class OrderController extends BaseController {
 
 					List<OrderDetail> od2s2=new ArrayList<OrderDetail>();
 					int l=(i)*6;
-					int k=(l+5)>all?all:(l+5);
+					int k=(l+6)>all?all:(l+6);
 					for (int j = l; j <k; j++) {
 						od2s2.add(od2s.get(j));
 					}
@@ -519,7 +519,7 @@ public class OrderController extends BaseController {
 
 					List<OrderDetail> od2s2=new ArrayList<OrderDetail>();
 					int l=(i)*6;
-					int k=(l+5)>all?all:(l+5);
+					int k=(l+6)>all?all:(l+6);
 					for (int j = l; j <k; j++) {
 						od2s2.add(od2s.get(j));
 					}
