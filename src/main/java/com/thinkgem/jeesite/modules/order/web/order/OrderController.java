@@ -721,6 +721,35 @@ public class OrderController extends BaseController {
 		}
 		return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
 	}
+	@RequiresPermissions("order:order:order:edit")
+	@RequestMapping(value = "debang")
+	public String debang(Order order, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+		try {
+			String fileName = "德邦"+ DateUtils.getDate("yyyyMMdd")+".xls";
+			Address addres= addressService.findList(new Address()).get(0);
+			ServletOutputStream out = null;
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("order", order);
+			params.put("address", addres);
+			try {
+				response.setHeader("Expires", "0");
+				response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+				response.setHeader("Content-Disposition", "attachment; filename="+ Encodes.urlEncode(fileName));
+				response.setHeader("Pragma", "public");
+				response.setContentType("application/x-excel;charset=UTF-8");
+				out = response.getOutputStream();
+				JxlsTemplate.processTemplate("/order_debang.xls", out, params);
+				out.flush();
+				out.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		} catch (Exception e) {
+			addMessage(redirectAttributes, "导出失败！失败信息："+e.getMessage());
+		}
+		return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
+	}
     @RequiresPermissions("order:order:order:shipper")
     @RequestMapping(value = "shipperexport", method= RequestMethod.POST)
     public String exportShipperFile(Order order, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
