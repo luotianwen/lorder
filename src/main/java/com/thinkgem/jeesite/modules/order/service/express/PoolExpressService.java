@@ -293,12 +293,12 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 	 *通知平台发货
 	 */
 	private void  sendPtFh(String taskNo,String code,String num){
-		Map map = new HashMap();
+		/*Map map = new HashMap();
 		map.put("OrderID", taskNo);
 		map.put("LogisticsNum", num);
 		map.put("LogisticsCode", code);
 		String json = OrderStatic.lxdpost(OrderStatic.SendGoods, map);
-		log.error(map.toString()+"通知平台发货结果"+json);
+		log.error(map.toString()+"通知平台发货结果"+json);*/
 	}
 	/**
 	 * Json方式  物流信息订阅
