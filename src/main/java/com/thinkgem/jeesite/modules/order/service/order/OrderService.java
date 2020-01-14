@@ -155,6 +155,6 @@ public class OrderService extends CrudService<OrderDao, Order> {
 	}
 
 	public List<OrderDetail> findOrdertailList(OrderDetail entity) {
-		return orderDetailDao.findList(entity);
+		return orderDetailDao.findAllList(entity);
 	}
 }

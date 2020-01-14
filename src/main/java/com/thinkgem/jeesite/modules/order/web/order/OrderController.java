@@ -120,6 +120,7 @@ public class OrderController extends BaseController {
             if(null==order){
                 order=new OrderDetail();
             }
+			order.setPage(null);
             List<OrderDetail> list=orderService.findOrdertailList(order);
             ServletOutputStream out = null;
             Map<String, Object> params = new HashMap<String, Object>();

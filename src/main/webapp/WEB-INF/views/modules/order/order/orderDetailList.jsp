@@ -63,7 +63,14 @@
             <form:input path="productNo" htmlEscape="false"   class="input-medium"/>
         </li>
 
-
+        <li><label>订单时间：</label>
+            <input name="poolTask.beginTaskGenDatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+                   value="<fmt:formatDate value="${orderDetail.poolTask.beginTaskGenDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> -
+            <input name="poolTask.endTaskGenDatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+                   value="<fmt:formatDate value="${orderDetail.poolTask.endTaskGenDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+        </li>
           <li><label>类型：</label>
                 <form:select path="productClass" class="input-medium">
                     <form:option value="" label=""/>
@@ -101,8 +108,9 @@
 <sys:message content="${message}"/>
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
     <thead>
-    <tr>
-        <th>订单号</th>
+    <tr>  <th>订单号</th>
+        <th>订单时间</th>
+
         <th>商品编号</th>
         <th>商品类型</th>
         <th>数量</th>
@@ -119,10 +127,13 @@
     </thead>
     <tbody>
     <c:forEach items="${page.list}" var="order">
-        <tr>
+        <tr> <td>
+                ${order.taskNo}
+        </td>
             <td>
-                    ${order.taskNo}
+                <fmt:formatDate value="${order.poolTask.taskGenDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>
             </td>
+
             <td>
                     ${order.productNo}
             </td>
