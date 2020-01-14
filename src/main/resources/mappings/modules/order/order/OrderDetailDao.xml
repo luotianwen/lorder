@@ -80,10 +80,20 @@
 				AND a.pool_task_id = #{poolTask.id}
 			</if>
 			<if test="name != null and name != ''">
-				AND a.name LIKE 
-					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+				AND a.name LIKE  concat('%',#{name},'%')
+			</if>
+			<if test="productNo != null and productNo != ''">
+				AND a.product_no = #{productNo}
+			</if>
+			<if test="taskNo != null and taskNo != ''">
+				AND a.task_no = #{taskNo}
+			</if>
+			<if test="productClass != null and productClass != ''">
+				AND a.product_class = #{productClass}
+			</if>
+
+			<if test="suppliername != null and suppliername != ''">
+				AND a.suppliername = #{suppliername}
 			</if>
 		</where>
 		<choose>

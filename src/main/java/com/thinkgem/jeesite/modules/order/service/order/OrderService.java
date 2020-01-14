@@ -47,7 +47,12 @@ public class OrderService extends CrudService<OrderDao, Order> {
 	public Page<Order> findPage(Page<Order> page, Order order) {
 		return super.findPage(page, order);
 	}
-	
+
+	public Page<OrderDetail> findOrdertailPage(Page<OrderDetail> page, OrderDetail entity) {
+		entity.setPage(page);
+		page.setList(orderDetailDao.findList(entity));
+		return page;
+	}
 	@Transactional(readOnly = false)
 	public void save(Order order) {
 		super.save(order);
@@ -147,5 +152,9 @@ public class OrderService extends CrudService<OrderDao, Order> {
 			//订阅物流
 			poolExpressService.orderTracesSubByJson(order);
 		}*/
+	}
+
+	public List<OrderDetail> findOrdertailList(OrderDetail entity) {
+		return orderDetailDao.findList(entity);
 	}
 }

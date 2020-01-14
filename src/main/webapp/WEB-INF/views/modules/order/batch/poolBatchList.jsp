@@ -6,8 +6,23 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
+            $("#btnExport").click(function () {
+                top.$.jBox.confirm("确认要导出数据吗？", "系统提示", function (v, h, f) {
+                    if (v == "ok") {
+                        var oldAction = $("#searchForm").attr("action");
+                        $("#searchForm").attr("target", "_blank");
+                        $("#searchForm").attr("action", "${ctx}/order/batch/poolBatch/export");
+                        $("#searchForm").submit();
+                        $("#searchForm").attr("target", "_self");
+                        $("#searchForm").attr("action", oldAction);
+                    }
+                }, {buttonsFocus: 1});
+                top.$('.jbox-body .jbox-icon').css('top', '55px');
+            });
 		});
+        function pagesize(a) {
+            $("#pageSize").val(a);
+        }
 		function page(n,s){
 			$("#pageNo").val(n);
 			$("#pageSize").val(s);
@@ -60,7 +75,20 @@
 			<li><label>发货方：</label>
 				<form:input path="shipperid" htmlEscape="false"   class="input-medium"/>
 			</li>
-			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+			<li><label>每页条数：</label>
+				<form:select path="page.pageSize" class="input-medium" onchange="pagesize(this.value)">
+					<form:option value="20" label="20"/>
+					<form:option value="30" label="30"/>
+					<form:option value="50" label="50"/>
+					<form:option value="100" label="100"/>
+					<form:option value="200" label="200"/>
+					<form:option value="300" label="300"/>
+					<form:option value="500" label="500"/>
+					<form:option value="1000" label="1000"/>
+				</form:select>
+			</li>
+			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
+				<input id="btnExport" class="btn btn-primary" type="button" value="导出"/></li>
 			<li class="clearfix"></li>
 		</ul>
 		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>

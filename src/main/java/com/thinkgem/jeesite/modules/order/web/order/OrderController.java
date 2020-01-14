@@ -104,7 +104,54 @@ public class OrderController extends BaseController {
 		return "modules/order/order/orderList";
 	}
 
-	@RequiresPermissions("order:order:order:shipper")
+    @RequiresPermissions("order:order:order:view")
+    @RequestMapping(value = {"orderDetaillist"})
+    public String orderDetaillist(OrderDetail orderDetail, HttpServletRequest request, HttpServletResponse response, Model model) {
+        Page<OrderDetail> page = orderService.findOrdertailPage(new Page<OrderDetail>(request, response), orderDetail);
+        model.addAttribute("page", page);
+        return "modules/order/order/orderDetailList";
+    }
+    @RequiresPermissions("order:order:order:edit")
+    @RequestMapping(value = "exportDetail", method= RequestMethod.POST)
+    public String exportDetail(OrderDetail order, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+        try {
+            String fileName = "订单明细数据"+ DateUtils.getDate("yyyyMMdd")+".xls";
+
+            if(null==order){
+                order=new OrderDetail();
+            }
+            List<OrderDetail> list=orderService.findOrdertailList(order);
+            ServletOutputStream out = null;
+            Map<String, Object> params = new HashMap<String, Object>();
+            Map<String, String> ds = new HashMap<String, String>();
+            List<Dict> dl=DictUtils.getDictList("P_productClass");
+            for (Dict d:dl
+            ) {
+                ds.put(d.getValue(),d.getLabel());
+            }
+            params.put("items", list);
+            params.put("ds", ds);
+            try {
+                response.setHeader("Expires", "0");
+                response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+                response.setHeader("Content-Disposition", "attachment; filename="+ Encodes.urlEncode(fileName));
+                response.setHeader("Pragma", "public");
+                response.setContentType("application/x-excel;charset=UTF-8");
+                out = response.getOutputStream();
+                JxlsTemplate.processTemplate("/order_detail_export.xls", out, params);
+                out.flush();
+                out.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            //new ExportExcel("订单数据"+ DateUtils.getDate("yyyyMMddHHmmss"), Order.class).setDataList(list).write(response, fileName).dispose();
+            return null;
+        } catch (Exception e) {
+            addMessage(redirectAttributes, "导出失败！失败信息："+e.getMessage());
+        }
+        return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
+    }
+	@RequiresPermissions("order:order:order:view")
 	@RequestMapping(value = "form")
 	public String form(Order order, Model model) {
 		model.addAttribute("order", order);
@@ -112,7 +159,7 @@ public class OrderController extends BaseController {
 	}
 	@Autowired
 	private AddressService addressService;
-	@RequiresPermissions("order:order:order:shipper")
+	@RequiresPermissions("order:order:order:view")
 	@RequestMapping(value = "express")
 	public String express(Order order, Model model) {
 		model.addAttribute("expresss",poolExpressService.findList(new PoolExpress()));
@@ -120,7 +167,7 @@ public class OrderController extends BaseController {
 		model.addAttribute("order", order);
 		return "modules/order/order/orderExpress";
 	}
-	@RequiresPermissions("order:order:order:shipper")
+	@RequiresPermissions("order:order:order:view")
 	@RequestMapping(value = "print")
 	public String print(Order order, Model model,HttpServletRequest request) throws Exception {
 		String ip=getIpAddress(request);

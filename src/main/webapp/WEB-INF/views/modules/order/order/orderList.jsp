@@ -318,9 +318,9 @@
     <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 
     <ul class="ul-form">
-        <li><label>oms订单号：</label>
+       <%-- <li><label>oms订单号：</label>
             <form:input path="poolTaskNo" htmlEscape="false"   class="input-medium"/>
-        </li>
+        </li>--%>
         <li><label>平台单号：</label>
             <form:input path="taskNo" htmlEscape="false"   class="input-medium"/>
         </li>
@@ -555,7 +555,7 @@
     <thead>
     <tr>
         <th><input type=checkbox name="checkId" id="checkId"></th>
-        <th class="sort-column poolTaskNo">oms订单号</th>
+     <%--   <th class="sort-column poolTaskNo">oms订单号</th>--%>
         <th class="sort-column taskNo">平台单号</th>
         <th class="sort-column taskGenDatetime">订单时间</th>
         <th>订单类型</th>
@@ -584,9 +584,9 @@
     <c:forEach items="${page.list}" var="order">
         <tr>
             <td><input type="checkbox" name="orderIds" value="${order.id}"/></td>
-            <td><a href="${ctx}/order/order/order/form?id=${order.id}">
+           <%-- <td><a href="${ctx}/order/order/order/form?id=${order.id}">
                     ${order.poolTaskNo}
-            </a></td>
+            </a></td>--%>
             <td>
                     ${order.taskNo}
             </td>
