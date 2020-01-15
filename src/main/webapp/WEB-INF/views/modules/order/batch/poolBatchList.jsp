@@ -38,7 +38,7 @@
 	</ul>
 	<form:form id="searchForm" modelAttribute="poolBatch" action="${ctx}/order/batch/poolBatch/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
-		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+	<%--	<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>--%>
 		<ul class="ul-form">
 			<li><label>集成号：</label>
 				<form:input path="batchNum" htmlEscape="false"   class="input-medium"/>
@@ -76,16 +76,7 @@
 				<form:input path="shipperid" htmlEscape="false"   class="input-medium"/>
 			</li>
 			<li><label>每页条数：</label>
-				<form:select path="page.pageSize" class="input-medium" onchange="pagesize(this.value)">
-					<form:option value="20" label="20"/>
-					<form:option value="30" label="30"/>
-					<form:option value="50" label="50"/>
-					<form:option value="100" label="100"/>
-					<form:option value="200" label="200"/>
-					<form:option value="300" label="300"/>
-					<form:option value="500" label="500"/>
-					<form:option value="1000" label="1000"/>
-				</form:select>
+				<input id="pageSize" name="pageSize" class="input-medium" value="${page.pageSize}"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
 				<input id="btnExport" class="btn btn-primary" type="button" value="导出"/></li>
