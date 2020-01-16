@@ -54,7 +54,7 @@
 			<li><label>交货单号：</label>
 				<form:input path="erpNo" htmlEscape="false"   class="input-medium"/>
 			</li>
-			<li><label>是否交货：</label>
+			<li><label>sap交货：</label>
 				<form:select path="isok" class="input-medium">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
@@ -91,8 +91,7 @@
 				<th class="sort-column batchNum">集成号</th>
 				<th class="sort-column batchGenDatetime">生成时间</th>
 				<th>总金额</th>
-
-				<th>是否交货</th>
+				<th>sap交货</th>
 				<th>订单类型</th>
 				<th>代理类型</th>
 				<th>sap供应商</th>

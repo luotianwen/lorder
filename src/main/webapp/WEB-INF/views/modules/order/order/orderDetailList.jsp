@@ -56,7 +56,7 @@
         <li><label>订单号：</label>
             <form:input path="taskNo" htmlEscape="false"   class="input-medium"/>
         </li>
-        <li><label>批次号：</label>
+        <li><label>集成单号：</label>
             <form:input path="batchNum" htmlEscape="false"   class="input-medium"/>
         </li>
         <li><label>物料号：</label>
@@ -100,7 +100,9 @@
 <sys:message content="${message}"/>
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
     <thead>
-    <tr>  <th>订单号</th>
+    <tr>
+        <th>订单号</th>
+        <th>集成单号</th>
         <th>订单时间</th>
 
         <th>商品编号</th>
@@ -114,7 +116,7 @@
         <th>减免金额</th>
         <th>代理商标识</th>
          <th>SAP供应商</th>
-         <th>批次号</th>
+
     </tr>
     </thead>
     <tbody>
@@ -122,6 +124,10 @@
         <tr> <td>
                 ${order.taskNo}
         </td>
+            <td>
+                    ${order.batchNum}
+            </td>
+
             <td>
                 <fmt:formatDate value="${order.poolTask.taskGenDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>
             </td>
@@ -162,9 +168,6 @@
             </td>
             <td>
                     ${order.sapSupplierID}
-            </td>
-            <td>
-                    ${order.batchNum}
             </td>
 
         </tr>

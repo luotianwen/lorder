@@ -85,7 +85,7 @@
 				<th>类型名称</th>
 				<th>分账金额</th>
 				<th>分账比例</th>
-
+					<th>已同步sap</th>
 				 <th>操作</th>
 			</tr>
 		</thead>
@@ -136,10 +136,13 @@
 				</td>
 				<td>
 					${taskLineMoney.shipperid}
-				</td>
-				<td>
-					${taskLineMoney.shippername}
 				</td>--%>
+				<td>
+				 <c:if test="${taskLineMoney.isok==0}">是</c:if>
+
+				</td>
+
+
 				<shiro:hasPermission name="order:order:taskLineMoney:edit"><td>
     				<a href="${ctx}/order/order/taskLineMoney/form?id=${taskLineMoney.id}" target="_blank">查看</a>
 					<%--<a href="${ctx}/order/order/taskLineMoney/delete?id=${taskLineMoney.id}" onclick="return confirmx('确认要删除该分润吗？', this.href)">删除</a>--%>
