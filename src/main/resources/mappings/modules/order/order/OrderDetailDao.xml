@@ -5,6 +5,7 @@
 	<sql id="orderDetailColumns">
 		a.id AS "id",
 		a.pool_task_id AS "poolTask.id",
+		b.task_gen_datetime AS "poolTask.taskGenDatetime",
 		a.pool_task_no AS "poolTaskNo",
 		a.task_no AS "taskNo",
 		a.product_name AS "productName",
@@ -79,11 +80,27 @@
 			<if test="poolTask != null and poolTask.id != null and poolTask.id != ''">
 				AND a.pool_task_id = #{poolTask.id}
 			</if>
+			<if test="poolTask != null and poolTask.beginTaskGenDatetime != null and poolTask.endTaskGenDatetime != null and poolTask.beginTaskGenDatetime != '' and poolTask.endTaskGenDatetime != ''">
+				AND b.task_gen_datetime BETWEEN #{poolTask.beginTaskGenDatetime} AND #{poolTask.endTaskGenDatetime}
+			</if>
 			<if test="name != null and name != ''">
-				AND a.name LIKE 
-					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+				AND a.name LIKE  concat('%',#{name},'%')
+			</if>
+			<if test="productNo != null and productNo != ''">
+				AND a.product_no = #{productNo}
+			</if>
+			<if test="taskNo != null and taskNo != ''">
+				AND a.task_no = #{taskNo}
+			</if>
+			<if test="productClass != null and productClass != ''">
+				AND a.product_class = #{productClass}
+			</if>
+			<if test="batchNum != null and batchNum != ''">
+				AND a.batch_num = #{batchNum}
+			</if>
+
+			<if test="suppliername != null and suppliername != ''">
+				AND a.suppliername = #{suppliername}
 			</if>
 		</where>
 		<choose>
@@ -91,29 +108,49 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.create_date ASC
+				ORDER BY b.task_gen_datetime DESC
 			</otherwise>
 		</choose>
 	</select>
 	
 	<select id="findAllList" resultType="OrderDetail">
-		SELECT 
-			<include refid="orderDetailColumns"/>
+		SELECT
+		<include refid="orderDetailColumns"/>
 		FROM pool_task_line a
 		<include refid="orderDetailJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-
+			<if test="poolTask != null and poolTask.id != null and poolTask.id != ''">
+				AND a.pool_task_id = #{poolTask.id}
+			</if>
+			<if test="poolTask != null and poolTask.beginTaskGenDatetime != null and poolTask.endTaskGenDatetime != null and poolTask.beginTaskGenDatetime != '' and poolTask.endTaskGenDatetime != ''">
+				AND b.task_gen_datetime BETWEEN #{poolTask.beginTaskGenDatetime} AND #{poolTask.endTaskGenDatetime}
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name LIKE  concat('%',#{name},'%')
+			</if>
+			<if test="productNo != null and productNo != ''">
+				AND a.product_no = #{productNo}
+			</if>
+			<if test="taskNo != null and taskNo != ''">
+				AND a.task_no = #{taskNo}
+			</if>
+			<if test="productClass != null and productClass != ''">
+				AND a.product_class = #{productClass}
+			</if>
 			<if test="batchNum != null and batchNum != ''">
 				AND a.batch_num = #{batchNum}
 			</if>
-		</where>		
+			<if test="suppliername != null and suppliername != ''">
+				AND a.suppliername = #{suppliername}
+			</if>
+		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.create_date ASC
+				ORDER BY b.task_gen_datetime DESC
 			</otherwise>
 		</choose>
 	</select>

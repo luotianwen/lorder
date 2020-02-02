@@ -66,10 +66,10 @@
 
 
 	<div class="row control-group">
-		<label class="span1 control-label">集成单号：</label>
+		<%--<label class="span1 control-label">集成单号：</label>
 		<div class="span3 ">
 			<form:input path="poolTaskNo" htmlEscape="false" maxlength="50" class="input-xlarge required" readonly="true"/>
-		</div>
+		</div>--%>
 
 		<label class="span1 control-label">平台单号：</label>
 		<div class="span3 ">

@@ -318,9 +318,9 @@
     <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 
     <ul class="ul-form">
-        <li><label>oms订单号：</label>
+       <%-- <li><label>oms订单号：</label>
             <form:input path="poolTaskNo" htmlEscape="false"   class="input-medium"/>
-        </li>
+        </li>--%>
         <li><label>平台单号：</label>
             <form:input path="taskNo" htmlEscape="false"   class="input-medium"/>
         </li>
@@ -421,7 +421,8 @@
                    onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
         </li>
         <li><label>每页条数：</label>
-            <form:select path="page.pageSize" class="input-medium" onchange="pagesize(this.value)">
+            <input id="pageSize" name="pageSize" class="input-medium" value="${page.pageSize}"/>
+           <%-- <form:select path="page.pageSize" class="input-medium" onchange="pagesize(this.value)">
                 <form:option value="20" label="20"/>
                 <form:option value="30" label="30"/>
                 <form:option value="50" label="50"/>
@@ -430,9 +431,9 @@
                 <form:option value="300" label="300"/>
                 <form:option value="500" label="500"/>
                 <form:option value="1000" label="1000"/>
-            </form:select>
+            </form:select>--%>
         </li>
-        <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+        <%--<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>--%>
         <li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
             <input id="btnExport2" class="btn btn-primary" type="button" value="1导出全部备货单"/>
             <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary">2批量合并发货</a>
@@ -555,7 +556,7 @@
     <thead>
     <tr>
         <th><input type=checkbox name="checkId" id="checkId"></th>
-        <th class="sort-column poolTaskNo">oms订单号</th>
+     <%--   <th class="sort-column poolTaskNo">oms订单号</th>--%>
         <th class="sort-column taskNo">平台单号</th>
         <th class="sort-column taskGenDatetime">订单时间</th>
         <th>订单类型</th>
@@ -584,9 +585,9 @@
     <c:forEach items="${page.list}" var="order">
         <tr>
             <td><input type="checkbox" name="orderIds" value="${order.id}"/></td>
-            <td><a href="${ctx}/order/order/order/form?id=${order.id}">
+           <%-- <td><a href="${ctx}/order/order/order/form?id=${order.id}">
                     ${order.poolTaskNo}
-            </a></td>
+            </a></td>--%>
             <td>
                     ${order.taskNo}
             </td>

@@ -6,8 +6,23 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
+            $("#btnExport").click(function () {
+                top.$.jBox.confirm("确认要导出数据吗？", "系统提示", function (v, h, f) {
+                    if (v == "ok") {
+                        var oldAction = $("#searchForm").attr("action");
+                        $("#searchForm").attr("target", "_blank");
+                        $("#searchForm").attr("action", "${ctx}/order/batch/poolBatch/export");
+                        $("#searchForm").submit();
+                        $("#searchForm").attr("target", "_self");
+                        $("#searchForm").attr("action", oldAction);
+                    }
+                }, {buttonsFocus: 1});
+                top.$('.jbox-body .jbox-icon').css('top', '55px');
+            });
 		});
+        function pagesize(a) {
+            $("#pageSize").val(a);
+        }
 		function page(n,s){
 			$("#pageNo").val(n);
 			$("#pageSize").val(s);
@@ -23,7 +38,7 @@
 	</ul>
 	<form:form id="searchForm" modelAttribute="poolBatch" action="${ctx}/order/batch/poolBatch/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
-		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+	<%--	<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>--%>
 		<ul class="ul-form">
 			<li><label>集成号：</label>
 				<form:input path="batchNum" htmlEscape="false"   class="input-medium"/>
@@ -39,7 +54,7 @@
 			<li><label>交货单号：</label>
 				<form:input path="erpNo" htmlEscape="false"   class="input-medium"/>
 			</li>
-			<li><label>是否交货：</label>
+			<li><label>sap交货：</label>
 				<form:select path="isok" class="input-medium">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
@@ -60,7 +75,11 @@
 			<li><label>发货方：</label>
 				<form:input path="shipperid" htmlEscape="false"   class="input-medium"/>
 			</li>
-			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+			<li><label>每页条数：</label>
+				<input id="pageSize" name="pageSize" class="input-medium" value="${page.pageSize}"/>
+			</li>
+			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
+				<input id="btnExport" class="btn btn-primary" type="button" value="导出"/></li>
 			<li class="clearfix"></li>
 		</ul>
 		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
@@ -72,8 +91,7 @@
 				<th class="sort-column batchNum">集成号</th>
 				<th class="sort-column batchGenDatetime">生成时间</th>
 				<th>总金额</th>
-
-				<th>是否交货</th>
+				<th>sap交货</th>
 				<th>订单类型</th>
 				<th>代理类型</th>
 				<th>sap供应商</th>
