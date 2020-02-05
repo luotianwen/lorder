@@ -107,6 +107,7 @@
 
         <th>商品编号</th>
         <th>商品类型</th>
+        <th>业务类型</th>
         <th>数量</th>
         <th>物料名称</th>
         <th>莲香币</th>
@@ -116,6 +117,7 @@
         <th>减免金额</th>
         <th>代理商标识</th>
          <th>SAP供应商</th>
+
 
     </tr>
     </thead>
@@ -137,6 +139,9 @@
             </td>
             <td>
                     ${fns:getDictLabel(order.productClass, 'P_productClass', '')}
+            </td>
+            <td>
+                    ${fns:getDictLabel(order.giftType, 'BusinessType', '')}
             </td>
             <td>
                     ${order.amount}

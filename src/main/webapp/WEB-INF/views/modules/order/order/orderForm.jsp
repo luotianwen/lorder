@@ -403,6 +403,7 @@
 
 					<th style="width: 12%"> 商品编号</th>
 					<th style="width: 8%"> 商品类型</th>
+					<th style="width: 8%"> 业务类型</th>
 					<th style="width: 8%"> 数量</th>
 					<th style="width: 8%"> 物料名称</th>
 					<th style="width: 8%"> 莲香币</th>
@@ -427,7 +428,16 @@
 							{{row.productNo}}	<a style="cursor:pointer" onclick="windowOpen('${ctx}/order/order/taskLineMoney/?lineId={{row.id}}','查看信息')">查看分润信息</a></td>
 							<td>
 							<select id="orderDetailList{{idx}}_productClass" disabled="true" name="orderDetailList[{{idx}}].productClass" data-value="{{row.productClass}}" class="input-small ">
-									<c:forEach items="${fns:getDictList('P_productClass')}" var="dict">
+<option value=""></option>
+<c:forEach items="${fns:getDictList('P_productClass')}" var="dict">
+										<option value="${dict.value}">${dict.label}</option>
+									</c:forEach>
+								</select>
+							</td>
+							<td>
+							<select   disabled="true" name="orderDetailList[{{idx}}].giftType" data-value="{{row.giftType}}" class="input-small ">
+<option value=""></option>
+<c:forEach items="${fns:getDictList('BusinessType')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
 									</c:forEach>
 								</select>
