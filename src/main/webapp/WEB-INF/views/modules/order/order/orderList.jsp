@@ -569,8 +569,8 @@
         <%--<th class="sort-column ebTaskNo">SAP单号</th>--%>
         <%--<th>订单创建人</th>--%>
         <th>客户编号</th>
-        <%--<th>客户名称</th>
-        <th>客户手机</th>--%>
+        <%--<th>客户名称</th>--%>
+        <th>收件信息</th>
         <th class="sort-column consignee_name">收货人名称</th>
         <th class="sort-column consignee_phone">收货人电话</th>
         <th class="sort-column sendStoreDatetime">发货日期</th>
@@ -631,10 +631,13 @@
             </td>
                 <%--<td>
                     ${order.customerName}
-                </td>
-                <td>
-                    ${order.handPhone}
                 </td>--%>
+                <td>
+                    ${order.province.id}
+                            <%--${order.city.id}
+                            ${order.county.id}
+                            ${order.addressDetail}--%>
+                </td>
             <td>
                     ${order.consigneeName}
             </td>
@@ -663,9 +666,12 @@
 
                 <td>
                     <a href="${ctx}/order/order/order/form?id=${order.id}">查看</a>
+                    <c:if test="${ order.taskStatus eq 1 }">
+                        <a href="${ctx}/order/order/order/edit?id=${order.id}">修改收件信息</a>
+                    </c:if>
                     <c:if test="${ order.haveAmount eq 1}">
                         <c:if test="${empty  order.carriers}">
-                            <a href="${ctx}/order/order/order/express?id=${order.id}">发货</a>
+                            <%--<a href="${ctx}/order/order/order/express?id=${order.id}">发货</a>--%>
                             <a style="cursor: pointer;" onclick="tfh('${order.id}')">填写单号</a>
                             <a href="${ctx}/order/order/order/debang?id=${order.id}" target="_blank">德邦</a>
                         </c:if>

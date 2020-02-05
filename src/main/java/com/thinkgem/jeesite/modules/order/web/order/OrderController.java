@@ -158,6 +158,12 @@ public class OrderController extends BaseController {
 		model.addAttribute("order", order);
 		return "modules/order/order/orderForm";
 	}
+	@RequiresPermissions("order:order:order:view")
+	@RequestMapping(value = "edit")
+	public String edit(Order order, Model model) {
+		model.addAttribute("order", order);
+		return "modules/order/order/orderEdit";
+	}
 	@Autowired
 	private AddressService addressService;
 	@RequiresPermissions("order:order:order:view")

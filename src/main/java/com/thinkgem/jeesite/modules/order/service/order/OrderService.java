@@ -56,7 +56,7 @@ public class OrderService extends CrudService<OrderDao, Order> {
 	@Transactional(readOnly = false)
 	public void save(Order order) {
 		super.save(order);
-		for (OrderDetail orderDetail : order.getOrderDetailList()){
+		/*for (OrderDetail orderDetail : order.getOrderDetailList()){
 			if (orderDetail.getId() == null){
 				continue;
 			}
@@ -72,7 +72,7 @@ public class OrderService extends CrudService<OrderDao, Order> {
 			}else{
 				orderDetailDao.delete(orderDetail);
 			}
-		}
+		}*/
 	}
 	
 	@Transactional(readOnly = false)
