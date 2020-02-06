@@ -245,7 +245,10 @@
 			#{suppliername}
 		)
 	</insert>
-	
+
+	<select id="findFirst" resultType="OrderDetail">
+	select id from pool_task_line where  product_class in('1','3','5') and task_no= #{taskNo} and product_no=#{productNo}
+	</select>
 	<update id="update">
 		UPDATE pool_task_line SET 	
 			pool_task_id = #{poolTask.id},

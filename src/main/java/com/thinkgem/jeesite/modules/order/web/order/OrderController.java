@@ -561,7 +561,8 @@ public class OrderController extends BaseController {
 
 			for (Order o:list
 			) {
-
+                o.setOmsstatus("4");
+                orderService.updateomsstatus(o);
 				//ObjectUtils.annotationToObject(o,od);
 				List<OrderDetail> od2s = orderService.get(o.getId()).getOrderDetailList();
 				int page=new BigDecimal(od2s.size()/6.0).setScale(0, BigDecimal.ROUND_UP).intValue();
@@ -688,6 +689,9 @@ public class OrderController extends BaseController {
 		List<OrderDetail> ods=new ArrayList<OrderDetail>();
 		for (Order o:list
 		) {
+			//修改oms订单状态
+			o.setOmsstatus("1");
+			orderService.updateomsstatus(o);
 			List<OrderDetail> od2s=orderService.get(o.getId()).getOrderDetailList();
 			for (OrderDetail od2:od2s
 			) {

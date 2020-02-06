@@ -105,6 +105,8 @@ public class OrderService extends CrudService<OrderDao, Order> {
         Map<String,Order> map=new HashMap<String, Order>();
 		for (Order order:os
 		) {
+			order.setOmsstatus("2");
+			this.updateomsstatus(order);
 			String key=order.getConsigneeName()+order.getConsigneePhone()+order.getProvince().getId()+order.getCity().getId()+order.getCounty().getId()+order.getAddressDetail();
 			map.put(key,order);
 		}
@@ -156,5 +158,9 @@ public class OrderService extends CrudService<OrderDao, Order> {
 
 	public List<OrderDetail> findOrdertailList(OrderDetail entity) {
 		return orderDetailDao.findAllList(entity);
+	}
+	@Transactional(readOnly = false)
+	public void updateomsstatus(Order o) {
+		dao.updateomsstatus(o);
 	}
 }

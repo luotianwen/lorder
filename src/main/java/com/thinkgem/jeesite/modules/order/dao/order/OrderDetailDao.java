@@ -14,5 +14,6 @@ import com.thinkgem.jeesite.modules.order.entity.order.OrderDetail;
  */
 @MyBatisDao
 public interface OrderDetailDao extends CrudDao<OrderDetail> {
-	
+
+    OrderDetail findFirst(OrderDetail od);
 }

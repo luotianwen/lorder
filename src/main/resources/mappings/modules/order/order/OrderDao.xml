@@ -72,7 +72,8 @@
 		a.agentType AS "agentType",
 		a.sapSupplierID AS "sapSupplierID",
 		a.cardCode AS "cardCode",
-		a.weight
+		a.weight,
+		a.omsstatus
 
 	</sql>
 	
@@ -110,6 +111,10 @@
 			<if test="taskStatus != null and taskStatus != ''">
 				AND a.task_status = #{taskStatus}
 			</if>
+			<if test="omsstatus != null and omsstatus != ''">
+				AND a.omsstatus = #{omsstatus}
+			</if>
+
 			<if test="taskType != null and taskType != ''">
 				AND a.task_type = #{taskType}
 			</if>
@@ -307,6 +312,11 @@
 		)
 	</insert>
 
+	<update id="updateomsstatus">
+		UPDATE pool_task SET
+		omsstatus = #{omsstatus}
+		where id=#{id}
+	</update>
 	<update id="saveWBExpress">
 		UPDATE pool_task SET
 		carriers = #{carriers},

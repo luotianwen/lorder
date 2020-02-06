@@ -17,12 +17,15 @@ import com.thinkgem.jeesite.common.OrderStatic;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.modules.order.dao.order.OrderDao;
+import com.thinkgem.jeesite.modules.order.dao.order.OrderDetailDao;
+import com.thinkgem.jeesite.modules.order.dao.order.TaskLineMoneyDao;
 import com.thinkgem.jeesite.modules.order.entity.express.OrderReturn;
 import com.thinkgem.jeesite.modules.order.entity.express.PrintData;
 import com.thinkgem.jeesite.modules.order.entity.express.SearchData;
 import com.thinkgem.jeesite.modules.order.entity.logistic.Logistic;
 import com.thinkgem.jeesite.modules.order.entity.order.Order;
 import com.thinkgem.jeesite.modules.order.entity.order.OrderDetail;
+import com.thinkgem.jeesite.modules.order.entity.order.TaskLineMoney;
 import com.thinkgem.jeesite.modules.order.service.logistic.LogisticService;
 import com.thinkgem.jeesite.modules.order.service.order.OrderService;
 import org.apache.commons.logging.Log;
@@ -198,6 +201,11 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 
 	@Autowired
 	private OrderDao orderDao;
+	@Autowired
+	private OrderDetailDao orderDetailDao;
+	@Autowired
+	private TaskLineMoneyDao taskLineMoneyDao;
+
 	/**
 	 *
 	 * @param order
@@ -293,12 +301,46 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 	 *通知平台发货
 	 */
 	private void  sendPtFh(String taskNo,String code,String num){
-		/*Map map = new HashMap();
+		 Map map = new HashMap();
 		map.put("OrderID", taskNo);
 		map.put("LogisticsNum", num);
 		map.put("LogisticsCode", code);
-		String json = OrderStatic.lxdpost(OrderStatic.SendGoods, map);
-		log.error(map.toString()+"通知平台发货结果"+json);*/
+		/*String json ="{\n" +
+				"    \"Status\":200,\n" +
+				"    \"Msg\": \"ok\",\n" +
+				"    \"Result\": [{\"OrderID\":\"LD202001011303407469177\",\"Amount\":3380,\"OrderDate\":\"2019/10/28 16:23:03\",\"ProductName\":\"新版净牌-雪莲滋养贴200片\",\"ProductNumber\":1,\"ItemCode\":\"A090500100007\",\"CreateTime\":\"2019-10-28 16:23:23\",\"AmountType\":1,\"Item\":[{\"UserType\":5,\"TypeName\":\"魅力合伙人分账\",\"Amount\":338,\"Proportion\":0.1},{\"UserType\":0,\"TypeName\":\"门店分账\",\"Amount\":1318.2,\"Proportion\":0.39},{\"UserType\":1,\"TypeName\":\"代理商分账\",\"Amount\":507,\"Proportion\":0.15},{\"UserType\":2,\"TypeName\":\"供应商分账\",\"Amount\":338,\"Proportion\":0.1},{\"UserType\":3,\"TypeName\":\"平台分账\",\"Amount\":0,\"Proportion\":0}]}]" +
+
+				"  }";*/
+		String json =OrderStatic.lxdpost(OrderStatic.SendGoods, map);
+		SendsGoodsData orderReturn=JSON.parseObject(json, SendsGoodsData.class);
+		List<TransferData> orderReturns=orderReturn.getResult();
+		for (TransferData transferData : orderReturns
+				) {
+			List<TransferData.ItemBean> ibs = transferData.getItem();
+			OrderDetail p=new OrderDetail();
+			p.setTaskNo(transferData.getOrderID());
+			p.setProductNo(transferData.getItemCode());
+			OrderDetail tl = orderDetailDao.findFirst(p);
+			if (null == tl) {
+				continue;
+			}
+			for (TransferData.ItemBean ib : ibs
+					) {
+				String id = UUID.randomUUID().toString().replaceAll("-", "");
+				TaskLineMoney tm = new TaskLineMoney();
+				tm.setId(id);
+				tm.setLineId(tl.getId());
+				tm.setAmount(ib.getAmount());
+				tm.setProportion(ib.getProportion());
+				tm.setTypename(ib.getTypeName());
+				tm.setUsertype(ib.getUserType());
+				tm.setUserid(ib.getUserID());
+				tm.setName(ib.getName());
+				taskLineMoneyDao.insert(tm);
+
+			}
+		}
+		log.error(map.toString()+"通知平台发货结果"+json);
 	}
 	/**
 	 * Json方式  物流信息订阅
@@ -451,7 +493,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		SearchData orderReturn= JSON.parseObject(result, SearchData.class);
 		return orderReturn;
 	}
-
+@Transactional(readOnly = false)
 	public PrintData allprint(List<Order> orders, String ip) throws Exception {
 		String data="[";
 
@@ -459,6 +501,9 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		PrintData pd=new PrintData();
 		for (Order order:orders
 				) {
+
+			order.setOmsstatus("3");
+			orderDao.updateomsstatus(order);
 			String code=order.getTaskNo();//.replace("LD20","");
 
 				int csl=order.getCarriers().split("\\|").length;

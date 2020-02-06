@@ -16,14 +16,14 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class TaskLineMoney extends DataEntity<TaskLineMoney> {
 	
 	private static final long serialVersionUID = 1L;
-	private String userid;		// 分账方ID
+	private int userid;		// 分账方ID
 	private String name;		// 分账方名称
 	private String lineId;		// 订单行数据
 	private   OrderDetail od;
-	private String usertype;		// 类型
+	private int usertype;		// 类型
 	private String typename;		// 类型名称
-	private String amount;		// 分账金额
-	private String proportion;		// 分账比例
+	private float amount;		// 分账金额
+	private double proportion;		// 分账比例
 	private String rate;		// 税率
 	private String shippertype;		// 发货类型
 	private String shipperid;		// 发货方id
@@ -70,11 +70,11 @@ public class TaskLineMoney extends DataEntity<TaskLineMoney> {
 	}
 
 	@ExcelField(title="分账方id", align=2, sort=4)
-	public String getUserid() {
+	public int getUserid() {
 		return userid;
 	}
 
-	public void setUserid(String userid) {
+	public void setUserid(int userid) {
 		this.userid = userid;
 	}
 	@ExcelField(title="分账方名称", align=2, sort=5)
@@ -96,11 +96,11 @@ public class TaskLineMoney extends DataEntity<TaskLineMoney> {
 	}
 
 	@ExcelField(title="类型", align=2, sort=16)
-	public String getUsertype() {
+	public int getUsertype() {
 		return usertype;
 	}
 
-	public void setUsertype(String usertype) {
+	public void setUsertype(int usertype) {
 		this.usertype = usertype;
 	}
 
@@ -113,19 +113,19 @@ public class TaskLineMoney extends DataEntity<TaskLineMoney> {
 		this.typename = typename;
 	}
 	@ExcelField(title="分账金额", align=2, sort=20)
-	public String getAmount() {
+	public float getAmount() {
 		return amount;
 	}
 
-	public void setAmount(String amount) {
+	public void setAmount(float amount) {
 		this.amount = amount;
 	}
 	@ExcelField(title="分账比例", align=2, sort=25)
-	public String getProportion() {
+	public double getProportion() {
 		return proportion;
 	}
 
-	public void setProportion(String proportion) {
+	public void setProportion(double proportion) {
 		this.proportion = proportion;
 	}
 	

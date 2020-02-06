@@ -20,4 +20,6 @@ public interface OrderDao extends CrudDao<Order> {
     void saveWBExpress(Order order);
 
     void updateExpress(Order o);
+
+    void updateomsstatus(Order o);
 }

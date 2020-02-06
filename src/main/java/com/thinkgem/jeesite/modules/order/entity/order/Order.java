@@ -32,6 +32,15 @@ public class Order extends DataEntity<Order> {
 	@ExcelField(title="订单时间", align=1, sort=10)
 	private Date taskGenDatetime;		// 订单时间
 	private String payWay;		// 付款渠道
+	private String omsstatus;
+
+	public String getOmsstatus() {
+		return omsstatus;
+	}
+
+	public void setOmsstatus(String omsstatus) {
+		this.omsstatus = omsstatus;
+	}
 
 	@ExcelField(title="订单状态", align=1, sort=25,dictType="P_TASK_STATUS")
 	private String taskStatus;		// 订单状态

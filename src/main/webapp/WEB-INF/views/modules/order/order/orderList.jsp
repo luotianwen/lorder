@@ -342,6 +342,8 @@
                               htmlEscape="false"/>
             </form:select>
         </li>
+
+
         <li><label>是否有货：</label>
             <form:select path="haveAmount" class="input-medium">
                 <form:option value="" label="全部"/>
@@ -420,6 +422,13 @@
                    value="<fmt:formatDate value="${order.endCreateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
                    onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
         </li>
+           <li><label>oms状态：</label>
+               <form:select path="omsstatus" class="input-medium">
+                   <form:option value="" label="全部"/>
+                   <form:options items="${fns:getDictList('omsstatus')}" itemLabel="label" itemValue="value"
+                                 htmlEscape="false"/>
+               </form:select>
+           </li>
         <li><label>每页条数：</label>
             <input id="pageSize" name="pageSize" class="input-medium" value="${page.pageSize}"/>
            <%-- <form:select path="page.pageSize" class="input-medium" onchange="pagesize(this.value)">
@@ -563,7 +572,9 @@
         <th>订单状态</th>
         <th>订单金额</th>
         <th>是否能发货</th>
+        <th>oms状态</th>
         <th>发货组织</th>
+
         <th class="sort-column shipperName">发货人名称</th>
         <%--<th>订单来源</th>--%>
         <%--<th class="sort-column ebTaskNo">SAP单号</th>--%>
@@ -610,6 +621,11 @@
                     ${fns:getDictLabel(order.haveAmount, 'yes_no', '')}
 
             </td>
+            <td>
+                    ${fns:getDictLabel(order.omsstatus, 'omsstatus', '')}
+
+            </td>
+
             <td>
                     ${fns:getDictLabel(order.saleGroup, 'SALE_GROUP', '')}
 
