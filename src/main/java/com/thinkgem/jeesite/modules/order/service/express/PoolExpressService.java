@@ -501,9 +501,10 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		PrintData pd=new PrintData();
 		for (Order order:orders
 				) {
-
-			order.setOmsstatus("3");
-			orderDao.updateomsstatus(order);
+     if("2".equals(order.getOmsstatus())) {
+		 order.setOmsstatus("3");
+		 orderDao.updateomsstatus(order);
+	 }
 			String code=order.getTaskNo();//.replace("LD20","");
 
 				int csl=order.getCarriers().split("\\|").length;

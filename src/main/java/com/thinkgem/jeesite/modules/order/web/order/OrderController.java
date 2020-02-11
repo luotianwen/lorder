@@ -524,6 +524,31 @@ public class OrderController extends BaseController {
 
 	}
 	@RequiresPermissions("order:order:order:edit")
+	@RequestMapping(value = "export10", method= RequestMethod.POST)
+	public String export10(Order order,String ids, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+		try {
+
+				String[] id=ids.split(",");
+				List<Order> list=new ArrayList<Order>();
+				for (String i:id
+						) {
+					Order o=orderService.get(i);
+					if(o.getOmsstatus().equals("4")) {
+						list.add(o);
+					}
+				}
+			for (Order o:list
+					) {
+				o.setOmsstatus("5");
+				orderService.updateomsstatus(o);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			addMessage(redirectAttributes, "sap交货失败！失败信息："+e.getMessage());
+		}
+		return "redirect:"+Global.getAdminPath()+"/order/order/order/?omsstatus=5";
+	}
+	@RequiresPermissions("order:order:order:edit")
 	@RequestMapping(value = "export7", method= RequestMethod.POST)
 	public void export7(Order order,String ids, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
@@ -561,8 +586,10 @@ public class OrderController extends BaseController {
 
 			for (Order o:list
 			) {
-                o.setOmsstatus("4");
-                orderService.updateomsstatus(o);
+				if("3".equals(o.getOmsstatus())) {
+					o.setOmsstatus("4");
+					orderService.updateomsstatus(o);
+				}
 				//ObjectUtils.annotationToObject(o,od);
 				List<OrderDetail> od2s = orderService.get(o.getId()).getOrderDetailList();
 				int page=new BigDecimal(od2s.size()/6.0).setScale(0, BigDecimal.ROUND_UP).intValue();
@@ -689,9 +716,11 @@ public class OrderController extends BaseController {
 		List<OrderDetail> ods=new ArrayList<OrderDetail>();
 		for (Order o:list
 		) {
-			//修改oms订单状态
-			o.setOmsstatus("1");
-			orderService.updateomsstatus(o);
+			if(StringUtils.isEmpty(o.getOmsstatus())) {
+				//修改oms订单状态
+				o.setOmsstatus("1");
+				orderService.updateomsstatus(o);
+			}
 			List<OrderDetail> od2s=orderService.get(o.getId()).getOrderDetailList();
 			for (OrderDetail od2:od2s
 			) {

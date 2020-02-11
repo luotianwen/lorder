@@ -47,18 +47,18 @@
 			<li><label>集成单号：</label>
 				<form:input path="od.batchNum" htmlEscape="false" maxlength="32" class="input-medium"/>
 			</li>
-			<li><label>分账方ID：</label>
+			<%--<li><label>分账方ID：</label>
 				<form:input path="userid" htmlEscape="false" maxlength="11" class="input-medium"/>
-			</li>
+			</li>--%>
 			<li><label>分账方名称：</label>
 				<form:input path="name" htmlEscape="false" maxlength="255" class="input-medium"/>
 			</li>
 			<%--<li><label>oms单号：</label>
 				<form:input path="od.poolTaskNo" htmlEscape="false" maxlength="32" class="input-medium"/>
 			</li>--%>
-			<li><label>类型：</label>
+			<%--<li><label>类型：</label>
 				<form:input path="usertype" htmlEscape="false" maxlength="11" class="input-medium"/>
-			</li>
+			</li>--%>
 			<li><label>类型名称：</label>
 				<form:input path="typename" htmlEscape="false" maxlength="50" class="input-medium"/>
 			</li>
