@@ -471,7 +471,7 @@
             <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary">2批量合并发货</a>
             <a href="#" onclick="checkprint()" class="btn btn-primary">3批量打印面单</a>
             <input id="btnExport7" class="btn btn-primary" type="button" value="4导出选择交货单"/>
-            <input id="btnExport10" class="btn btn-primary" type="button" value="5选择sap交货单"/>
+            <input id="btnExport10" class="btn btn-primary" type="button" value="5选择sap交货"/>
 
 
             <input id="btnExport" class="btn btn-primary" type="button" value="导出订单"/>

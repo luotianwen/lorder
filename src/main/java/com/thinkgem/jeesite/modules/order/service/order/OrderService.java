@@ -105,7 +105,7 @@ public class OrderService extends CrudService<OrderDao, Order> {
         Map<String,Order> map=new HashMap<String, Order>();
 		for (Order order:os
 		) {
-			if("1".equals(order.getOmsstatus())){
+			if(!"5".equals(order.getOmsstatus())){
 				order.setOmsstatus("2");
 				this.updateomsstatus(order);
 			}

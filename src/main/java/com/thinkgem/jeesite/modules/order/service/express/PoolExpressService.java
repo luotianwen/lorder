@@ -501,7 +501,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		PrintData pd=new PrintData();
 		for (Order order:orders
 				) {
-     if("2".equals(order.getOmsstatus())) {
+     if(!"5".equals(order.getOmsstatus())) {
 		 order.setOmsstatus("3");
 		 orderDao.updateomsstatus(order);
 	 }

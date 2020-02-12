@@ -586,7 +586,7 @@ public class OrderController extends BaseController {
 
 			for (Order o:list
 			) {
-				if("3".equals(o.getOmsstatus())) {
+				if(!"5".equals(o.getOmsstatus())) {
 					o.setOmsstatus("4");
 					orderService.updateomsstatus(o);
 				}
@@ -716,7 +716,7 @@ public class OrderController extends BaseController {
 		List<OrderDetail> ods=new ArrayList<OrderDetail>();
 		for (Order o:list
 		) {
-			if(StringUtils.isEmpty(o.getOmsstatus())) {
+			if(!"5".equals(o.getOmsstatus())) {
 				//修改oms订单状态
 				o.setOmsstatus("1");
 				orderService.updateomsstatus(o);
