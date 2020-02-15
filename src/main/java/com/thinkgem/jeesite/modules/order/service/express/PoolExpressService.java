@@ -320,6 +320,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 			OrderDetail p=new OrderDetail();
 			p.setTaskNo(transferData.getOrderID());
 			p.setProductNo(transferData.getItemCode());
+			p.setPriceSum(transferData.getAmount());
 			OrderDetail tl = orderDetailDao.findFirst(p);
 			if (null == tl) {
 				continue;

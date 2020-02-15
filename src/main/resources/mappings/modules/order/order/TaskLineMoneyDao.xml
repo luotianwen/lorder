@@ -22,28 +22,32 @@
 		b.product_no AS "od.productNo",
 		b.priceSum AS "od.priceSum",
 		b.payAmountSum AS "od.payAmountSum",
-		b.batch_num AS "od.batchNum"
+		b.batch_num AS "od.batchNum",
+		c.task_gen_datetime AS "beginTaskGenDatetime"
 	</sql>
 
 	<sql id="taskLineMoneyJoins">
-		  JOIN pool_task_line b ON b.id = a.line_id
+
 	</sql>
     
 	<select id="get" resultType="TaskLineMoney">
 		SELECT 
 			<include refid="taskLineMoneyColumns"/>
-		FROM pool_task_line_money a
-		<include refid="taskLineMoneyJoins"/>
+		  FROM pool_task_line_money a , pool_task_line b
+		, pool_task c
+		where b.id = a.line_id and c.id = b.pool_task_id
 		WHERE a.id = #{id}
 	</select>
 	
 	<select id="findList" resultType="TaskLineMoney">
 		SELECT 
 			<include refid="taskLineMoneyColumns"/>
-		FROM pool_task_line_money a
-		<include refid="taskLineMoneyJoins"/>
-		<where>
+		  FROM pool_task_line_money a , pool_task_line b
+		, pool_task c
 
+
+		<where>
+			b.id = a.line_id and c.id = b.pool_task_id
 			<if test="od != null and od.taskNo != null and od.taskNo != ''">
 				AND b.task_no = #{od.taskNo}
 			</if>
@@ -66,6 +70,9 @@
 			<if test="typename != null and typename != ''">
 				AND a.typename = #{typename}
 			</if>
+			<if test="beginTaskGenDatetime != null and endTaskGenDatetime != null and beginTaskGenDatetime != '' and endTaskGenDatetime != ''">
+				AND c.task_gen_datetime BETWEEN #{beginTaskGenDatetime} AND #{endTaskGenDatetime}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -79,8 +86,9 @@
 	<select id="findAllList" resultType="TaskLineMoney">
 		SELECT 
 			<include refid="taskLineMoneyColumns"/>
-		FROM pool_task_line_money a
-		<include refid="taskLineMoneyJoins"/>
+		  FROM pool_task_line_money a , pool_task_line b
+		, pool_task c
+		where b.id = a.line_id and c.id = b.pool_task_id
 		<where>
 			
 		</where>		

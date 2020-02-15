@@ -8,6 +8,8 @@ import org.hibernate.validator.constraints.Length;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 
+import java.util.Date;
+
 /**
  * 分润Entity
  * @author 罗天文
@@ -59,6 +61,24 @@ public class TaskLineMoney extends DataEntity<TaskLineMoney> {
 	}
 	public void setOd(OrderDetail od) {
 		this.od = od;
+	}
+	private Date beginTaskGenDatetime;		// 开始 订单时间
+	private Date endTaskGenDatetime;		// 结束 订单时间
+
+	public Date getBeginTaskGenDatetime() {
+		return beginTaskGenDatetime;
+	}
+
+	public void setBeginTaskGenDatetime(Date beginTaskGenDatetime) {
+		this.beginTaskGenDatetime = beginTaskGenDatetime;
+	}
+
+	public Date getEndTaskGenDatetime() {
+		return endTaskGenDatetime;
+	}
+
+	public void setEndTaskGenDatetime(Date endTaskGenDatetime) {
+		this.endTaskGenDatetime = endTaskGenDatetime;
 	}
 
 	public TaskLineMoney() {

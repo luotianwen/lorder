@@ -61,7 +61,14 @@
 			</li>--%>
 			<li><label>类型名称：</label>
 				<form:input path="typename" htmlEscape="false" maxlength="50" class="input-medium"/>
-			</li>
+			</li> <li><label>订单时间：</label>
+			<input name="beginTaskGenDatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+				   value="<fmt:formatDate value="${taskLineMoney.beginTaskGenDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+				   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> -
+			<input name="endTaskGenDatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+				   value="<fmt:formatDate value="${taskLineMoney.endTaskGenDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+				   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+		</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
 				<input id="btnExport" class="btn btn-primary" type="button" value="导出"/></li>
 			<li class="clearfix"></li>
@@ -71,8 +78,8 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<%--
-				<th>oms单号</th>--%>
+
+				<th>订单时间</th>
 				<th>平台单号</th>
 				<th>集成单号</th>
 				<th>分账方ID</th>
@@ -92,6 +99,10 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="taskLineMoney">
 			<tr>
+
+				<td><fmt:formatDate value="${taskLineMoney.beginTaskGenDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+
+				</td>
 				<td>
 						${taskLineMoney.od.taskNo}
 				</td>
