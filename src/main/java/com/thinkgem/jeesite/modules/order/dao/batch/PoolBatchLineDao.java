@@ -14,5 +14,6 @@ import com.thinkgem.jeesite.modules.order.entity.batch.PoolBatchLine;
  */
 @MyBatisDao
 public interface PoolBatchLineDao extends CrudDao<PoolBatchLine> {
-	
+
+    PoolBatchLine findAmout(PoolBatchLine pb);
 }

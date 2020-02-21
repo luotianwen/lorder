@@ -21,7 +21,33 @@
 	<sql id="poolBatchLineJoins">
 		LEFT JOIN pool_batch b ON b.id = a.pool_batch_id
 	</sql>
-    
+
+	<select id="findAmout" resultType="PoolBatchLine">
+			select
+			(select
+						sum(bl.AMOUNT) as AMOUNT
+						from
+						pool_batch ba,
+						pool_batch_line bl
+						where ba.id=bl.POOL_BATCH_ID
+						and ba.isok is null
+						and bl.PRODUCT_ID=#{productId}
+						)+(
+			SELECT
+			IFNULL(sum(tl.amount),0)as amount
+			from
+
+			pool_task t,
+
+			pool_task_line tl
+			where t.id=tl.pool_task_id
+			and tl.product_no=#{productId}
+			and tl.batch_num is null
+			and t.omsstatus='5'
+			)as AMOUNT
+			FROM dual
+
+	</select>
 	<select id="get" resultType="PoolBatchLine">
 		SELECT 
 			<include refid="poolBatchLineColumns"/>

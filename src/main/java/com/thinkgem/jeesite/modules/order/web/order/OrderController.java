@@ -14,7 +14,9 @@ import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.ObjectUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.utils.excel.JxlsTemplate;
+import com.thinkgem.jeesite.modules.order.dao.batch.PoolBatchLineDao;
 import com.thinkgem.jeesite.modules.order.entity.address.Address;
+import com.thinkgem.jeesite.modules.order.entity.batch.PoolBatchLine;
 import com.thinkgem.jeesite.modules.order.entity.express.PoolExpress;
 import com.thinkgem.jeesite.modules.order.entity.express.PrintData;
 import com.thinkgem.jeesite.modules.order.entity.express.SearchData;
@@ -755,7 +757,7 @@ public class OrderController extends BaseController {
 		}
 		for (OrderDetail d:ods
 			 ) {
-			StockReData sd=getSapStockByItemCode(d.getProductNo());
+			StockReData sd=getSapStockByItemCode(d.getProductNo().trim());
 			int stock=0;
 			if(sd!=null&&sd.getData()!=null&&sd.getData().size()>0){
 				List<StockReData.DataBean> dbs=sd.getData();
@@ -763,6 +765,13 @@ public class OrderController extends BaseController {
 					 ) {
 					stock+=sd1.getQuantity();
 				}
+			}
+			//获取未推送sap库存
+			PoolBatchLine pb=new PoolBatchLine();
+			pb.setProductId(d.getProductNo());
+			PoolBatchLine p=poolBatchLineDao.findAmout(pb);
+			if(null!=p&&null!=p.getAmount()){
+				stock=stock-p.getAmount();
 			}
 			d.setStock(stock);
 		}
@@ -774,6 +783,9 @@ public class OrderController extends BaseController {
 		});
 		return ods;
 	}
+	@Autowired
+	private PoolBatchLineDao poolBatchLineDao;
+
 	private StockReData getSapStockByItemCode(String itemCode){
 
 		String json= OrderStatic.get(OrderStatic.salesstock+itemCode);
