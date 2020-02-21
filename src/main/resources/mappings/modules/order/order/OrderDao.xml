@@ -148,6 +148,10 @@
 				AND a.shipperName = #{shippername}
 			</if>
 
+            <if test="carriers != null and carriers != ''">
+
+                AND a.carriers LIKE  concat('%',#{carriers},'%')
+            </if>
 			<if test="consigneePhone != null and consigneePhone != ''">
 				AND a.consignee_phone = #{consigneePhone}
 			</if>

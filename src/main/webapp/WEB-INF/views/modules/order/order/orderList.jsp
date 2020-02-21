@@ -231,7 +231,7 @@
                 top.$.jBox.alert("请选择发货方");
                 return;
             }
-            var carriers = $("#carriers").val();
+            var carriers = $("#recallStatus").val();
             if (carriers == '') {
                 top.$.jBox.alert("请选择承运商");
                 return;
@@ -255,7 +255,7 @@
             var delIds = ids.join(",");
             var oldAction = $("#searchForm").attr("action");
             var preSendAddress = $("#preSendAddress").val();
-            var carriers = $("#carriers").val();
+            var carriers = $("#recallStatus").val();
             //$("#searchForm").attr("target","_blank");
            /* $("#searchForm").attr("action", "${ctx}/order/order/order/allDeliver?ids=" + delIds);
             $("#searchForm").submit();*/
@@ -452,6 +452,9 @@
                                  htmlEscape="false"/>
                </form:select>
            </li>
+           <li><label>快递单号：</label>
+               <form:input path="carriers" htmlEscape="false"   class="input-medium"/>
+           </li>
         <li><label>每页条数：</label>
             <input id="pageSize" name="pageSize" class="input-medium" value="${page.pageSize}"/>
            <%-- <form:select path="page.pageSize" class="input-medium" onchange="pagesize(this.value)">
@@ -511,7 +514,7 @@
                     </div>
                     <label class="span1 control-label">承运商：</label>
                     <div class="span2 ">
-                        <form:select path="carriers" class="input-mini ">
+                        <form:select path="recallStatus" class="input-mini ">
                             <form:option value="" label="无"/>
                             <form:options items="${expresss}" itemLabel="name" itemValue="id" htmlEscape="false"/>
                         </form:select>
@@ -548,21 +551,8 @@
                     <label class="span1 control-label">承运商：</label>
                     <div class="span2 ">
                         <form:select path="signName" class="input-mini ">
-                            <form:option value="圆通" label="圆通"/>
-                            <form:option value="申通" label="申通"/>
-                            <form:option value="韵达" label="韵达"/>
-                            <form:option value="顺丰" label="顺丰"/>
-                            <form:option value="国通" label="国通"/>
-                            <form:option value="中通" label="中通"/>
-                            <form:option value="百世" label="百世"/>
-                            <form:option value="快捷" label="快捷"/>
-                            <form:option value="德邦" label="德邦"/>
-                            <form:option value="ems" label="ems"/>
-                            <form:option value="全峰" label="全峰"/>
-                            <form:option value="天天" label="天天"/>
-                            <form:option value="品骏" label="品骏"/>
-                            <form:option value="优速" label="优速"/>
-                            <form:option value="京东" label="京东"/>
+                            <form:option value="" label="无"/>
+                            <form:options items="${expresss}" itemLabel="name" itemValue="id" htmlEscape="false"/>
                         </form:select>
                     </div>
                     <label class="span1 control-label">单号：</label>
