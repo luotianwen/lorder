@@ -15,6 +15,7 @@ import com.thinkgem.jeesite.common.utils.ObjectUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.utils.excel.JxlsTemplate;
 import com.thinkgem.jeesite.modules.order.dao.batch.PoolBatchLineDao;
+import com.thinkgem.jeesite.modules.order.entity.SkuNumber;
 import com.thinkgem.jeesite.modules.order.entity.address.Address;
 import com.thinkgem.jeesite.modules.order.entity.batch.PoolBatchLine;
 import com.thinkgem.jeesite.modules.order.entity.express.PoolExpress;
@@ -24,6 +25,7 @@ import com.thinkgem.jeesite.modules.order.entity.order.OrderDetail;
 import com.thinkgem.jeesite.modules.order.entity.order.StockReData;
 import com.thinkgem.jeesite.modules.order.entity.order.UserShipper;
 import com.thinkgem.jeesite.modules.order.service.address.AddressService;
+import com.thinkgem.jeesite.modules.order.service.express.Detail;
 import com.thinkgem.jeesite.modules.order.service.express.PoolExpressService;
 import com.thinkgem.jeesite.modules.order.service.order.UserShipperService;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
@@ -104,6 +106,105 @@ public class OrderController extends BaseController {
 		model.addAttribute("expresss",poolExpressService.findList(new PoolExpress()));
 		model.addAttribute("addresss",addressService.findList(new Address()));
 		return "modules/order/order/orderList";
+	}
+
+	@RequiresPermissions("order:order:order:view")
+	@RequestMapping(value = {"querystock"})
+	public String querystock(Order order, HttpServletRequest request, HttpServletResponse response, Model model) {
+    	if(StringUtils.isNotEmpty(order.getPayWay())) {
+			model.addAttribute("list", getskunumber(order));
+		}
+		else{
+			model.addAttribute("list", new ArrayList<SkuNumber>());
+		}
+		return "modules/order/order/orderStockList";
+	}
+	@RequiresPermissions("order:order:order:edit")
+	@RequestMapping(value = "exportstock", method= RequestMethod.POST)
+	public String exportstock(Order order,String ids, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+		try {
+			String fileName = "库存"+ DateUtils.getDate("yyyyMMdd")+".xls";
+			List<SkuNumber> ods= getskunumber(order);
+			ServletOutputStream out = null;
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("items", ods);
+			try {
+				response.setHeader("Expires", "0");
+				response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+				response.setHeader("Content-Disposition", "attachment; filename="+ Encodes.urlEncode(fileName));
+				response.setHeader("Pragma", "public");
+				response.setContentType("application/x-excel;charset=UTF-8");
+				out = response.getOutputStream();
+				JxlsTemplate.processTemplate("/order_stock.xls", out, params);
+				out.flush();
+				out.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		} catch (Exception e) {
+			addMessage(redirectAttributes, "导出失败！失败信息："+e.getMessage());
+		}
+		return "redirect:"+Global.getAdminPath()+"/order/order/order/querystock?repage";
+	}
+	private List<SkuNumber> getskunumber(Order order){
+		List<SkuNumber> list=new ArrayList<SkuNumber>();
+		List<String> ls=new ArrayList();
+		if(StringUtils.isNotEmpty(order.getDmNo())){
+			String[] code = order.getDmNo().split(",");
+			Collections.addAll(ls, code);
+		}
+		String json =OrderStatic.lxdpostJson(OrderStatic.GetItemCodeOccupyStock, JSON.toJSON(ls).toString());
+		Detail orderReturn= JSON.parseObject(json, Detail.class);
+		if(orderReturn.getStatus()==200){
+			List<Detail.ResultBean> rbs=orderReturn.getResult();
+			for(Detail.ResultBean b:rbs){
+				int num=b.getNum();
+				String itemCode=b.getItemCode();
+				StockReData sd=getSapStockByItemCode(itemCode.trim());
+				int stock=0;
+				if(sd!=null&&sd.getData()!=null&&sd.getData().size()>0){
+					List<StockReData.DataBean> dbs=sd.getData();
+					for (StockReData.DataBean sd1:dbs
+					) {
+						stock+=sd1.getQuantity();
+					}
+				}
+
+				int order1=b.getDetail().getOrder();
+				int product=b.getDetail().getProduct();
+				int collocation=b.getDetail().getCollocation();
+				int promotion=b.getDetail().getPromotion();
+				int productSKU=b.getDetail().getProductSKU();
+				int promotionSKU=b.getDetail().getPromotionSKU();
+				int colloPromotion=b.getDetail().getColloPromotion();
+				int omsstock=0;
+				//获取未推送sap库存
+				PoolBatchLine pb=new PoolBatchLine();
+				pb.setProductId(itemCode.trim());
+				PoolBatchLine p=poolBatchLineDao.findAmout(pb);
+				if(null!=p&&null!=p.getAmount()){
+					omsstock=p.getAmount();
+				}
+				int laststock=stock-num-omsstock;
+				SkuNumber skuNumber=new SkuNumber();
+				skuNumber.setItemCode(itemCode);
+				skuNumber.setStock(stock);
+				skuNumber.setOrder(order1);
+				skuNumber.setProduct(product);
+				skuNumber.setCollocation(collocation);
+				skuNumber.setPromotion(promotion);
+				skuNumber.setProductSKU(productSKU);
+				skuNumber.setPromotionSKU(promotionSKU);
+				skuNumber.setColloPromotion(colloPromotion);
+				skuNumber.setOmsstock(omsstock);
+				skuNumber.setLaststock(laststock);
+				list.add(skuNumber);
+			}
+
+		}
+
+		return list;
 	}
 
     @RequiresPermissions("order:order:order:view")

@@ -96,7 +96,11 @@ public class OrderService extends CrudService<OrderDao, Order> {
 	public void saveWBExpress(Order order) {
 		order.setSendWay("2");
 		order.setSendStoreDatetime(new Date());
+		String[] c=order.getCarriers().split(" ");
+		PoolExpress pe=poolExpressService.get(c[0]);
+		order.setCarriers(pe.getName()+" "+c[1]);
 		dao.saveWBExpress(order);
+		 poolExpressService.sendPtFh(order.getTaskNo(),pe.getRemarks(),c[1]);
 	}
 
 	@Transactional(readOnly = false)

@@ -25,7 +25,7 @@
 	<select id="findAmout" resultType="PoolBatchLine">
 			select
 			(select
-						sum(bl.AMOUNT) as AMOUNT
+						IFNULL(sum(bl.AMOUNT),0) as AMOUNT
 						from
 						pool_batch ba,
 						pool_batch_line bl
@@ -43,7 +43,6 @@
 			where t.id=tl.pool_task_id
 			and tl.product_no=#{productId}
 			and tl.batch_num is null
-			and t.omsstatus='5'
 			)as AMOUNT
 			FROM dual
 

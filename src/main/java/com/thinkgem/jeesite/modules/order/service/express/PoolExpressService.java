@@ -244,7 +244,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 			details+="{ 'GoodsName':'"+od.getName()+"','Goodsquantity':1,'GoodsWeight':''}";*/
 				q=q+od.getAmount();
 		 }
-		details+="{ 'GoodsName':'莲香岛商品','Goodsquantity':"+q+",'GoodsWeight':'"+order.getWeight()+"'}";
+		details+="{ 'GoodsName':'护理用品','Goodsquantity':"+q+",'GoodsWeight':'"+order.getWeight()+"'}";
 		String requestData= "{'OrderCode':'"+code+"'," +
 				"'ShipperCode':'"+ShipperCode+"'," +
 				"'CustomerName':'"+CustomerName+"'," +
@@ -300,17 +300,12 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 	/**
 	 *通知平台发货
 	 */
-	private void  sendPtFh(String taskNo,String code,String num){
+    public void  sendPtFh(String taskNo, String code, String num){
 		 Map map = new HashMap();
 		map.put("OrderID", taskNo);
 		map.put("LogisticsNum", num);
 		map.put("LogisticsCode", code);
-		/*String json ="{\n" +
-				"    \"Status\":200,\n" +
-				"    \"Msg\": \"ok\",\n" +
-				"    \"Result\": [{\"OrderID\":\"LD202001011303407469177\",\"Amount\":3380,\"OrderDate\":\"2019/10/28 16:23:03\",\"ProductName\":\"新版净牌-雪莲滋养贴200片\",\"ProductNumber\":1,\"ItemCode\":\"A090500100007\",\"CreateTime\":\"2019-10-28 16:23:23\",\"AmountType\":1,\"Item\":[{\"UserType\":5,\"TypeName\":\"魅力合伙人分账\",\"Amount\":338,\"Proportion\":0.1},{\"UserType\":0,\"TypeName\":\"门店分账\",\"Amount\":1318.2,\"Proportion\":0.39},{\"UserType\":1,\"TypeName\":\"代理商分账\",\"Amount\":507,\"Proportion\":0.15},{\"UserType\":2,\"TypeName\":\"供应商分账\",\"Amount\":338,\"Proportion\":0.1},{\"UserType\":3,\"TypeName\":\"平台分账\",\"Amount\":0,\"Proportion\":0}]}]" +
 
-				"  }";*/
 		String json =OrderStatic.lxdpost(OrderStatic.SendGoods, map);
 		SendsGoodsData orderReturn=JSON.parseObject(json, SendsGoodsData.class);
 		List<TransferData> orderReturns=orderReturn.getResult();
@@ -380,7 +375,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 			details+="{ 'GoodsName':'"+od.getName()+"','Goodsquantity':1,'GoodsWeight':''}";*/
 			q=q+od.getAmount();
 		}
-		details+="{ 'GoodsName':'莲香岛商品','Goodsquantity':"+q+",'GoodsWeight':'"+order.getWeight()+"'}";
+		details+="{ 'GoodsName':'护理用品','Goodsquantity':"+q+",'GoodsWeight':'"+order.getWeight()+"'}";
 		String requestData="{'OrderCode': '"+code+"'," +
 				"'ShipperCode':'"+ShipperCode+"'," +
 				"'CustomerName':'"+CustomerName+"'," +
