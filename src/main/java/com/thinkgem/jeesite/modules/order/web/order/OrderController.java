@@ -161,6 +161,7 @@ public class OrderController extends BaseController {
 			for(Detail.ResultBean b:rbs){
 				int num=b.getNum();
 				String itemCode=b.getItemCode();
+				SkuNumber skuNumber=new SkuNumber();
 				StockReData sd=getSapStockByItemCode(itemCode.trim());
 				int stock=0;
 				if(sd!=null&&sd.getData()!=null&&sd.getData().size()>0){
@@ -168,6 +169,7 @@ public class OrderController extends BaseController {
 					for (StockReData.DataBean sd1:dbs
 					) {
 						stock+=sd1.getQuantity();
+						skuNumber.setName(sd1.getItemName());
 					}
 				}
 
@@ -187,7 +189,7 @@ public class OrderController extends BaseController {
 					omsstock=p.getAmount();
 				}
 				int laststock=stock-num-omsstock;
-				SkuNumber skuNumber=new SkuNumber();
+
 				skuNumber.setItemCode(itemCode);
 				skuNumber.setStock(stock);
 				skuNumber.setOrder(order1);

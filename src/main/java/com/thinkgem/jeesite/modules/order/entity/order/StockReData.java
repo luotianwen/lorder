@@ -54,6 +54,15 @@ public class StockReData {
         private int quantity;
         private String wharehouse;
         private String itemCode;
+        private String itemName;
+
+        public String getItemName() {
+            return itemName;
+        }
+
+        public void setItemName(String itemName) {
+            this.itemName = itemName;
+        }
 
         public String getShipperId() {
             return shipperId;

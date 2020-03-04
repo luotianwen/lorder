@@ -36,7 +36,7 @@
 		  FROM pool_task_line_money a , pool_task_line b
 		, pool_task c
 		where b.id = a.line_id and c.id = b.pool_task_id
-		WHERE a.id = #{id}
+		and a.id = #{id}
 	</select>
 	
 	<select id="findList" resultType="TaskLineMoney">

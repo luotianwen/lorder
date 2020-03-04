@@ -43,7 +43,7 @@
 				<th>简称</th>
 				<th>公司</th>
 				<th>模板</th>
-				<th>更新者</th>
+			<%--	<th>更新者</th>--%>
 				<th>更新时间</th>
 				<th>备注信息</th>
 				<shiro:hasPermission name="order:express:poolExpress:edit"><th>操作</th></shiro:hasPermission>
@@ -64,9 +64,9 @@
 				<td>
 					${poolExpress.templatesize}
 				</td>
-				<td>
-					${poolExpress.updateBy.id}
-				</td>
+				<%--<td>
+					${poolExpress.updateBy.name}
+				</td>--%>
 				<td>
 					<fmt:formatDate value="${poolExpress.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
