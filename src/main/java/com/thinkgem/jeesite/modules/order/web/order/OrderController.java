@@ -119,7 +119,7 @@ public class OrderController extends BaseController {
 		}
 		return "modules/order/order/orderStockList";
 	}
-	@RequiresPermissions("order:order:order:edit")
+	@RequiresPermissions("order:order:order:view")
 	@RequestMapping(value = "exportstock", method= RequestMethod.POST)
 	public String exportstock(Order order,String ids, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
@@ -216,7 +216,7 @@ public class OrderController extends BaseController {
         model.addAttribute("page", page);
         return "modules/order/order/orderDetailList";
     }
-    @RequiresPermissions("order:order:order:edit")
+    @RequiresPermissions("order:order:order:view")
     @RequestMapping(value = "exportDetail", method= RequestMethod.POST)
     public String exportDetail(OrderDetail order, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
         try {

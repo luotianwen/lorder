@@ -470,6 +470,7 @@
         </li>
         <%--<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>--%>
         <li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
+            <shiro:hasPermission name="order:order:order:edit">
             <input id="btnExport2" class="btn btn-primary" type="button" value="1导出全部备货单"/>
             <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary">2批量合并发货</a>
             <a href="#" onclick="checkprint()" class="btn btn-primary">3批量打印面单</a>
@@ -487,6 +488,7 @@
             <a href="#" data-toggle="modal" data-target="#myModal" onclick="plfh()" class="btn btn-primary">批量重新发货</a>
           <%--  <a href="#" onclick="checkprint()" class="btn btn-primary">批量打印面单</a>--%>
             <a href="http://www.kdniao.com/documents-instrument" target="_blank" class="btn btn-primary">下载打印面单组件</a>
+            </shiro:hasPermission>
           <%--  <a href="../mscomm32.ocx_downcc.com.zip" target="_blank" class="btn btn-primary">下载称重组件</a>--%>
         </li>
         <li class="clearfix"></li>
@@ -696,6 +698,7 @@
 
                 <td>
                     <a href="${ctx}/order/order/order/form?id=${order.id}">查看</a>
+                    <shiro:hasPermission name="order:order:order:edit">
                     <c:if test="${ order.taskStatus eq 1 }">
                         <a href="${ctx}/order/order/order/edit?id=${order.id}">修改收件信息</a>
                     </c:if>
@@ -711,6 +714,8 @@
                             <a style="cursor: pointer;" onclick="tfh('${order.id}')" )>重填单号</a>
                         </c:if>
                     </c:if>
+
+                    </shiro:hasPermission>
                         <%--&lt;%&ndash;<c:if test="${empty  order.carriers}">
                         <a href="${ctx}/order/order/order/wbexpress?id=${order.id}">外部发货</a>
                     </c:if>&ndash;%&gt;

@@ -239,7 +239,7 @@ public class OrderStatic {
         while (it.hasNext()) {
             Object key = it.next();
             formparams.add(new BasicNameValuePair(key.toString(), params.get(key.toString())));
-             System.out.println(key.toString()+"2="+params.get(key.toString()));
+             System.out.println(key.toString()+"="+params.get(key.toString()));
         }
 
 

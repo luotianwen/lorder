@@ -307,6 +307,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 		map.put("LogisticsCode", code);
 
 		String json =OrderStatic.lxdpost(OrderStatic.SendGoods, map);
+		log.error(map.toString()+"通知平台发货结果"+json);
 		SendsGoodsData orderReturn=JSON.parseObject(json, SendsGoodsData.class);
 		List<TransferData> orderReturns=orderReturn.getResult();
 		for (TransferData transferData : orderReturns
@@ -336,7 +337,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 
 			}
 		}
-		log.error(map.toString()+"通知平台发货结果"+json);
+
 	}
 	/**
 	 * Json方式  物流信息订阅
