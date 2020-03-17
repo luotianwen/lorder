@@ -14,7 +14,16 @@ public class SkuNumber {
     private int promotionSKU;
     private int colloPromotion;
     private int omsstock;
+    private int omssapstock;
     private int laststock;
+
+    public int getOmssapstock() {
+        return omssapstock;
+    }
+
+    public void setOmssapstock(int omssapstock) {
+        this.omssapstock = omssapstock;
+    }
 
     public String getName() {
         return name;

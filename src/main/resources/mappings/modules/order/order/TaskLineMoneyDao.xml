@@ -12,6 +12,9 @@
 		a.amount AS "amount",
 		a.proportion AS "proportion",
 		a.rate AS "rate",
+		a.accountNumber AS "accountNumber",
+		a.bankName AS "bankName",
+
 		a.shippertype AS "shippertype",
 		a.shipperid AS "shipperid",
 		a.shippername AS "shippername",
@@ -23,6 +26,7 @@
 		b.priceSum AS "od.priceSum",
 		b.payAmountSum AS "od.payAmountSum",
 		b.batch_num AS "od.batchNum",
+
 		c.task_gen_datetime AS "beginTaskGenDatetime"
 	</sql>
 
@@ -54,7 +58,12 @@
 			<if test="od != null and od.batchNum != null and od.batchNum != ''">
 				AND b.batch_num = #{od.batchNum}
 			</if>
-
+			<if test="bankName != null and bankName != ''">
+				AND a.bankName = #{bankName}
+			</if>
+			<if test="accountNumber != null and accountNumber != ''">
+				AND a.accountNumber = #{accountNumber}
+			</if>
 			<if test="userid != null and userid != ''">
 				AND a.userid = #{userid}
 			</if>
@@ -115,7 +124,9 @@
 			shippertype,
 			shipperid,
 			shippername,
-			isok
+			isok,
+			accountNumber,
+			bankName
 		) VALUES (
 			#{userid},
 			#{name},
@@ -130,6 +141,8 @@
 			#{shipperid},
 			#{shippername},
 			#{isok}
+			#{accountNumber},
+			#{bankName},
 		)
 	</insert>
 	
@@ -146,7 +159,9 @@
 			shippertype = #{shippertype},
 			shipperid = #{shipperid},
 			shippername = #{shippername},
-			isok = #{isok}
+			isok = #{isok},
+			accountNumber=#{accountNumber},
+			bankName=#{bankName}
 		WHERE id = #{id}
 	</update>
 	

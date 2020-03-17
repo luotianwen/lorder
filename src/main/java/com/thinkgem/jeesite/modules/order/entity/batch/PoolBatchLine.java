@@ -27,7 +27,16 @@ public class PoolBatchLine extends DataEntity<PoolBatchLine> {
 	private String wharehouse;		// 仓库
 	private String agenttype;		// 代理类型
 	private String sapsupplierid;		// sap供应商
-	
+	private Integer amount2;		// 数量
+
+	public Integer getAmount2() {
+		return amount2;
+	}
+
+	public void setAmount2(Integer amount2) {
+		this.amount2 = amount2;
+	}
+
 	public PoolBatchLine() {
 		super();
 	}

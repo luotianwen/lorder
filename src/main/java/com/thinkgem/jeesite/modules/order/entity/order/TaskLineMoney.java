@@ -31,6 +31,25 @@ public class TaskLineMoney extends DataEntity<TaskLineMoney> {
 	private String shipperid;		// 发货方id
 	private String shippername;		// 发货方名称
 	private String isok;		// 是否同步sap
+	private String accountNumber;
+	private String bankName;
+
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
 	@ExcelField(title="集成单号", align=2, value ="od.batchNum", sort=2)
 	public OrderDetail getOd() {
 		return od;

@@ -1,7 +1,9 @@
 package com.thinkgem.jeesite.modules.order.web.order;
 
+import com.thinkgem.jeesite.common.OrderStatic;
 import com.thinkgem.jeesite.modules.order.entity.order.Order;
 import com.thinkgem.jeesite.modules.order.entity.order.OrderDetail;
+import com.thinkgem.jeesite.modules.order.service.express.PoolExpressService;
 import com.thinkgem.jeesite.modules.order.service.order.OrderService;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
@@ -13,7 +15,17 @@ import java.util.List;
 import java.util.Map;
 
 public class Test {
+    @Autowired
+    private static PoolExpressService poolExpressService;
+    public static void main(String[] args) {
+        Map map = new HashMap();
+        map.put("OrderID", "LD202003061423331646643");
+        map.put("LogisticsNum", "772005219910391");
+        map.put("LogisticsCode", "shentong");
 
+        String json = OrderStatic.lxdpost(OrderStatic.SendGoods, map);
+        System.out.println(json);
+    }
     @Autowired
     private OrderService orderService;
     public List<Order> loadOrderData(String dsName, String datasetName, Map<String,Object> parameters){

@@ -47,15 +47,16 @@
 			<li><label>集成单号：</label>
 				<form:input path="od.batchNum" htmlEscape="false" maxlength="32" class="input-medium"/>
 			</li>
-			<%--<li><label>分账方ID：</label>
-				<form:input path="userid" htmlEscape="false" maxlength="11" class="input-medium"/>
-			</li>--%>
 			<li><label>分账方名称：</label>
 				<form:input path="name" htmlEscape="false" maxlength="255" class="input-medium"/>
 			</li>
-			<%--<li><label>oms单号：</label>
-				<form:input path="od.poolTaskNo" htmlEscape="false" maxlength="32" class="input-medium"/>
-			</li>--%>
+			 <li><label>银行卡号：</label>
+				<form:input path="accountNumber" htmlEscape="false" maxlength="11" class="input-medium"/>
+			</li>
+
+			 <li><label>开户行：</label>
+				<form:input path="bankName" htmlEscape="false" maxlength="32" class="input-medium"/>
+			</li>
 			<%--<li><label>类型：</label>
 				<form:input path="usertype" htmlEscape="false" maxlength="11" class="input-medium"/>
 			</li>--%>
@@ -92,6 +93,8 @@
 				<th>类型名称</th>
 				<th>分账金额</th>
 				<th>分账比例</th>
+				<th>银行卡号</th>
+				<th>开户行</th>
 					<th>已同步sap</th>
 				 <th>操作</th>
 			</tr>
@@ -141,6 +144,12 @@
 				</td>
 				<td>
 					${taskLineMoney.proportion}
+				</td>
+				<td>
+						${taskLineMoney.accountNumber}
+				</td>
+				<td>
+						${taskLineMoney.bankName}
 				</td>
 				<%--<td>
 					${taskLineMoney.shippertype}

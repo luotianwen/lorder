@@ -72,6 +72,7 @@
         <th>抢购SKU占用数量</th>
         <th>组合购抢购占用数量</th>
         <th>OMS占用</th>
+        <th>OMS占用(已发货未同步)</th>
         <th>可用库存量</th>
     </tr>
     </thead>
@@ -101,6 +102,8 @@
             <td>
                     ${order.colloPromotion} </td>
             <td>     ${order.omsstock} </td>
+            <td>
+                    ${order.omssapstock} </td>
             <td>
                     ${order.laststock} </td>
 

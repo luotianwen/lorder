@@ -181,12 +181,14 @@ public class OrderController extends BaseController {
 				int promotionSKU=b.getDetail().getPromotionSKU();
 				int colloPromotion=b.getDetail().getColloPromotion();
 				int omsstock=0;
+				int omssapstock=0;
 				//获取未推送sap库存
 				PoolBatchLine pb=new PoolBatchLine();
 				pb.setProductId(itemCode.trim());
 				PoolBatchLine p=poolBatchLineDao.findAmout(pb);
 				if(null!=p&&null!=p.getAmount()){
-					omsstock=p.getAmount();
+					omsstock=p.getAmount()+p.getAmount2();
+					omssapstock=p.getAmount();
 				}
 				int laststock=stock-num-omsstock;
 
@@ -201,6 +203,7 @@ public class OrderController extends BaseController {
 				skuNumber.setColloPromotion(colloPromotion);
 				skuNumber.setOmsstock(omsstock);
 				skuNumber.setLaststock(laststock);
+				skuNumber.setOmssapstock(omssapstock);
 				list.add(skuNumber);
 			}
 

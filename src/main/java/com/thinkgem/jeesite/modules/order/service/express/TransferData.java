@@ -112,7 +112,8 @@ public class TransferData {
         private double proportion;
         private int userID;
         private String name;
-
+        private String accountNumber;
+        private String bankName;
         public int getUserID() {
             return userID;
         }
