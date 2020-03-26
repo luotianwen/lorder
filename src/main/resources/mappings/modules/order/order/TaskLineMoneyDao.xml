@@ -14,6 +14,7 @@
 		a.rate AS "rate",
 		a.accountNumber AS "accountNumber",
 		a.bankName AS "bankName",
+		a.amountType AS "amountType",
 
 		a.shippertype AS "shippertype",
 		a.shipperid AS "shipperid",
@@ -126,7 +127,8 @@
 			shippername,
 			isok,
 			accountNumber,
-			bankName
+			bankName,
+			amountType
 		) VALUES (
 			#{userid},
 			#{name},
@@ -143,6 +145,7 @@
 			#{isok}
 			#{accountNumber},
 			#{bankName},
+			#{amountType}
 		)
 	</insert>
 	

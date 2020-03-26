@@ -140,6 +140,21 @@ public class OrderStatic {
     /**
      * 发送 post请求访问本地应用并根据传递参数不同返回不同结果
      */
+    public static String lxdpost(String url,String params) {
+
+        Map<String, String> headers=new HashMap();
+        headers.put("From", Global.getConfig("lxd.From"));
+        //随机数+空格+MD5（MD5（KEY）+随机数）
+        int r=new Random().nextInt();
+        String keys=Global.getConfig("lxd.Key");
+        String key=r+" "+ md5(md5(keys).toUpperCase()+r).toUpperCase();
+        headers.put("Authorization",key);
+        // System.out.println(headers.toString());
+        return post(url,params,headers);
+    }
+    /**
+     * 发送 post请求访问本地应用并根据传递参数不同返回不同结果
+     */
     public static String lxdpost(String url,Map<String, String> params) {
 
         Map<String, String> headers=new HashMap();
@@ -188,6 +203,55 @@ public class OrderStatic {
         }
         try {
             StringEntity stringEntity = new StringEntity(jsonParam, ContentType.APPLICATION_JSON);
+            httppost.setEntity(stringEntity);
+            //System.out.println("executing request " + httppost.getURI());
+            CloseableHttpResponse response = httpclient.execute(httppost);
+            try {
+                HttpEntity entity = response.getEntity();
+                if (entity != null) {
+                    str= EntityUtils.toString(entity, "UTF-8");
+                    /*System.out.println("--------------------------------------");
+                    System.out.println("Response content: " + str);
+                    System.out.println("--------------------------------------");*/
+                }
+            } finally {
+                response.close();
+            }
+
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            // 关闭连接,释放资源
+            try {
+                httpclient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return str;
+    }
+    /**
+     * 发送 post请求访问本地应用并根据传递参数不同返回不同结果
+     */
+    public static String post(String url,String params,Map<String, String> headers) {
+        String str="";
+        // 创建默认的httpClient实例.
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        // 创建httppost，
+        HttpPost httppost = new HttpPost(url);
+        Set<String> keys = headers.keySet();
+        for (String key : keys) {
+            httppost.setHeader(key, headers.get(key).toString());
+            System.out.println(key+"="+ headers.get(key).toString());
+        }
+        UrlEncodedFormEntity uefEntity;
+        System.out.println( "参数"+ params);
+        try {
+            StringEntity stringEntity = new StringEntity(params, ContentType.APPLICATION_JSON);
             httppost.setEntity(stringEntity);
             //System.out.println("executing request " + httppost.getURI());
             CloseableHttpResponse response = httpclient.execute(httppost);

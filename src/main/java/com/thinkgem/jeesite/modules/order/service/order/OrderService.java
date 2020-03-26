@@ -91,6 +91,7 @@ public class OrderService extends CrudService<OrderDao, Order> {
 		order.setSendWay("2");
 		order.setSendStoreDatetime(new Date());
 		dao.saveExpress(order);
+		poolExpressService.sendPtFh(order.getTaskNo(),pe.getRemarks(),or.getOrder().getLogisticCode());
     }
 	@Transactional(readOnly = false)
 	public void saveWBExpress(Order order) {
@@ -129,6 +130,7 @@ public class OrderService extends CrudService<OrderDao, Order> {
 						or = poolExpressService.express(order,1);
 						pe = poolExpressService.get(order.getCarriers());
 					}
+					  poolExpressService.sendPtFh(order.getTaskNo(),pe.getRemarks(),or.getOrder().getLogisticCode());
 					  o.setRemark(order.getCarriers());
 					  o.setCarriers(pe.getName()+" "+or.getOrder().getLogisticCode());
 					  o.setSendWay("2");

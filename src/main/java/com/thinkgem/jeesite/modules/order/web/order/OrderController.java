@@ -154,7 +154,9 @@ public class OrderController extends BaseController {
 			String[] code = order.getDmNo().split(",");
 			Collections.addAll(ls, code);
 		}
-		String json =OrderStatic.lxdpostJson(OrderStatic.GetItemCodeOccupyStock, JSON.toJSON(ls).toString());
+
+		String json =OrderStatic.lxdpostJson(OrderStatic.GetItemCodeOccupyStock+"?BusinessType="+order.getTaskType(), JSON.toJSON(ls).toString());
+		logger.error(json);
 		Detail orderReturn= JSON.parseObject(json, Detail.class);
 		if(orderReturn.getStatus()==200){
 			List<Detail.ResultBean> rbs=orderReturn.getResult();

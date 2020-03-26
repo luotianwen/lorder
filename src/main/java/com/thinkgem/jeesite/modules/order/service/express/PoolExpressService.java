@@ -289,7 +289,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 
 		if(orderReturn.isSuccess()){
 			//通知平台发货
-			sendPtFh(order.getTaskNo(),pe.getRemarks(),orderReturn.getOrder().getLogisticCode());
+			//sendPtFh(order.getTaskNo(),pe.getRemarks(),orderReturn.getOrder().getLogisticCode());
 			return orderReturn;
 		}
 	   else{
@@ -326,6 +326,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 				String id = UUID.randomUUID().toString().replaceAll("-", "");
 				TaskLineMoney tm = new TaskLineMoney();
 				tm.setId(id);
+				tm.setAmountType(transferData.getAmountType());
 				tm.setLineId(tl.getId());
 				tm.setAmount(ib.getAmount());
 				tm.setProportion(ib.getProportion());

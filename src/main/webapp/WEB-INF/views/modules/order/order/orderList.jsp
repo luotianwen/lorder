@@ -723,8 +723,8 @@
                         <a href="${ctx}/order/order/order/print?id=${order.id}"   target="_blank">打印面单</a>
                     </c:if>--%>
                     <c:set var="i" value="0"/>
-                    <shiro:hasPermission name="order:order:order:admin">
-                        <c:if test="${ order.taskStatus eq 1 and order.haveAmount !=1}">
+                    <shiro:hasPermission name="order:order:order:wfadmin">
+                        <c:if test="${ order.taskStatus eq 1 }">
                             <c:set var="i" value="1"/>
 
                             <a href="${ctx}/order/order/order/delete?id=${order.id}" onclick="return confirmx('确认要删除该订单管理吗？', this.href)">删除</a>

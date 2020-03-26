@@ -44,10 +44,20 @@
 
     <ul class="ul-form">
 
-        <li><label>物料号：</label>
-            <form:input path="dmNo" htmlEscape="false" class="input-xxlarge"/>
+        <li><label>物料号：</label>（为空查询全部，多个用逗号,隔开)
+            <form:input path="dmNo" htmlEscape="false"   class="input-xxlarge"/>
         </li>
-
+        <li><label>类型：</label>
+            <form:select path="taskType" class="input-medium">
+                <form:option value="0" label="全部"/>
+                <form:option value="1" label="OEM&ODM非食品"/>
+                <form:option value="2" label="信息自采货物"/>
+                <form:option value="3" label="信息一件代发"/>
+                <form:option value="4" label="信息护理采销"/>
+                <form:option value="5" label="信息百信行采销"/>
+                <form:option value="6" label="OEM&ODM主品食品"/>
+            </form:select>
+        </li>
         <li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
             <input id="btnExport" class="btn btn-primary" type="button" value="导出 "/>
 

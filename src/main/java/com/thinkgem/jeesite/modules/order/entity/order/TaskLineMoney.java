@@ -33,6 +33,15 @@ public class TaskLineMoney extends DataEntity<TaskLineMoney> {
 	private String isok;		// 是否同步sap
 	private String accountNumber;
 	private String bankName;
+	private int amountType;
+
+	public int getAmountType() {
+		return amountType;
+	}
+
+	public void setAmountType(int amountType) {
+		this.amountType = amountType;
+	}
 
 	public String getAccountNumber() {
 		return accountNumber;
