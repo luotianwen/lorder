@@ -321,6 +321,13 @@
 		omsstatus = #{omsstatus}
 		where id=#{id}
 	</update>
+
+	<update id="deletecarriers">
+		UPDATE pool_task SET
+		carriers = null,
+		task_status='2'
+		where id=#{id}
+	</update>
 	<update id="saveWBExpress">
 		UPDATE pool_task SET
 		carriers = #{carriers},

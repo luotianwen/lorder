@@ -22,4 +22,6 @@ public interface OrderDao extends CrudDao<Order> {
     void updateExpress(Order o);
 
     void updateomsstatus(Order o);
+
+    void deletecarriers(Order o);
 }

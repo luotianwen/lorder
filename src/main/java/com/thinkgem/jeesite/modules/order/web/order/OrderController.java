@@ -304,6 +304,17 @@ public class OrderController extends BaseController {
 		model.addAttribute("carriers",order.getCarriers());
 		return "modules/order/order/orderSearch";
 	}
+
+    @RequiresPermissions("order:order:order:edit")
+    @RequestMapping(value = "deletecarriers")
+    public String deletecarriers(Order order, Model model, RedirectAttributes redirectAttributes) {
+        if (!beanValidator(model, order)){
+            return form(order, model);
+        }
+        orderService.deletecarriers(order);
+        addMessage(redirectAttributes, "删除单号成功");
+        return "redirect:"+Global.getAdminPath()+"/order/order/order/?repage";
+    }
 	@RequiresPermissions("order:order:order:edit")
 	@RequestMapping(value = "save")
 	public String save(Order order, Model model, RedirectAttributes redirectAttributes) {

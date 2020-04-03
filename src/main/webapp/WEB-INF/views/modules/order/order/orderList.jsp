@@ -707,11 +707,14 @@
                             <%--<a href="${ctx}/order/order/order/express?id=${order.id}">发货</a>--%>
                             <a style="cursor: pointer;" onclick="tfh('${order.id}')">填写单号</a>
                             <a href="${ctx}/order/order/order/debang?id=${order.id}" target="_blank">德邦</a>
+
                         </c:if>
 
                         <c:if test="${not empty order.carriers}">
                             <a href="${ctx}/order/order/order/express?id=${order.id}">多单号</a>
                             <a style="cursor: pointer;" onclick="tfh('${order.id}')" )>重填单号</a>
+                            <a href="${ctx}/order/order/order/deletecarriers?id=${order.id}" onclick="return confirmx('确认要删除单号吗？', this.href)">删除单号</a>
+
                         </c:if>
                     </c:if>
 

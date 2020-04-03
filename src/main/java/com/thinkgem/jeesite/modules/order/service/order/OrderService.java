@@ -130,7 +130,7 @@ public class OrderService extends CrudService<OrderDao, Order> {
 						or = poolExpressService.express(order,1);
 						pe = poolExpressService.get(order.getCarriers());
 					}
-					  poolExpressService.sendPtFh(order.getTaskNo(),pe.getRemarks(),or.getOrder().getLogisticCode());
+					  poolExpressService.sendPtFh(o.getTaskNo(),pe.getRemarks(),or.getOrder().getLogisticCode());
 					  o.setRemark(order.getCarriers());
 					  o.setCarriers(pe.getName()+" "+or.getOrder().getLogisticCode());
 					  o.setSendWay("2");
@@ -171,4 +171,8 @@ public class OrderService extends CrudService<OrderDao, Order> {
 	public void updateomsstatus(Order o) {
 		dao.updateomsstatus(o);
 	}
+    @Transactional(readOnly = false)
+    public void deletecarriers(Order o) {
+        dao.deletecarriers(o);
+    }
 }
