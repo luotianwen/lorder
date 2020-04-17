@@ -16,6 +16,9 @@
 		a.bankName AS "bankName",
 		a.amountType AS "amountType",
 
+		a.accountName AS "accountName",
+		a.transferType AS "transferType",
+
 		a.shippertype AS "shippertype",
 		a.shipperid AS "shipperid",
 		a.shippername AS "shippername",
@@ -128,7 +131,9 @@
 			isok,
 			accountNumber,
 			bankName,
-			amountType
+			amountType,
+			transferType,
+			accountName
 		) VALUES (
 			#{userid},
 			#{name},
@@ -145,7 +150,9 @@
 			#{isok}
 			#{accountNumber},
 			#{bankName},
-			#{amountType}
+			#{amountType},
+			#{transferType},
+			#{accountName}
 		)
 	</insert>
 	
@@ -164,6 +171,8 @@
 			shippername = #{shippername},
 			isok = #{isok},
 			accountNumber=#{accountNumber},
+			transferType = #{transferType},
+			accountName=#{accountName},
 			bankName=#{bankName}
 		WHERE id = #{id}
 	</update>

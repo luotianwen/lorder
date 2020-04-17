@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.excel.JxlsTemplate;
+import com.thinkgem.jeesite.modules.order.entity.batch.PoolBatchLine;
 import com.thinkgem.jeesite.modules.order.entity.order.OrderDetail;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
@@ -65,7 +66,13 @@ public class PoolBatchController extends BaseController {
 		model.addAttribute("page", page);
 		return "modules/order/batch/poolBatchList";
 	}
-
+	@RequiresPermissions("order:batch:poolBatch:view")
+	@RequestMapping(value = {"detaillist"})
+	public String detaillist(PoolBatchLine poolBatchLine, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<PoolBatchLine> page = poolBatchService.findDtailPage(new Page<PoolBatchLine>(request, response), poolBatchLine);
+		model.addAttribute("page", page);
+		return "modules/order/batch/poolBatchDetailList";
+	}
 	@RequiresPermissions("order:batch:poolBatch:view")
 	@RequestMapping(value = "form")
 	public String form(PoolBatch poolBatch, Model model) {

@@ -82,7 +82,13 @@
             <form:input path="suppliername" htmlEscape="false"   class="input-medium"/>
         </li>
 
-
+        <li><label>oms状态：</label>
+            <form:select path="poolTask.omsstatus" class="input-medium">
+                <form:option value="" label="全部"/>
+                <form:options items="${fns:getDictList('omsstatus')}" itemLabel="label" itemValue="value"
+                              htmlEscape="false"/>
+            </form:select>
+        </li>
         <li><label>每页条数：</label>
             <input id="pageSize" name="pageSize" class="input-medium" value="${page.pageSize}"/>
         </li>
@@ -102,9 +108,9 @@
     <thead>
     <tr>
         <th>订单号</th>
+        <th>oms状态</th>
         <th>集成单号</th>
         <th>订单时间</th>
-
         <th>商品编号</th>
         <th>商品类型</th>
         <th>业务类型</th>
@@ -117,8 +123,6 @@
         <th>减免金额</th>
         <th>代理商标识</th>
          <th>SAP供应商</th>
-
-
     </tr>
     </thead>
     <tbody>
@@ -126,6 +130,10 @@
         <tr> <td>
                 ${order.taskNo}
         </td>
+            <td>
+                    ${fns:getDictLabel(order.poolTask.omsstatus, 'omsstatus', '')}
+
+            </td>
             <td>
                     ${order.batchNum}
             </td>

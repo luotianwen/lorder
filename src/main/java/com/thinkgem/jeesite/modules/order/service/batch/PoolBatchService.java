@@ -70,5 +70,10 @@ public class PoolBatchService extends CrudService<PoolBatchDao, PoolBatch> {
 		super.delete(poolBatch);
 		poolBatchLineDao.delete(new PoolBatchLine(poolBatch));
 	}
-	
+
+    public Page<PoolBatchLine> findDtailPage(Page<PoolBatchLine> page, PoolBatchLine entity) {
+		entity.setPage(page);
+		page.setList(poolBatchLineDao.findList(entity));
+		return page;
+    }
 }

@@ -15,7 +15,9 @@
 		a.wharehouse AS "wharehouse",
 		a.agenttype AS "agenttype",
 		a.sapsupplierid AS "sapsupplierid",
-		b.batch_num AS "poolBatch.batchNum"
+		b.batch_num AS "poolBatch.batchNum",
+		b.erp_no AS "poolBatch.erpNo",
+		b.isok AS "poolBatch.isok"
 	</sql>
 	
 	<sql id="poolBatchLineJoins">
@@ -65,11 +67,14 @@
 			<if test="poolBatch != null and poolBatch.id != null and poolBatch.id != ''">
 				AND a.pool_batch_id = #{poolBatch.id}
 			</if>
-			<if test="name != null and name != ''">
-				AND a.name LIKE 
-					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			<if test="poolBatch != null and poolBatch.batchNum != null and poolBatch.batchNum != ''">
+				AND  b.batch_num= #{poolBatch.batchNum}
+			</if>
+			<if test="poolBatch != null and poolBatch.isok != null and poolBatch.isok != ''">
+				AND  b.isok= #{poolBatch.isok}
+			</if>
+			<if test="productId != null and productId != ''">
+				AND a.product_id =#{productId}
 			</if>
 		</where>
 		<choose>

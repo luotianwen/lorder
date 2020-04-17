@@ -53,8 +53,8 @@
 		a.reductionAmount AS "reductionAmount",
 		a.score AS "socre",
 		a.agentType AS "agentType",
-		a.sapSupplierID AS "sapSupplierID"
-
+		a.sapSupplierID AS "sapSupplierID",
+		b.omsstatus  AS "poolTask.omsstatus"
 
 	</sql>
 	
@@ -79,6 +79,9 @@
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="poolTask != null and poolTask.id != null and poolTask.id != ''">
 				AND a.pool_task_id = #{poolTask.id}
+			</if>
+			<if test="poolTask != null and poolTask.omsstatus != null and poolTask.omsstatus != ''">
+				AND b.omsstatus = #{poolTask.omsstatus}
 			</if>
 			<if test="poolTask != null and poolTask.beginTaskGenDatetime != null and poolTask.endTaskGenDatetime != null and poolTask.beginTaskGenDatetime != '' and poolTask.endTaskGenDatetime != ''">
 				AND b.task_gen_datetime BETWEEN #{poolTask.beginTaskGenDatetime} AND #{poolTask.endTaskGenDatetime}

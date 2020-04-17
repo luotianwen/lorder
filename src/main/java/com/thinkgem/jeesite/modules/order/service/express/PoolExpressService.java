@@ -326,7 +326,7 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 				String id = UUID.randomUUID().toString().replaceAll("-", "");
 				TaskLineMoney tm = new TaskLineMoney();
 				tm.setId(id);
-				tm.setAmountType(transferData.getAmountType());
+				tm.setAmountType(ib.getAmountType());
 				tm.setLineId(tl.getId());
 				tm.setAmount(ib.getAmount());
 				tm.setProportion(ib.getProportion());
@@ -334,6 +334,11 @@ public class PoolExpressService extends CrudService<PoolExpressDao, PoolExpress>
 				tm.setUsertype(ib.getUserType());
 				tm.setUserid(ib.getUserID());
 				tm.setName(ib.getName());
+
+				tm.setAccountName(ib.getAccountName());
+				tm.setBankName(ib.getBankName());
+				tm.setTransferType(ib.getTransferType());
+				tm.setAccountNumber(ib.getAccountNumber());
 				taskLineMoneyDao.insert(tm);
 
 			}

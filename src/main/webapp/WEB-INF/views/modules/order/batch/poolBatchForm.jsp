@@ -146,7 +146,7 @@
 						<thead>
 							<tr>
 								<th class="hide"></th>
-								<th>ERP物料编码</th>
+								<th>物料编码</th>
 								<th>物料名称</th>
 								<th>数量</th>
 								<th>总价格</th>

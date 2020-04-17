@@ -34,6 +34,24 @@ public class TaskLineMoney extends DataEntity<TaskLineMoney> {
 	private String accountNumber;
 	private String bankName;
 	private int amountType;
+	private String accountName;
+	private int transferType;
+
+	public String getAccountName() {
+		return accountName;
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+
+	public int getTransferType() {
+		return transferType;
+	}
+
+	public void setTransferType(int transferType) {
+		this.transferType = transferType;
+	}
 
 	public int getAmountType() {
 		return amountType;
